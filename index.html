@@ -49,24 +49,136 @@
     .header-right { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
     @media (min-width: 768px) { .header-right { gap: 1rem; } }
     
-    .theme-toggle, .cart-icon-btn, .login-btn-header, .logout-btn, .admin-btn {
+    /* ========== КНОПКИ - ФИКС ДЛЯ ТЁМНОЙ ТЕМЫ ========== */
+    .theme-toggle, .cart-icon-btn, .login-btn-header, .logout-btn, .admin-btn, .cart-btn-checkout, .modal-btn, .add-to-cart-btn, .size-btn, .save-product-btn, .delete-product-btn, #addProductBtn, .cart-item-remove {
       background: transparent;
-      border: 1px solid currentColor;
+      border: 1.5px solid #e8e8e8;
       border-radius: 40px;
       padding: 0.3rem 0.7rem;
       font-size: 0.7rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
-      color: currentColor;
+      color: #e8e8e8;
       font-family: inherit;
     }
-    @media (min-width: 768px) {
-      .theme-toggle, .cart-icon-btn, .login-btn-header, .logout-btn, .admin-btn {
-        padding: 0.4rem 1rem;
-        font-size: 0.85rem;
-      }
+    /* Светлая тема - кнопки с тёмной обводкой */
+    body.light .theme-toggle, body.light .cart-icon-btn, body.light .login-btn-header, 
+    body.light .logout-btn, body.light .admin-btn, body.light .cart-btn-checkout, 
+    body.light .modal-btn, body.light .add-to-cart-btn, body.light .size-btn,
+    body.light .save-product-btn, body.light .delete-product-btn, body.light #addProductBtn,
+    body.light .cart-item-remove {
+      border-color: #111111;
+      color: #111111;
     }
+    /* Наведение - инверсия */
+    .theme-toggle:hover, .cart-icon-btn:hover, .login-btn-header:hover, 
+    .logout-btn:hover, .admin-btn:hover, .cart-btn-checkout:hover, 
+    .modal-btn:hover, .add-to-cart-btn:hover, .save-product-btn:hover, 
+    .delete-product-btn:hover, #addProductBtn:hover {
+      background-color: #e8e8e8;
+      color: #000000;
+    }
+    body.light .theme-toggle:hover, body.light .cart-icon-btn:hover, 
+    body.light .login-btn-header:hover, body.light .logout-btn:hover, 
+    body.light .admin-btn:hover, body.light .cart-btn-checkout:hover, 
+    body.light .modal-btn:hover, body.light .add-to-cart-btn:hover,
+    body.light .save-product-btn:hover, body.light .delete-product-btn:hover,
+    body.light #addProductBtn:hover {
+      background-color: #111111;
+      color: #f5f5f5;
+    }
+    /* Кнопка "ОПЛАТИТЬ" в оформлении заказа */
+    .modal-btn.primary {
+      background: transparent;
+      border: 1.5px solid #e8e8e8;
+      color: #e8e8e8;
+    }
+    .modal-btn.primary:hover {
+      background-color: #e8e8e8;
+      color: #000000;
+    }
+    body.light .modal-btn.primary {
+      border-color: #111111;
+      color: #111111;
+    }
+    body.light .modal-btn.primary:hover {
+      background-color: #111111;
+      color: #f5f5f5;
+    }
+    /* Кнопка "ПЕРЕЙТИ К ОПЛАТЕ" в корзине */
+    .cart-btn-checkout {
+      border: 1.5px solid #e8e8e8;
+      color: #e8e8e8;
+    }
+    body.light .cart-btn-checkout {
+      border-color: #111111;
+      color: #111111;
+    }
+    .cart-btn-checkout:hover {
+      background-color: #e8e8e8;
+      color: #000000;
+    }
+    body.light .cart-btn-checkout:hover {
+      background-color: #111111;
+      color: #f5f5f5;
+    }
+    /* Кнопка добавления товара в админке */
+    #addProductBtn {
+      background: transparent;
+      border: 1.5px solid #e8e8e8;
+      color: #e8e8e8;
+      padding: 0.8rem;
+      width: 100%;
+    }
+    body.light #addProductBtn {
+      border-color: #111111;
+      color: #111111;
+    }
+    #addProductBtn:hover {
+      background-color: #e8e8e8;
+      color: #000000;
+    }
+    /* Кнопки размеров */
+    .size-btn {
+      border: 1.5px solid #e8e8e8;
+      color: #e8e8e8;
+      padding: 0.5rem 1.2rem;
+    }
+    body.light .size-btn {
+      border-color: #111111;
+      color: #111111;
+    }
+    .size-btn.selected {
+      background-color: #e8e8e8;
+      color: #000000;
+      font-weight: 800;
+    }
+    body.light .size-btn.selected {
+      background-color: #111111;
+      color: #f5f5f5;
+    }
+    /* Крестик удаления из корзины */
+    .cart-item-remove {
+      border: none;
+      font-size: 1.1rem;
+      padding: 0.3rem;
+      background: transparent;
+      color: #e8e8e8;
+    }
+    body.light .cart-item-remove {
+      color: #111111;
+    }
+    .cart-item-remove:hover {
+      background: transparent;
+      opacity: 0.6;
+    }
+    /* Кнопки админ-панели */
+    .save-product-btn, .delete-product-btn {
+      padding: 0.3rem 0.8rem;
+      margin: 0.2rem;
+    }
+    
     .cart-icon-btn { display: flex; align-items: center; gap: 4px; }
     .cart-count {
       background: currentColor;
@@ -83,15 +195,21 @@
     
     .currency-select {
       background: transparent;
-      border: 1px solid currentColor;
+      border: 1px solid #e8e8e8;
       border-radius: 40px;
       padding: 0.3rem 0.7rem;
       font-size: 0.7rem;
       font-weight: 500;
-      color: currentColor;
+      color: #e8e8e8;
       font-family: inherit;
       cursor: pointer;
     }
+    body.light .currency-select {
+      border-color: #111111;
+      color: #111111;
+    }
+    .currency-select option { background: #0a0a0a; color: #e8e8e8; }
+    body.light .currency-select option { background: #fff; color: #111; }
     
     .tabs { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 1rem 0 1.5rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.5rem; overflow-x: auto; }
     .tab-btn { background: none; border: none; padding: 0.4rem 0.8rem; font-size: 0.75rem; font-weight: 500; cursor: pointer; color: currentColor; opacity: 0.6; white-space: nowrap; }
@@ -125,19 +243,6 @@
     .form-group input { width: 100%; padding: 0.7rem; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; }
     body.light .form-group input { background: #f0f0f0; color: #111; }
     .modal-buttons { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
-    .modal-btn {
-      flex: 1;
-      padding: 0.7rem;
-      border-radius: 40px;
-      border: 1.5px solid currentColor;
-      background: transparent;
-      cursor: pointer;
-      font-weight: 600;
-      color: currentColor;
-      text-align: center;
-    }
-    .modal-btn.primary:hover, .modal-btn:hover { background-color: currentColor; color: #000; }
-    .switch-auth { text-align: center; margin-top: 1rem; cursor: pointer; text-decoration: underline; }
     
     .product-modal-content { max-width: 90%; display: flex; flex-direction: column; padding: 0; overflow: hidden; position: relative; }
     @media (min-width: 768px) { .product-modal-content { max-width: 800px; flex-direction: row; } }
@@ -146,27 +251,7 @@
     .product-modal-img img { width: 100%; height: auto; display: block; }
     .product-modal-info { padding: 1rem; }
     .size-selector { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1rem 0; }
-    .size-btn {
-      background: transparent;
-      border: 1.5px solid currentColor;
-      padding: 0.5rem 1.2rem;
-      border-radius: 40px;
-      cursor: pointer;
-      font-weight: 500;
-      color: currentColor;
-    }
-    .size-btn.selected { font-weight: 800; border-width: 2.5px; }
-    .add-to-cart-btn {
-      background: transparent;
-      border: 1.5px solid currentColor;
-      padding: 0.8rem;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 0.8rem;
-    }
-    .add-to-cart-btn:hover { background-color: currentColor; color: #000; }
+    .add-to-cart-btn { width: 100%; margin-top: 0.8rem; }
     .close-modal-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; background: none; border: none; color: white; cursor: pointer; }
     
     .cart-sidebar { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100%; background: #0a0a0a; z-index: 1200; transition: right 0.3s ease; display: flex; flex-direction: column; border-left: 1px solid #2c2c2c; }
@@ -176,19 +261,7 @@
     .cart-item { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #2c2c2c; align-items: center; }
     .cart-item-img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; }
     .cart-item-info { flex: 1; font-size: 0.8rem; }
-    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 1rem; color: currentColor; padding: 0.3rem; }
     .cart-total { padding: 1rem; border-top: 1px solid #2c2c2c; font-weight: 600; }
-    .cart-btn-checkout {
-      background: transparent;
-      border: 1.5px solid currentColor;
-      padding: 0.7rem;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-    .cart-btn-checkout:hover { background-color: currentColor; color: #000; }
     
     .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(128,128,128,0.3); text-align: center; font-size: 0.7rem; }
     .footer-requisites { margin-top: 0.5rem; font-size: 0.6rem; opacity: 0.7; }
@@ -199,13 +272,14 @@
     .splash-hidden { opacity: 0; visibility: hidden; transition: opacity 0.6s ease; }
     
     .admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
-    .admin-container { background: #0a0a0a; max-width: 95%; width: 90%; border-radius: 20px; padding: 1rem; max-height: 90vh; overflow-y: auto; border: 1px solid currentColor; }
-    @media (min-width: 768px) { .admin-container { max-width: 900px; padding: 2rem; } }
-    .product-edit-item { border: 1px solid currentColor; border-radius: 12px; padding: 0.8rem; margin-bottom: 0.8rem; }
+    .admin-container { background: #0a0a0a; max-width: 95%; width: 90%; border-radius: 20px; padding: 1rem; max-height: 90vh; overflow-y: auto; border: 1px solid #e8e8e8; }
+    body.light .admin-container { border-color: #111; }
+    .product-edit-item { border: 1px solid #e8e8e8; border-radius: 12px; padding: 0.8rem; margin-bottom: 0.8rem; }
+    body.light .product-edit-item { border-color: #111; }
     .edit-fields { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 0.5rem; }
     @media (min-width: 480px) { .edit-fields { grid-template-columns: repeat(2, 1fr); } }
-    .edit-fields input, .edit-fields select { padding: 0.4rem; background: #1a1a1a; border: 1px solid currentColor; color: #fff; border-radius: 6px; }
-    .save-product-btn, .delete-product-btn { background: transparent; border: 1px solid currentColor; padding: 0.3rem 0.8rem; border-radius: 40px; cursor: pointer; }
+    .edit-fields input, .edit-fields select { padding: 0.4rem; background: #1a1a1a; border: 1px solid #e8e8e8; color: #fff; border-radius: 6px; }
+    body.light .edit-fields input, body.light .edit-fields select { background: #f0f0f0; border-color: #111; color: #111; }
   </style>
 </head>
 <body>
@@ -274,7 +348,7 @@
   </div>
 </div>
 
-<div id="adminPanel" class="admin-panel"><div class="admin-container"><h2>АДМИН-ПАНЕЛЬ</h2><div id="adminProductsList"></div><button id="addProductBtn" class="modal-btn primary" style="width:100%; margin-top:1rem;">+ ДОБАВИТЬ ТОВАР</button><button id="closeAdminBtn" class="modal-btn" style="margin-top:1rem;">ЗАКРЫТЬ</button></div></div>
+<div id="adminPanel" class="admin-panel"><div class="admin-container"><h2>АДМИН-ПАНЕЛЬ</h2><div id="adminProductsList"></div><button id="addProductBtn">+ ДОБАВИТЬ ТОВАР</button><button id="closeAdminBtn" class="modal-btn" style="margin-top:1rem;">ЗАКРЫТЬ</button></div></div>
 
 <div id="authModal" class="modal"><div class="modal-content"><h2 id="authTitle">ВХОД</h2><form id="authForm"><div class="form-group" id="nameField" style="display:none;"><label>Имя</label><input type="text" id="regName"></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required></div><div class="modal-buttons"><button type="button" id="closeAuthBtn" class="modal-btn">ОТМЕНА</button><button type="submit" id="submitAuthBtn" class="modal-btn primary">ВОЙТИ</button></div></form><div class="switch-auth" id="switchAuthBtn">Нет аккаунта? Зарегистрироваться</div></div></div>
 
@@ -285,7 +359,7 @@
 <div id="checkoutPage" class="modal"><div class="modal-content"><h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2><div id="checkoutSummary" style="background:#111; padding:1rem; border-radius:12px; margin:1rem 0;"></div><form id="checkoutForm"><div class="form-group"><label>Телефон</label><input type="tel" id="phone" required placeholder="+375 XX XXX XX XX"></div><div class="form-group"><label>Адрес</label><input type="text" id="address" required placeholder="г. Минск, ул. ..."></div><h3>Данные карты</h3><div class="form-group"><label>Номер карты</label><input type="text" id="cardNumber" maxlength="19" placeholder="0000 0000 0000 0000"></div><div class="card-row" style="display:flex; gap:0.8rem;"><div class="form-group" style="flex:1"><label>ММ/ГГ</label><input type="text" id="cardExpiry" placeholder="12/28"></div><div class="form-group" style="flex:1"><label>CVC</label><input type="text" id="cardCvc" maxlength="3" placeholder="123"></div></div><div class="qr-section" style="display:flex; justify-content:space-between; margin-top:1rem;"><div><div style="width:50px; height:50px; background:white; border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fab fa-telegram fa-2x" style="color:#0088cc;"></i></div><span>@mirror_project</span></div><div><i class="fab fa-telegram"></i> Telegram</div></div><div class="modal-buttons"><button type="button" id="closeCheckoutBtn" class="modal-btn">НАЗАД</button><button type="submit" class="modal-btn primary">ОПЛАТИТЬ</button></div></form></div></div>
 
 <script>
-  // Данные админа (открытые, без шифрования)
+  // Данные админа
   const ADMIN_EMAIL = "admin@mirror.com";
   const ADMIN_PASS = "admin123";
   const ADMIN_NAME = "Админ";
@@ -355,7 +429,6 @@
     document.querySelectorAll(".cart-item-remove").forEach(btn => btn.addEventListener("click", () => { const idx = parseInt(btn.dataset.idx); cart.splice(idx,1); updateCartUI(); }));
   }
 
-  // Админ-панель с полным функционалом
   function renderAdminPanel() {
     const container = document.getElementById("adminProductsList");
     container.innerHTML = products.map(prod => `<div class="product-edit-item"><div><strong>${prod.name}</strong> (${prod.typeLabel})</div><div class="edit-fields"><input type="text" class="edit-name" value="${prod.name}" placeholder="Название"><input type="text" class="edit-img" value="${prod.img}" placeholder="URL фото"><input type="number" class="edit-price" value="${prod.price}" placeholder="Цена BYN"><input type="text" class="edit-sizes" value="${prod.sizes.join(',')}" placeholder="Размеры"><select class="edit-category"><option value="hoodies" ${prod.category==='hoodies'?'selected':''}>Худи</option><option value="tshirts" ${prod.category==='tshirts'?'selected':''}>Футболки</option><option value="bags" ${prod.category==='bags'?'selected':''}>Сумки</option><option value="limited" ${prod.category==='limited'?'selected':''}>Limited</option><option value="drop" ${prod.category==='drop'?'selected':''}>Drop</option></select><input type="text" class="edit-badge" value="${prod.badge || ''}" placeholder="Бейдж"></div><button class="save-product-btn" data-id="${prod.id}">💾 Сохранить</button><button class="delete-product-btn" data-id="${prod.id}">🗑 Удалить</button></div>`).join("");
@@ -372,7 +445,6 @@
     alert("Товар добавлен!"); 
   };
 
-  // Авторизация
   function setupAdminAccount() { 
     const users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
     if(!users.some(u => u.email === ADMIN_EMAIL)) { 
@@ -397,7 +469,6 @@
     } 
   }
 
-  // Event listeners
   document.getElementById("checkoutForm").onsubmit = (e) => { e.preventDefault(); if(!currentUser) { alert("Войдите в аккаунт"); document.getElementById("authModal").style.display = "flex"; return; } alert(`✅ Заказ оформлен, ${currentUser.name}!`); cart = []; updateCartUI(); document.getElementById("checkoutPage").style.display = "none"; };
   document.getElementById("loginBtnHeader").onclick = () => document.getElementById("authModal").style.display = "flex";
   document.getElementById("closeAuthBtn").onclick = () => document.getElementById("authModal").style.display = "none";
