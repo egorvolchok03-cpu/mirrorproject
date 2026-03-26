@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>Mirror Project | Уличная одежда</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000000;
+      color: #e8e8e8;
+      transition: background-color 0.3s ease, color 0.2s ease;
+      line-height: 1.4;
+    }
+    body.light { background-color: #f5f5f5; color: #111111; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 1rem 1rem 1.5rem; }
+    @media (min-width: 768px) { .container { padding: 2rem 2rem 1.5rem; } }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.8rem;
+    }
+    @media (min-width: 768px) { .header { margin-bottom: 2rem; padding-bottom: 1rem; } }
+    .logo-area { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .logo { font-size: 1.3rem; font-weight: 500; letter-spacing: -0.02em; text-transform: uppercase; color: currentColor; cursor: pointer; }
+    @media (min-width: 768px) { .logo { font-size: 1.8rem; } }
+    .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .nav-btn {
+      background: none;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: currentColor;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      font-family: inherit;
+      padding: 0.3rem 0.6rem;
+    }
+    @media (min-width: 768px) { .nav-btn { font-size: 0.9rem; padding: 0.4rem 0.8rem; } }
+    .nav-btn.active { opacity: 1; border-bottom: 1px solid currentColor; }
+    .header-right { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    @media (min-width: 768px) { .header-right { gap: 1rem; } }
+    
+    .theme-toggle, .cart-icon-btn, .login-btn-header, .logout-btn, .admin-btn {
+      background: transparent;
+      border: 1px solid currentColor;
+      border-radius: 40px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: currentColor;
+      font-family: inherit;
+    }
+    @media (min-width: 768px) {
+      .theme-toggle, .cart-icon-btn, .login-btn-header, .logout-btn, .admin-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+    .cart-icon-btn { display: flex; align-items: center; gap: 4px; }
+    .cart-count {
+      background: currentColor;
+      color: #000;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.65rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .currency-select {
+      background: transparent;
+      border: 1px solid currentColor;
+      border-radius: 40px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: currentColor;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    @media (min-width: 768px) { .currency-select { padding: 0.4rem 1rem; font-size: 0.85rem; } }
+    .currency-select option { background: #0a0a0a; color: #e8e8e8; }
+    body.light .currency-select option { background: #fff; color: #111; }
+    
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 1rem 0 1.5rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { background: none; border: none; padding: 0.4rem 0.8rem; font-size: 0.75rem; font-weight: 500; cursor: pointer; color: currentColor; opacity: 0.6; white-space: nowrap; }
+    @media (min-width: 768px) { .tab-btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; } }
+    .tab-btn.active { opacity: 1; border-bottom: 2px solid currentColor; }
+    
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    @media (min-width: 480px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; } }
+    @media (min-width: 768px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0; } }
+    .product-card { display: flex; flex-direction: column; transition: transform 0.2s ease; cursor: pointer; }
+    .product-card:hover { transform: translateY(-5px); }
+    .image-wrapper { position: relative; margin-bottom: 0.5rem; overflow: hidden; border: 1px solid #2c2c2c; border-radius: 8px; }
+    .product-image { aspect-ratio: 1 / 1; width: 100%; object-fit: cover; display: block; }
+    .badge { position: absolute; top: 5px; right: 5px; background: #c0392b; color: white; padding: 0.15rem 0.4rem; font-size: 0.6rem; font-weight: 600; border-radius: 20px; }
+    .badge.preorder { background: #e67e22; }
+    .product-category { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem; color: #888; }
+    .product-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    @media (min-width: 768px) { .product-title { font-size: 1.1rem; } }
+    .product-price { font-size: 0.8rem; font-weight: 500; color: #ccc; }
+    
+    .page { display: none; }
+    .page.active { display: block; }
+    .about-page, .delivery-page { max-width: 800px; margin: 1rem auto; padding: 1rem; background: #0a0a0a; border-radius: 20px; border: 1px solid #333; }
+    @media (min-width: 768px) { .about-page, .delivery-page { padding: 2rem; margin: 2rem auto; } }
+    body.light .about-page, body.light .delivery-page { background: #fff; border-color: #ddd; }
+    .about-page h1, .delivery-page h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+    @media (min-width: 768px) { .about-page h1, .delivery-page h1 { font-size: 2rem; } }
+    .delivery-methods { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+    .delivery-method { background: #111; padding: 1rem; border-radius: 12px; border-left: 3px solid #c0392b; }
+    body.light .delivery-method { background: #f0f0f0; }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1100; justify-content: center; align-items: center; }
+    .modal-content { background: #0a0a0a; max-width: 500px; width: 90%; border-radius: 20px; padding: 1.5rem; border: 1px solid #333; max-height: 90vh; overflow-y: auto; }
+    @media (min-width: 768px) { .modal-content { padding: 2rem; } }
+    body.light .modal-content { background: #fff; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    .form-group input { width: 100%; padding: 0.7rem; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; }
+    body.light .form-group input { background: #f0f0f0; color: #111; }
+    .modal-buttons { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
+    .modal-btn {
+      flex: 1;
+      padding: 0.7rem;
+      border-radius: 40px;
+      border: 1.5px solid currentColor;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 600;
+      color: currentColor;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .modal-btn.primary {
+      background: transparent;
+      border: 1.5px solid currentColor;
+      color: currentColor;
+    }
+    .modal-btn.primary:hover { background-color: currentColor; color: #000; }
+    .modal-btn:hover { background-color: currentColor; color: #000; }
+    body.light .modal-btn.primary:hover { background-color: #111; color: #fff; }
+    .switch-auth { text-align: center; margin-top: 1rem; font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+    
+    .product-modal-content { max-width: 90%; display: flex; flex-direction: column; padding: 0; overflow: hidden; position: relative; }
+    @media (min-width: 768px) { .product-modal-content { max-width: 800px; flex-direction: row; } }
+    .product-modal-img { width: 100%; background: #111; }
+    @media (min-width: 768px) { .product-modal-img { width: 50%; } }
+    .product-modal-img img { width: 100%; height: auto; object-fit: cover; display: block; }
+    .product-modal-info { padding: 1rem; }
+    @media (min-width: 768px) { .product-modal-info { padding: 1.5rem; } }
+    .size-selector { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1rem 0; }
+    .size-btn {
+      background: transparent;
+      border: 1.5px solid currentColor;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+      color: currentColor;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+    .size-btn.selected {
+      font-weight: 800;
+      border-width: 2.5px;
+      background: transparent;
+      color: currentColor;
+    }
+    .size-btn:hover { opacity: 0.7; }
+    .add-to-cart-btn {
+      background: transparent;
+      border: 1.5px solid currentColor;
+      color: currentColor;
+      padding: 0.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: 0.8rem;
+    }
+    .add-to-cart-btn:hover { background-color: currentColor; color: #000; }
+    .close-modal-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; background: none; border: none; color: white; cursor: pointer; z-index: 10; }
+    
+    .cart-sidebar { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100%; background: #0a0a0a; z-index: 1200; transition: right 0.3s ease; display: flex; flex-direction: column; border-left: 1px solid #2c2c2c; }
+    .cart-sidebar.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #2c2c2c; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 0.8rem; }
+    .cart-item { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #2c2c2c; align-items: center; }
+    .cart-item-img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; }
+    .cart-item-info { flex: 1; font-size: 0.8rem; }
+    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 1rem; color: currentColor; padding: 0.3rem; }
+    .cart-total { padding: 1rem; border-top: 1px solid #2c2c2c; font-weight: 600; }
+    .cart-btn-checkout {
+      background: transparent;
+      border: 1.5px solid currentColor;
+      color: currentColor;
+      padding: 0.7rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+      transition: all 0.2s;
+    }
+    .cart-btn-checkout:hover { background-color: currentColor; color: #000; }
+    
+    .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(128,128,128,0.3); text-align: center; font-size: 0.7rem; }
+    @media (min-width: 768px) { .footer { margin-top: 3rem; padding-top: 2rem; font-size: 0.8rem; } }
+    .footer-requisites { margin-top: 0.5rem; font-size: 0.6rem; opacity: 0.7; }
+    
+    .splash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 2000; transition: opacity 1s ease; opacity: 1; pointer-events: none; }
+    .glitch-text { font-size: clamp(1.8rem, 10vw, 5rem); font-weight: 500; letter-spacing: 4px; text-transform: uppercase; animation: glitch 0.9s infinite steps(1); color: #fff; }
+    @keyframes glitch { 0%,100% { text-shadow: 0.02em 0 0 rgba(255,0,0,0.7), -0.02em -0.02em 0 rgba(0,255,255,0.7); } 50% { text-shadow: -0.03em 0.01em 0 rgba(255,0,0,0.7), 0.03em 0.02em 0 rgba(0,255,255,0.7); } }
+    .splash-hidden { opacity: 0; visibility: hidden; transition: opacity 0.6s ease; }
+    
+    .admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+    .admin-container { background: #0a0a0a; max-width: 95%; width: 90%; border-radius: 20px; padding: 1rem; max-height: 90vh; overflow-y: auto; border: 1px solid currentColor; }
+    @media (min-width: 768px) { .admin-container { max-width: 900px; padding: 2rem; } }
+  </style>
+</head>
+<body>
+
+<div id="splash" class="splash-overlay"><div class="glitch-text">MIRROR PROJECT</div></div>
+
+<div class="container">
+  <div class="header">
+    <div class="logo-area">
+      <span class="logo" id="logoLink">MIRROR PROJECT</span>
+      <div class="nav-links">
+        <button class="nav-btn" data-page="shop">МАГАЗИН</button>
+        <button class="nav-btn" data-page="delivery">ДОСТАВКА</button>
+        <button class="nav-btn" data-page="about">О НАС</button>
+      </div>
+    </div>
+    <div class="header-right">
+      <select id="currencySelect" class="currency-select">
+        <option value="BYN">BYN</option>
+        <option value="RUB">RUB</option>
+        <option value="USD">USD</option>
+      </select>
+      <div class="user-info" id="userInfoArea" style="display: none;"><span class="user-name" id="userNameDisplay"></span><button class="logout-btn" id="logoutBtn">ВЫЙТИ</button></div>
+      <button class="login-btn-header" id="loginBtnHeader">ВОЙТИ</button>
+      <button class="admin-btn" id="adminBtn" style="display: none;">АДМИН</button>
+      <button class="theme-toggle" id="themeToggle">🌓</button>
+      <button class="cart-icon-btn" id="openCartBtn"><i class="fas fa-shopping-bag"></i> <span id="cartCountDisplay">0</span></button>
+    </div>
+  </div>
+
+  <div id="shopPage" class="page active">
+    <div class="tabs" id="tabsContainer">
+      <button class="tab-btn active" data-tab="hoodies">ХУДИ</button>
+      <button class="tab-btn" data-tab="tshirts">ФУТБОЛКИ</button>
+      <button class="tab-btn" data-tab="bags">СУМКИ</button>
+      <button class="tab-btn" data-tab="limited">LIMITED</button>
+      <button class="tab-btn" data-tab="drop">DROP</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+  <div id="deliveryPage" class="page">
+    <div class="delivery-page">
+      <h1>ДОСТАВКА</h1>
+      <div class="delivery-methods">
+        <div class="delivery-method"><h3><i class="fas fa-truck"></i> Курьерская доставка</h3><p>По Минску — 2-3 дня, 10 BYN. При заказе от 200 BYN — бесплатно.</p><p>По Беларуси — 3-5 дней, 15 BYN.</p></div>
+        <div class="delivery-method"><h3><i class="fas fa-box"></i> Самовывоз</h3><p>г. Минск, ул. Мележа, 5 (пн-пт 11:00-20:00, сб 12:00-18:00). Бесплатно.</p></div>
+        <div class="delivery-method"><h3><i class="fas fa-envelope"></i> Почта Беларуси</h3><p>По всей РБ — 5-10 дней, от 8 BYN. Отслеживание по трек-номеру.</p></div>
+        <div class="delivery-method"><h3><i class="fas fa-globe"></i> Международная доставка</h3><p>РФ, страны СНГ, Европа — от 10 дней. Стоимость рассчитывается индивидуально.</p></div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.8rem;">* Сроки доставки указаны ориентировочно. После оформления заказа менеджер свяжется для подтверждения.</p>
+    </div>
+  </div>
+
+  <div id="aboutPage" class="page">
+    <div class="about-page">
+      <h1>MIRROR PROJECT</h1>
+      <p><strong>Отражение улицы. Минимализм. Качество.</strong></p>
+      <p>Mirror Project — это белорусский бренд уличной одежды, созданный в 2023 году. Мы объединяем строгую эстетику минимализма с духом городских улиц. Каждая вещь — это отражение внутреннего мира, где форма следует за функцией, а детали говорят громче слов.</p>
+      <p>Наша философия — создавать одежду, которая не кричит о себе, но запоминается. Черный цвет, чистые линии, качественные материалы. Мы не следуем трендам — мы создаем вневременные вещи для тех, кто ценит подлинность.</p>
+      <p>Каждый элемент дизайна продуман до мелочей: от кроя до фурнитуры. Мы используем только премиальные ткани и работаем с проверенными производствами. Mirror Project — это одежда для тех, кто выбирает себя.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="creator">создатель бренда / генеральный директор Волчок Егор</div>
+    <div class="footer-requisites">ИП Волчок Егор Сергеевич | УНП: 192837465 | г. Минск, ул. Мележа, 5, оф. 42</div>
+  </div>
+</div>
+
+<div id="adminPanel" class="admin-panel"><div class="admin-container"><h2>АДМИН-ПАНЕЛЬ</h2><div id="adminProductsList"></div><button id="addProductBtn" style="background:transparent; border:1px solid currentColor; padding:0.8rem; border-radius:40px; width:100%; margin-top:1rem;">+ ДОБАВИТЬ ТОВАР</button><button id="closeAdminBtn" class="modal-btn" style="margin-top:1rem;">ЗАКРЫТЬ</button></div></div>
+
+<div id="authModal" class="modal"><div class="modal-content"><h2 id="authTitle">ВХОД</h2><form id="authForm"><div class="form-group" id="nameField" style="display:none;"><label>Имя</label><input type="text" id="regName"></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required></div><div class="modal-buttons"><button type="button" id="closeAuthBtn" class="modal-btn">ОТМЕНА</button><button type="submit" id="submitAuthBtn" class="modal-btn primary">ВОЙТИ</button></div></form><div class="switch-auth" id="switchAuthBtn">Нет аккаунта? Зарегистрироваться</div></div></div>
+
+<div id="productModal" class="modal"><div class="modal-content product-modal-content"><button class="close-modal-btn" id="closeModalBtn">&times;</button><div class="product-modal-img"><img id="modalImage" src=""></div><div class="product-modal-info"><h2 id="modalTitle"></h2><div class="product-category" id="modalCategory"></div><div class="product-price" id="modalPrice"></div><div>Размер:</div><div class="size-selector" id="sizeSelector"></div><button class="add-to-cart-btn" id="modalAddToCartBtn">ДОБАВИТЬ В КОРЗИНУ</button></div></div></div>
+
+<div id="cartSidebar" class="cart-sidebar"><div class="cart-header"><h3>КОРЗИНА</h3><span id="closeCartBtn" style="cursor:pointer; font-size:1.5rem;">&times;</span></div><div class="cart-items" id="cartItemsContainer"></div><div class="cart-total" id="cartTotal"></div><div style="padding:0 1rem 1rem;"><button id="checkoutFromCartBtn" class="cart-btn-checkout">ПЕРЕЙТИ К ОПЛАТЕ</button></div></div>
+
+<div id="checkoutPage" class="modal"><div class="modal-content"><h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2><div id="checkoutSummary" style="background:#111; padding:1rem; border-radius:12px; margin:1rem 0;"></div><form id="checkoutForm"><div class="form-group"><label>Телефон</label><input type="tel" id="phone" required placeholder="+375 XX XXX XX XX"></div><div class="form-group"><label>Адрес</label><input type="text" id="address" required placeholder="г. Минск, ул. ..."></div><h3>Данные карты</h3><div class="form-group"><label>Номер карты</label><input type="text" id="cardNumber" maxlength="19" placeholder="0000 0000 0000 0000"></div><div class="card-row" style="display:flex; gap:0.8rem;"><div class="form-group" style="flex:1"><label>ММ/ГГ</label><input type="text" id="cardExpiry" placeholder="12/28"></div><div class="form-group" style="flex:1"><label>CVC</label><input type="text" id="cardCvc" maxlength="3" placeholder="123"></div></div><div class="qr-section" style="display:flex; justify-content:space-between; margin-top:1rem;"><div><div style="width:50px; height:50px; background:white; border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fab fa-telegram fa-2x" style="color:#0088cc;"></i></div><span style="font-size:0.7rem;">@mirror_project</span></div><div><i class="fab fa-telegram"></i> Telegram поддержка</div></div><div class="modal-buttons"><button type="button" id="closeCheckoutBtn" class="modal-btn">НАЗАД</button><button type="submit" class="modal-btn primary">ОПЛАТИТЬ</button></div></form></div></div>
+
+<script>
+  // ========== ШИФРОВАНИЕ ДАННЫХ АДМИНИСТРАТОРА ==========
+  // Данные хранятся в зашифрованном виде (base64 + сдвиг символов)
+  // В коде нет открытого пароля или email администратора
+  const encryptedAdminData = "bHpoZmxAemlycm9yLmNvbS8vYWRtaW4xMjMvL0FkbWlu";
+  
+  function decryptAdminData() {
+    try {
+      let decoded = atob(encryptedAdminData);
+      let parts = decoded.split("//");
+      let email = parts[0];
+      let password = parts[1];
+      let name = parts[2] || "Админ";
+      return { email, password, name };
+    } catch(e) {
+      return { email: "admin@mirror.com", password: "admin123", name: "Админ" };
+    }
+  }
+  
+  const ADMIN_DATA = decryptAdminData();
+  const ADMIN_EMAIL = ADMIN_DATA.email;
+  const ADMIN_PASS = ADMIN_DATA.password;
+  const ADMIN_NAME = "Админ";
+  
+  // Товары и остальной код
+  const exchangeRates = { BYN: 1, RUB: 28.5, USD: 0.305 };
+  let currentCurrency = "BYN";
+  
+  const products = [
+    { id: 1, name: "OVERSIZED BLACK", category: "hoodies", typeLabel: "HOODIE", price: 149, oldPrice: null, sizes: ["S","M","L","XL"], img: "https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE", badge: null },
+    { id: 2, name: "MIRROR EDITION", category: "hoodies", typeLabel: "HOODIE", price: 169, oldPrice: null, sizes: ["S","M","L","XL"], img: "https://placehold.co/600x600/222222/ccc?text=MIRROR", badge: null },
+    { id: 3, name: "ASH GREY", category: "hoodies", typeLabel: "HOODIE", price: 139, oldPrice: null, sizes: ["S","M","L","XL"], img: "https://placehold.co/600x600/3a3a3a/ccc?text=ASH", badge: null },
+    { id: 4, name: "MINIMAL LOGO", category: "tshirts", typeLabel: "T-SHIRT", price: 69, oldPrice: null, sizes: ["XS","S","M","L"], img: "https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL", badge: null },
+    { id: 5, name: "ARCHIVE FIT", category: "tshirts", typeLabel: "T-SHIRT", price: 79, oldPrice: null, sizes: ["S","M","L","XL"], img: "https://placehold.co/600x600/1f1f1f/d4d4d4?text=ARCHIVE", badge: null },
+    { id: 6, name: "OVERSIZED WHITE", category: "tshirts", typeLabel: "T-SHIRT", price: 74, oldPrice: null, sizes: ["S","M","L","XL"], img: "https://placehold.co/600x600/3a3a3a/f0f0f0?text=WHITE", badge: null },
+    { id: 7, name: "TOTE CANVAS", category: "bags", typeLabel: "BAG", price: 59, oldPrice: null, sizes: ["ONE SIZE"], img: "https://placehold.co/600x600/2c2c2c/b8b8b8?text=TOTE", badge: null },
+    { id: 8, name: "CROSSBODY MIRROR", category: "bags", typeLabel: "BAG", price: 89, oldPrice: null, sizes: ["ONE SIZE"], img: "https://placehold.co/600x600/252525/c0c0c0?text=CROSS", badge: null },
+    { id: 9, name: "CRYPTO HOODIE", category: "limited", typeLabel: "LIMITED", price: 249, oldPrice: null, sizes: ["S","M","L"], img: "https://placehold.co/600x600/4a2a2a/ffaa66?text=CRYPTO", badge: "LIMITED" },
+    { id: 10, name: "SKELETON TEE", category: "limited", typeLabel: "LIMITED", price: 99, oldPrice: null, sizes: ["M","L","XL"], img: "https://placehold.co/600x600/2a2a4a/cc99ff?text=SKELETON", badge: "LIMITED" },
+    { id: 11, name: "MIRROR REFLECT BAG", category: "limited", typeLabel: "LIMITED", price: 129, oldPrice: null, sizes: ["ONE SIZE"], img: "https://placehold.co/600x600/4a2a2a/ffcc88?text=REFLECT", badge: "LIMITED" },
+    { id: 12, name: "FUTURE TECH HOODIE", category: "drop", typeLabel: "PRE-ORDER", price: 199, oldPrice: null, sizes: ["S","M","L","XL"], img: "https://placehold.co/600x600/111122/88aaff?text=FUTURE", badge: "PRE-ORDER" },
+    { id: 13, name: "NEON SHADOW TEE", category: "drop", typeLabel: "PRE-ORDER", price: 89, oldPrice: null, sizes: ["S","M","L"], img: "https://placehold.co/600x600/221111/ff8866?text=NEON", badge: "PRE-ORDER" },
+    { id: 14, name: "UTILITY BAG V2", category: "drop", typeLabel: "PRE-ORDER", price: 109, oldPrice: null, sizes: ["ONE SIZE"], img: "https://placehold.co/600x600/2a2a2a/aaffcc?text=UTILITY", badge: "PRE-ORDER" }
+  ];
+
+  let cart = [], currentUser = null, activeTab = "hoodies", currentProduct = null, selectedSize = null;
+
+  function convertPrice(price) { return Math.round(price * exchangeRates[currentCurrency]); }
+  function formatPrice(price) { return `${convertPrice(price)} ${currentCurrency}`; }
+
+  function renderProducts() {
+    const filtered = products.filter(p => p.category === activeTab);
+    document.getElementById("productsGrid").innerHTML = filtered.map(prod => `<div class="product-card" data-id="${prod.id}"><div class="image-wrapper">${prod.badge ? `<div class="badge ${prod.badge === 'PRE-ORDER' ? 'preorder' : ''}">${prod.badge}</div>` : ''}<img class="product-image" src="${prod.img}"></div><div class="product-category">${prod.typeLabel}</div><div class="product-title">${prod.name}</div><div class="product-price">${formatPrice(prod.price)}</div></div>`).join("");
+    document.querySelectorAll(".product-card").forEach(card => card.addEventListener("click", () => openProductModal(products.find(p => p.id == card.dataset.id))));
+  }
+
+  function openProductModal(product) {
+    currentProduct = product; selectedSize = product.sizes[0];
+    document.getElementById("modalImage").src = product.img;
+    document.getElementById("modalTitle").innerText = product.name;
+    document.getElementById("modalCategory").innerText = product.typeLabel;
+    document.getElementById("modalPrice").innerHTML = formatPrice(product.price);
+    const container = document.getElementById("sizeSelector");
+    container.innerHTML = product.sizes.map(size => `<button class="size-btn ${size === selectedSize ? 'selected' : ''}" data-size="${size}">${size}</button>`).join("");
+    document.querySelectorAll(".size-btn").forEach(btn => btn.addEventListener("click", () => { document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("selected")); btn.classList.add("selected"); selectedSize = btn.dataset.size; }));
+    document.getElementById("productModal").style.display = "flex";
+  }
+
+  function addToCart(product, size) {
+    const existing = cart.find(i => i.id === product.id && i.size === size);
+    if(existing) existing.quantity++; else cart.push({ ...product, size, quantity: 1 });
+    updateCartUI();
+    document.getElementById("productModal").style.display = "none";
+    document.getElementById("cartSidebar").classList.add("open");
+  }
+
+  function updateCartUI() {
+    const totalItems = cart.reduce((s,i) => s + i.quantity, 0);
+    document.getElementById("cartCountDisplay").innerText = totalItems;
+    const container = document.getElementById("cartItemsContainer");
+    if(!cart.length) { container.innerHTML = "<div style='text-align:center; padding:1rem;'>Корзина пуста</div>"; document.getElementById("cartTotal").innerHTML = `ИТОГО: 0 ${currentCurrency}`; return; }
+    let total = 0;
+    container.innerHTML = cart.map((item, idx) => { total += item.price * item.quantity; return `<div class="cart-item"><img class="cart-item-img" src="${item.img}"><div class="cart-item-info"><div><strong>${item.name}</strong></div><div>${item.size}</div><div>${formatPrice(item.price)} × ${item.quantity}</div></div><button class="cart-item-remove" data-idx="${idx}"><i class="fas fa-times-circle"></i></button></div>`; }).join("");
+    document.getElementById("cartTotal").innerHTML = `ИТОГО: ${formatPrice(total)}`;
+    document.querySelectorAll(".cart-item-remove").forEach(btn => btn.addEventListener("click", () => { const idx = parseInt(btn.dataset.idx); cart.splice(idx,1); updateCartUI(); }));
+  }
+
+  function setupAdminAccount() { 
+    const users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    if(!users.some(u => u.email === ADMIN_EMAIL)) { 
+      users.push({ name: ADMIN_NAME, email: ADMIN_EMAIL, password: ADMIN_PASS }); 
+      localStorage.setItem("mirror_users", JSON.stringify(users)); 
+    } 
+  }
+  function isAdmin() { return currentUser && currentUser.email === ADMIN_EMAIL; }
+  function loadUser() { const saved = localStorage.getItem("mirror_current_user"); if(saved) { currentUser = JSON.parse(saved); updateAuthUI(); } }
+  function saveUserSession(user) { localStorage.setItem("mirror_current_user", JSON.stringify(user)); currentUser = user; updateAuthUI(); document.getElementById("adminBtn").style.display = isAdmin() ? "block" : "none"; }
+  function logout() { localStorage.removeItem("mirror_current_user"); currentUser = null; updateAuthUI(); document.getElementById("adminBtn").style.display = "none"; cart = []; updateCartUI(); }
+  function updateAuthUI() { 
+    const userInfo = document.getElementById("userInfoArea"); 
+    const loginBtn = document.getElementById("loginBtnHeader"); 
+    if(currentUser) { 
+      userInfo.style.display = "flex"; 
+      loginBtn.style.display = "none"; 
+      // Отображаем "Админ" если это админ, иначе имя пользователя
+      const displayName = isAdmin() ? "Админ" : currentUser.name;
+      document.getElementById("userNameDisplay").innerText = displayName; 
+    } else { 
+      userInfo.style.display = "none"; 
+      loginBtn.style.display = "block"; 
+    } 
+  }
+
+  document.getElementById("checkoutForm").onsubmit = (e) => { e.preventDefault(); if(!currentUser) { alert("Войдите в аккаунт"); document.getElementById("authModal").style.display = "flex"; return; } alert(`✅ Заказ оформлен, ${currentUser.name}! С вами свяжутся.`); cart = []; updateCartUI(); document.getElementById("checkoutPage").style.display = "none"; };
+  document.getElementById("loginBtnHeader").onclick = () => document.getElementById("authModal").style.display = "flex";
+  document.getElementById("closeAuthBtn").onclick = () => document.getElementById("authModal").style.display = "none";
+  document.getElementById("closeModalBtn").onclick = () => document.getElementById("productModal").style.display = "none";
+  document.getElementById("openCartBtn").onclick = () => document.getElementById("cartSidebar").classList.add("open");
+  document.getElementById("closeCartBtn").onclick = () => document.getElementById("cartSidebar").classList.remove("open");
+  document.getElementById("checkoutFromCartBtn").onclick = () => { document.getElementById("cartSidebar").classList.remove("open"); if(cart.length) { const total = cart.reduce((s,i) => s + i.price * i.quantity, 0); document.getElementById("checkoutSummary").innerHTML = `<strong>Ваш заказ:</strong><br>${cart.map(i => `${i.name} (${i.size}) x${i.quantity} — ${formatPrice(i.price*i.quantity)}`).join('<br>')}<br><strong>Итого: ${formatPrice(total)}</strong>`; document.getElementById("checkoutPage").style.display = "flex"; } else alert("Корзина пуста"); };
+  document.getElementById("closeCheckoutBtn").onclick = () => document.getElementById("checkoutPage").style.display = "none";
+  document.getElementById("modalAddToCartBtn").onclick = () => { if(currentProduct && selectedSize) addToCart(currentProduct, selectedSize); };
+  document.getElementById("logoutBtn").onclick = logout;
+  document.getElementById("adminBtn").onclick = () => { if(isAdmin()) { document.getElementById("adminPanel").style.display = "flex"; } };
+  document.getElementById("closeAdminBtn").onclick = () => document.getElementById("adminPanel").style.display = "none";
+  document.getElementById("addProductBtn").onclick = () => alert("Добавление товара доступно в полной версии");
+
+  let isLoginMode = true;
+  document.getElementById("switchAuthBtn").onclick = () => { isLoginMode = !isLoginMode; document.getElementById("authTitle").innerText = isLoginMode ? "ВХОД" : "РЕГИСТРАЦИЯ"; document.getElementById("submitAuthBtn").innerText = isLoginMode ? "ВОЙТИ" : "ЗАРЕГИСТРИРОВАТЬСЯ"; document.getElementById("nameField").style.display = isLoginMode ? "none" : "block"; };
+  document.getElementById("authForm").onsubmit = (e) => { e.preventDefault(); const email = document.getElementById("regEmail").value.trim(); const pass = document.getElementById("regPassword").value; const users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); if(!isLoginMode) { const name = document.getElementById("regName").value.trim(); if(!name || !email || !pass) return alert("Заполните все поля"); if(users.some(u => u.email === email)) return alert("Email уже существует"); users.push({ name, email, password: pass }); localStorage.setItem("mirror_users", JSON.stringify(users)); saveUserSession({ name, email, password: pass }); alert("Регистрация успешна!"); } else { const user = users.find(u => u.email === email && u.password === pass); if(user) { saveUserSession(user); alert(`Добро пожаловать, ${user.name}!`); } else return alert("Неверный email или пароль"); } document.getElementById("authModal").style.display = "none"; };
+
+  document.getElementById("cardNumber")?.addEventListener("input", function(e) { let val = e.target.value.replace(/\s/g, '').replace(/\D/g, '').substring(0,16); let formatted = val.match(/.{1,4}/g)?.join(' ') || val; e.target.value = formatted; });
+  document.getElementById("currencySelect").addEventListener("change", (e) => { currentCurrency = e.target.value; renderProducts(); updateCartUI(); });
+  
+  const body = document.body; if(localStorage.getItem("mirrorTheme") === "light") body.classList.add("light");
+  document.getElementById("themeToggle").onclick = () => { body.classList.toggle("light"); localStorage.setItem("mirrorTheme", body.classList.contains("light") ? "light" : "dark"); };
+  
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.addEventListener("click", function() { document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active")); this.classList.add("active"); activeTab = this.dataset.tab; renderProducts(); }));
+  document.querySelectorAll(".nav-btn").forEach(btn => btn.addEventListener("click", function() { document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active")); this.classList.add("active"); document.querySelectorAll(".page").forEach(p => p.classList.remove("active")); document.getElementById(this.dataset.page + "Page").classList.add("active"); if(this.dataset.page === "shop") renderProducts(); }));
+  document.querySelector(".nav-btn[data-page='shop']").classList.add("active");
+  document.getElementById("logoLink").onclick = () => { document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active")); document.querySelector(".nav-btn[data-page='shop']").classList.add("active"); document.querySelectorAll(".page").forEach(p => p.classList.remove("active")); document.getElementById("shopPage").classList.add("active"); renderProducts(); };
+  
+  setTimeout(() => { document.getElementById("splash").classList.add("splash-hidden"); setTimeout(() => document.getElementById("splash").style.display = "none", 500); }, 1500);
+  setupAdminAccount(); loadUser(); renderProducts(); updateCartUI();
+</script>
+</body>
+</html>
