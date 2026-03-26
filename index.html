@@ -159,8 +159,6 @@
     .edit-fields { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 0.5rem; }
     @media (min-width: 480px) { .edit-fields { grid-template-columns: repeat(2, 1fr); } }
     .edit-fields input, .edit-fields select { padding: 0.4rem; background: #1a1a1a; border: 1px solid #e8e8e8; color: #fff; border-radius: 6px; }
-    .resend-code { text-align: center; margin-top: 0.5rem; font-size: 0.7rem; cursor: pointer; text-decoration: underline; opacity: 0.7; }
-    .timer { font-size: 0.7rem; text-align: center; margin-top: 0.5rem; color: #888; }
   </style>
 </head>
 <body>
@@ -205,7 +203,7 @@
 
 <div id="adminPanel" class="admin-panel"><div class="admin-container"><h2>АДМИН-ПАНЕЛЬ</h2><div id="adminProductsList"></div><button id="addProductBtn">+ ДОБАВИТЬ ТОВАР</button><button id="closeAdminBtn" class="modal-btn" style="margin-top:1rem;">ЗАКРЫТЬ</button></div></div>
 
-<div id="authModal" class="modal"><div class="modal-content"><h2 id="authTitle">РЕГИСТРАЦИЯ</h2><form id="authForm"><div class="form-group" id="nameField"><label>Имя</label><input type="text" id="regName" required></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required></div><div id="codeVerification" style="display: none;"><div class="form-group"><label>Код подтверждения</label><input type="text" id="verificationCode" placeholder="Введите 6-значный код"></div><div class="timer" id="timer"></div><div class="resend-code" id="resendCode">Отправить код повторно</div></div><div class="modal-buttons"><button type="button" id="closeAuthBtn" class="modal-btn">ОТМЕНА</button><button type="submit" id="submitAuthBtn" class="modal-btn primary">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></form><div class="switch-auth" id="switchAuthBtn">Уже есть аккаунт? Войти</div></div></div>
+<div id="authModal" class="modal"><div class="modal-content"><h2 id="authTitle">РЕГИСТРАЦИЯ</h2><form id="authForm"><div class="form-group" id="nameField"><label>Имя</label><input type="text" id="regName" required></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required></div><div class="modal-buttons"><button type="button" id="closeAuthBtn" class="modal-btn">ОТМЕНА</button><button type="submit" id="submitAuthBtn" class="modal-btn primary">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></form><div class="switch-auth" id="switchAuthBtn">Уже есть аккаунт? Войти</div></div></div>
 
 <div id="loginModal" class="modal" style="display: none;"><div class="modal-content"><h2>ВХОД</h2><form id="loginForm"><div class="form-group"><label>Email</label><input type="email" id="loginEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" required></div><div class="modal-buttons"><button type="button" id="closeLoginBtn" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ВОЙТИ</button></div></form><div class="switch-auth" id="switchToRegister">Нет аккаунта? Зарегистрироваться</div></div></div>
 
@@ -216,119 +214,6 @@
 <div id="checkoutPage" class="modal"><div class="modal-content"><h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2><div id="checkoutSummary" style="background:#111; padding:1rem; border-radius:12px; margin:1rem 0;"></div><form id="checkoutForm"><div class="form-group"><label>Телефон</label><input type="tel" id="phone" required placeholder="+375 XX XXX XX XX"></div><div class="form-group"><label>Адрес</label><input type="text" id="address" required placeholder="г. Минск, ул. ..."></div><h3>Данные карты</h3><div class="form-group"><label>Номер карты</label><input type="text" id="cardNumber" maxlength="19" placeholder="0000 0000 0000 0000"></div><div class="card-row" style="display:flex; gap:0.8rem;"><div class="form-group" style="flex:1"><label>ММ/ГГ</label><input type="text" id="cardExpiry" placeholder="12/28"></div><div class="form-group" style="flex:1"><label>CVC</label><input type="text" id="cardCvc" maxlength="3" placeholder="123"></div></div><div class="modal-buttons"><button type="button" id="closeCheckoutBtn" class="modal-btn">НАЗАД</button><button type="submit" class="modal-btn primary">ОПЛАТИТЬ</button></div></form></div></div>
 
 <script>
-  // EmailJS ключи
-  const EMAILJS_PUBLIC_KEY = "kGaz7TN-E-7S8eJZW";
-  const EMAILJS_SERVICE_ID = "service_liq4e4h";
-  const EMAILJS_TEMPLATE_ID = "template_m5apg6t";
-  
-  // Загружаем EmailJS динамически и инициализируем
-  const script = document.createElement('script');
-  script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
-  script.onload = function() {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-    console.log("EmailJS initialized");
-  };
-  document.head.appendChild(script);
-  
-  let pendingVerifications = {};
-  let resendTimer = null;
-  let registrationStep = "form";
-  let currentPendingEmail = null;
-  
-  function generateCode() { return Math.floor(100000 + Math.random() * 900000).toString(); }
-  
-  async function sendVerificationCode(email, name, code) {
-    if (typeof emailjs === 'undefined') {
-      alert("EmailJS загружается, попробуйте через секунду");
-      return false;
-    }
-    try {
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_email: email, to_name: name, verification_code: code
-      });
-      return true;
-    } catch(e) { console.error(e); alert("Ошибка отправки. Проверьте настройки EmailJS."); return false; }
-  }
-  
-  function startResendTimer() {
-    let seconds = 60;
-    const timerEl = document.getElementById("timer");
-    const resendEl = document.getElementById("resendCode");
-    if (timerEl) timerEl.style.display = "block";
-    if (resendEl) { resendEl.style.opacity = "0.5"; resendEl.style.pointerEvents = "none"; }
-    if (resendTimer) clearInterval(resendTimer);
-    resendTimer = setInterval(() => {
-      seconds--;
-      if (timerEl) timerEl.innerText = `Повторная отправка через ${seconds} сек`;
-      if (seconds <= 0) {
-        clearInterval(resendTimer);
-        if (timerEl) timerEl.style.display = "none";
-        if (resendEl) { resendEl.style.opacity = "1"; resendEl.style.pointerEvents = "auto"; resendEl.innerText = "Отправить код повторно"; }
-      }
-    }, 1000);
-  }
-  
-  async function startRegistration(name, email, password) {
-    const users = JSON.parse(localStorage.getItem("mirror_users") || "[]");
-    if (users.some(u => u.email === email)) { alert("Email уже зарегистрирован"); return false; }
-    const code = generateCode();
-    pendingVerifications[email] = { name, password, code, expires: Date.now() + 600000 };
-    currentPendingEmail = email;
-    const sent = await sendVerificationCode(email, name, code);
-    if (!sent) return false;
-    document.getElementById("codeVerification").style.display = "block";
-    document.getElementById("nameField").style.display = "none";
-    document.getElementById("submitAuthBtn").innerText = "ПОДТВЕРДИТЬ";
-    document.getElementById("authTitle").innerText = "ПОДТВЕРЖДЕНИЕ";
-    document.getElementById("regName").disabled = true;
-    document.getElementById("regEmail").disabled = true;
-    document.getElementById("regPassword").disabled = true;
-    startResendTimer();
-    registrationStep = "verify";
-    return true;
-  }
-  
-  async function verifyAndComplete(code) {
-    const pending = pendingVerifications[currentPendingEmail];
-    if (!pending) { alert("Код истек. Начните заново."); resetRegistrationForm(); return false; }
-    if (pending.code !== code) { alert("Неверный код"); return false; }
-    const users = JSON.parse(localStorage.getItem("mirror_users") || "[]");
-    users.push({ name: pending.name, email: currentPendingEmail, password: pending.password });
-    localStorage.setItem("mirror_users", JSON.stringify(users));
-    saveUserSession({ name: pending.name, email: currentPendingEmail, password: pending.password });
-    alert(`✅ Регистрация успешна! Добро пожаловать, ${pending.name}!`);
-    delete pendingVerifications[currentPendingEmail];
-    resetRegistrationForm();
-    document.getElementById("authModal").style.display = "none";
-    return true;
-  }
-  
-  function resetRegistrationForm() {
-    registrationStep = "form";
-    currentPendingEmail = null;
-    document.getElementById("codeVerification").style.display = "none";
-    document.getElementById("nameField").style.display = "block";
-    document.getElementById("submitAuthBtn").innerText = "ЗАРЕГИСТРИРОВАТЬСЯ";
-    document.getElementById("authTitle").innerText = "РЕГИСТРАЦИЯ";
-    document.getElementById("regName").disabled = false;
-    document.getElementById("regEmail").disabled = false;
-    document.getElementById("regPassword").disabled = false;
-    document.getElementById("verificationCode").value = "";
-    if (resendTimer) clearInterval(resendTimer);
-  }
-  
-  document.getElementById("resendCode").onclick = async () => {
-    if (!currentPendingEmail) return;
-    const pending = pendingVerifications[currentPendingEmail];
-    if (!pending) { alert("Код истек"); resetRegistrationForm(); return; }
-    const newCode = generateCode();
-    pending.code = newCode;
-    pending.expires = Date.now() + 600000;
-    await sendVerificationCode(currentPendingEmail, pending.name, newCode);
-    alert("Новый код отправлен");
-    startResendTimer();
-  };
-  
   // Товары
   const exchangeRates = { BYN: 1, RUB: 28.5, USD: 0.305 };
   let currentCurrency = "BYN";
@@ -411,8 +296,8 @@
   function updateAuthUI() { const userInfo = document.getElementById("userInfoArea"); const loginBtn = document.getElementById("loginBtnHeader"); if(currentUser) { userInfo.style.display = "flex"; loginBtn.style.display = "none"; document.getElementById("userNameDisplay").innerText = isAdmin() ? "Админ" : currentUser.name; } else { userInfo.style.display = "none"; loginBtn.style.display = "block"; } }
   
   document.getElementById("checkoutForm").onsubmit = (e) => { e.preventDefault(); if(!currentUser) { alert("Войдите в аккаунт"); document.getElementById("authModal").style.display = "flex"; return; } alert(`✅ Заказ оформлен, ${currentUser.name}!`); cart = []; updateCartUI(); document.getElementById("checkoutPage").style.display = "none"; };
-  document.getElementById("loginBtnHeader").onclick = () => { document.getElementById("authModal").style.display = "flex"; resetRegistrationForm(); };
-  document.getElementById("closeAuthBtn").onclick = () => { document.getElementById("authModal").style.display = "none"; resetRegistrationForm(); };
+  document.getElementById("loginBtnHeader").onclick = () => { document.getElementById("authModal").style.display = "flex"; };
+  document.getElementById("closeAuthBtn").onclick = () => { document.getElementById("authModal").style.display = "none"; };
   document.getElementById("closeLoginBtn").onclick = () => document.getElementById("loginModal").style.display = "none";
   document.getElementById("closeModalBtn").onclick = () => document.getElementById("productModal").style.display = "none";
   document.getElementById("openCartBtn").onclick = () => document.getElementById("cartSidebar").classList.add("open");
@@ -424,19 +309,19 @@
   document.getElementById("adminBtn").onclick = () => { if(isAdmin()) { renderAdminPanel(); document.getElementById("adminPanel").style.display = "flex"; } };
   document.getElementById("closeAdminBtn").onclick = () => document.getElementById("adminPanel").style.display = "none";
   
-  document.getElementById("authForm").onsubmit = async (e) => {
+  document.getElementById("authForm").onsubmit = (e) => {
     e.preventDefault();
-    if (registrationStep === "form") {
-      const name = document.getElementById("regName").value.trim();
-      const email = document.getElementById("regEmail").value.trim();
-      const password = document.getElementById("regPassword").value;
-      if (!name || !email || !password) return alert("Заполните все поля");
-      await startRegistration(name, email, password);
-    } else {
-      const code = document.getElementById("verificationCode").value.trim();
-      if (!code) return alert("Введите код");
-      await verifyAndComplete(code);
-    }
+    const name = document.getElementById("regName").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const password = document.getElementById("regPassword").value;
+    if (!name || !email || !password) return alert("Заполните все поля");
+    const users = JSON.parse(localStorage.getItem("mirror_users") || "[]");
+    if (users.some(u => u.email === email)) return alert("Email уже зарегистрирован");
+    users.push({ name, email, password });
+    localStorage.setItem("mirror_users", JSON.stringify(users));
+    saveUserSession({ name, email, password });
+    alert(`✅ Регистрация успешна! Добро пожаловать, ${name}!`);
+    document.getElementById("authModal").style.display = "none";
   };
   
   document.getElementById("loginForm").onsubmit = (e) => {
@@ -449,8 +334,8 @@
     else alert("Неверный email или пароль");
   };
   
-  document.getElementById("switchAuthBtn").onclick = () => { document.getElementById("authModal").style.display = "none"; document.getElementById("loginModal").style.display = "flex"; resetRegistrationForm(); };
-  document.getElementById("switchToRegister").onclick = () => { document.getElementById("loginModal").style.display = "none"; document.getElementById("authModal").style.display = "flex"; resetRegistrationForm(); };
+  document.getElementById("switchAuthBtn").onclick = () => { document.getElementById("authModal").style.display = "none"; document.getElementById("loginModal").style.display = "flex"; };
+  document.getElementById("switchToRegister").onclick = () => { document.getElementById("loginModal").style.display = "none"; document.getElementById("authModal").style.display = "flex"; };
   
   document.getElementById("cardNumber")?.addEventListener("input", function(e) { let val = e.target.value.replace(/\s/g, '').replace(/\D/g, '').substring(0,16); let formatted = val.match(/.{1,4}/g)?.join(' ') || val; e.target.value = formatted; });
   document.getElementById("currencySelect").addEventListener("change", (e) => { currentCurrency = e.target.value; renderProducts(); updateCartUI(); });
