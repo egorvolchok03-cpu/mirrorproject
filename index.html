@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* ВСЕ ТВОИ СТИЛИ ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
@@ -694,7 +695,7 @@
   const BIN_ID = "69c6f12baa77b81da9288b2a";
   const API_KEY = "$2a$10$qnI3cd5GeF1LMtvhkfPEHun31qeT9m7988UvjmCsF/ejG51vTnpLS";
   
-  // Товары
+  // ========== ТОВАРЫ ==========
   let products = [
     { id: 1, name: "OVERSIZED BLACK", category: "hoodies", typeLabel: "HOODIE", price: 149, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:5, XL:5}, img: "https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE", images: ["https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE"] },
     { id: 2, name: "MIRROR EDITION", category: "hoodies", typeLabel: "HOODIE", price: 169, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:3, M:5, L:4, XL:2}, img: "https://placehold.co/600x600/222222/ccc?text=MIRROR", images: ["https://placehold.co/600x600/222222/ccc?text=MIRROR"] },
@@ -722,37 +723,16 @@
   function convertPrice(p) { return Math.round(p * exchangeRates[currentCurrency]); }
   function formatPrice(p) { return convertPrice(p) + " " + currentCurrency; }
   
-  // ========== JSONBIN ФУНКЦИИ ==========
-  async function loadProductsFromCloud() {
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, {
-        headers: { 
-          "X-Master-Key": API_KEY,
-          "Cache-Control": "no-cache, no-store, must-revalidate"
-        }
-      });
-      const data = await res.json();
-      if (data.record && data.record.products) {
-        for (let cloudProduct of data.record.products) {
-          let localProduct = products.find(p => p.id === cloudProduct.id);
-          if (localProduct) {
-            localProduct.price = cloudProduct.price;
-            localProduct.oldPrice = cloudProduct.oldPrice;
-            if (cloudProduct.stock) localProduct.stock = cloudProduct.stock;
-            if (cloudProduct.name) localProduct.name = cloudProduct.name;
-          }
-        }
-        console.log("✅ Товары загружены из облака");
-        localStorage.setItem("mirror_products", JSON.stringify(products));
-        renderProducts();
-        renderTabs();
-      }
-    } catch(e) {
-      console.error("❌ Ошибка загрузки из облака:", e);
-    }
-  }
-
-  async function saveProductsToCloud() {
+  // ========== ОБЩАЯ СИНХРОНИЗАЦИЯ С JSONBIN ==========
+  
+  // Сохранение всех данных в облако
+  async function saveAllToCloud() {
+    const allData = {
+      products: products,
+      models: models,
+      users: JSON.parse(localStorage.getItem("mirror_users") || "[]"),
+      dropClosed: dropTabClosed
+    };
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: "PUT",
@@ -760,10 +740,10 @@
           "Content-Type": "application/json",
           "X-Master-Key": API_KEY
         },
-        body: JSON.stringify({ products: products })
+        body: JSON.stringify(allData)
       });
       if (res.ok) {
-        console.log("✅ Товары сохранены в облако");
+        console.log("✅ Все данные сохранены в облако");
         return true;
       }
       return false;
@@ -772,13 +752,77 @@
       return false;
     }
   }
-
+  
+  // Загрузка всех данных из облака
+  async function loadAllFromCloud() {
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, {
+        headers: { 
+          "X-Master-Key": API_KEY,
+          "Cache-Control": "no-cache, no-store, must-revalidate"
+        }
+      });
+      const data = await res.json();
+      if (data.record) {
+        // Загружаем товары
+        if (data.record.products) {
+          for (let cloudProduct of data.record.products) {
+            let localProduct = products.find(p => p.id === cloudProduct.id);
+            if (localProduct) {
+              localProduct.price = cloudProduct.price;
+              localProduct.oldPrice = cloudProduct.oldPrice;
+              if (cloudProduct.stock) localProduct.stock = cloudProduct.stock;
+              if (cloudProduct.name) localProduct.name = cloudProduct.name;
+            }
+          }
+          localStorage.setItem("mirror_products", JSON.stringify(products));
+        }
+        
+        // Загружаем модели (фото)
+        if (data.record.models) {
+          models = data.record.models;
+          localStorage.setItem("mirror_models", JSON.stringify(models));
+          renderModels();
+        }
+        
+        // Загружаем пользователей
+        if (data.record.users) {
+          localStorage.setItem("mirror_users", JSON.stringify(data.record.users));
+        }
+        
+        // Загружаем состояние вкладки DROP
+        if (data.record.dropClosed !== undefined) {
+          dropTabClosed = data.record.dropClosed;
+          localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
+        }
+        
+        console.log("✅ Все данные загружены из облака");
+        renderProducts();
+        renderTabs();
+        if (currentUser) renderProfile();
+      }
+    } catch(e) {
+      console.error("❌ Ошибка загрузки из облака:", e);
+    }
+  }
+  
+  // Обёртки для сохранения (вызываются при любых изменениях)
   function saveProducts() { 
     localStorage.setItem("mirror_products", JSON.stringify(products)); 
     localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
-    saveProductsToCloud();
+    saveAllToCloud();
   }
   
+  function saveModels() { 
+    localStorage.setItem("mirror_models", JSON.stringify(models));
+    saveAllToCloud();
+  }
+  
+  function saveUsers() {
+    saveAllToCloud();
+  }
+  
+  // Загрузка начальных данных
   function loadProducts() { 
     let s = localStorage.getItem("mirror_products"); 
     if(s) { 
@@ -800,14 +844,18 @@
     renderProducts();
     renderTabs();
     
-    loadProductsFromCloud();
+    loadAllFromCloud();
   }
   
-  function saveModels() { localStorage.setItem("mirror_models", JSON.stringify(models)); }
-  function loadModels() { let s = localStorage.getItem("mirror_models"); if(s) models = JSON.parse(s); else models = []; }
+  function loadModels() { 
+    let s = localStorage.getItem("mirror_models"); 
+    if(s) models = JSON.parse(s); 
+    else models = []; 
+  }
+  
   function isAdmin() { return currentUser && currentUser.email === ADMIN_EMAIL; }
   
-  // ВСЕ ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ (они остаются такими же как в твоём коде)
+  // ========== ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ ==========
   function renderTabs() {
     let tabs = [{ id: "hoodies", name: "ХУДИ" }, { id: "tshirts", name: "ФУТБОЛКИ" }, { id: "bags", name: "СУМКИ" }, { id: "limited", name: "LIMITED" }, { id: "drop", name: "DROP" }];
     let html = "";
@@ -1005,12 +1053,13 @@
     for(let i=0;i<rm.length;i++) rm[i].addEventListener("click", function() { cart.splice(parseInt(this.dataset.idx),1); updateCartUI(); });
   }
   
-  // Профиль (оригинальный код)
+  // ========== ПРОФИЛЬ (с сохранением в облако) ==========
   function getUserData() { 
     let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
     for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) return users[i]; 
     return { orders: [], addresses: [], avatar: "" }; 
   }
+  
   function saveUserData(data) { 
     let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
     for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) { 
@@ -1018,6 +1067,7 @@
       break; 
     } 
     localStorage.setItem("mirror_users", JSON.stringify(users)); 
+    saveAllToCloud(); // Сохраняем в облако
   }
   
   function renderProfile() {
@@ -1136,7 +1186,7 @@
     return `<div class="settings-item"><span class="settings-item-label">СМЕНА ПАРОЛЯ</span><button id="changePasswordBtn" class="profile-minimal-action-btn secondary">ИЗМЕНИТЬ</button></div><div class="settings-item"><span class="settings-item-label">АВАТАР</span><button id="changeAvatarBtn" class="profile-minimal-action-btn secondary">ЗАГРУЗИТЬ</button></div>`;
   }
   
-  // Авторизация
+  // ========== АВТОРИЗАЦИЯ ==========
   function setupAdminAccount() { 
     let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
     let exists = false; 
@@ -1144,15 +1194,18 @@
     if(!exists) users.push({ name: ADMIN_NAME, email: ADMIN_EMAIL, password: ADMIN_PASS, orders: [], addresses: [], avatar: "" }); 
     localStorage.setItem("mirror_users", JSON.stringify(users)); 
   }
+  
   function loadUser() { 
     let saved = localStorage.getItem("mirror_current_user"); 
     if(saved) { currentUser = JSON.parse(saved); updateAuthUI(); } 
   }
+  
   function saveUserSession(user) { 
     localStorage.setItem("mirror_current_user", JSON.stringify(user)); 
     currentUser = user; 
     updateAuthUI(); 
   }
+  
   function logout() { 
     localStorage.removeItem("mirror_current_user"); 
     currentUser = null; 
@@ -1160,6 +1213,7 @@
     cart = []; 
     updateCartUI(); 
   }
+  
   function updateAuthUI() { 
     let userInfo = document.getElementById("userInfoArea"); 
     let loginBtn = document.getElementById("loginBtnHeader"); 
@@ -1173,7 +1227,7 @@
     } 
   }
   
-  // Обработчики (оригинальные)
+  // ========== ОБРАБОТЧИКИ ==========
   document.getElementById("checkoutForm")?.addEventListener("submit", function(e) {
     e.preventDefault(); 
     if(!currentUser) { alert("Войдите в аккаунт"); document.getElementById("authModal").style.display = "flex"; return; }
@@ -1333,6 +1387,7 @@
     saveUserSession({ name, email, password: pass }); 
     alert("Регистрация успешна! Добро пожаловать!"); 
     document.getElementById("authModal").style.display = "none";
+    saveAllToCloud();
   };
   document.getElementById("loginForm").onsubmit = function(e) {
     e.preventDefault(); 
