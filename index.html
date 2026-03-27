@@ -266,65 +266,175 @@
     }
     .model-card:hover .model-delete-icon { opacity: 1; }
     
-    .profile-container { max-width: 1000px; margin: 0 auto; }
-    .profile-header { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; padding: 1.5rem; background: #0a0a0a; border-radius: 20px; border: 1px solid #333; }
-    .profile-avatar { position: relative; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: #2c2c2c; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-avatar i { font-size: 2.5rem; color: #888; }
-    .avatar-upload { position: absolute; bottom: 0; right: 0; background: #c0392b; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .avatar-upload i { font-size: 0.7rem; color: white; }
-    .profile-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(128,128,128,0.3); }
-    .profile-tab { background: none; border: none; padding: 0.8rem 1.2rem; font-size: 0.9rem; cursor: pointer; color: #e8e8e8; opacity: 0.6; }
-    .profile-tab.active { opacity: 1; border-bottom: 2px solid #c0392b; }
-    .profile-section { display: none; padding: 1rem 0; }
-    .profile-section.active { display: block; }
-    .order-card, .address-card { background: #0a0a0a; border: 1px solid #333; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
-    .order-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #333; }
-    .order-date { color: #888; font-size: 0.8rem; }
-    .order-total { font-weight: 600; color: #c0392b; }
-    .address-card { display: flex; justify-content: space-between; align-items: center; }
-    .address-default { background: #c0392b; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-top: 0.3rem; }
-    .address-actions button { background: none; border: none; cursor: pointer; margin-left: 0.5rem; color: #e8e8e8; }
+    /* Профиль */
+    .profile-minimal {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .profile-minimal-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(232,232,232,0.15);
+      margin-bottom: 2rem;
+    }
+    .profile-minimal-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #111;
+      border: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .profile-minimal-avatar:hover { border-color: #e8e8e8; opacity: 0.8; }
+    .profile-minimal-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-minimal-avatar i { font-size: 2rem; color: #e8e8e8; opacity: 0.6; }
+    .profile-minimal-info h1 { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 0.25rem; }
+    .profile-minimal-info p { font-size: 0.8rem; opacity: 0.5; }
+    .profile-minimal-nav {
+      display: flex;
+      gap: 2rem;
+      border-bottom: 1px solid rgba(232,232,232,0.15);
+      margin-bottom: 2rem;
+    }
+    .profile-minimal-nav-item {
+      background: none;
+      border: none;
+      padding: 0.75rem 0;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #e8e8e8;
+      opacity: 0.5;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+    .profile-minimal-nav-item:hover { opacity: 0.8; }
+    .profile-minimal-nav-item.active { opacity: 1; }
+    .profile-minimal-nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e8e8e8;
+    }
+    .profile-minimal-section { display: none; animation: fadeIn 0.3s ease; }
+    .profile-minimal-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .orders-list { display: flex; flex-direction: column; gap: 1rem; }
+    .order-minimal-card {
+      background: #0a0a0a;
+      border: 1px solid rgba(232,232,232,0.1);
+      padding: 1.25rem;
+      transition: all 0.2s;
+    }
+    .order-minimal-card:hover { border-color: rgba(232,232,232,0.3); }
+    .order-minimal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(232,232,232,0.1);
+    }
+    .order-minimal-id { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; opacity: 0.6; }
+    .order-minimal-date { font-size: 0.7rem; opacity: 0.4; }
+    .order-minimal-total { font-size: 0.9rem; font-weight: 500; }
+    .order-minimal-items { font-size: 0.75rem; opacity: 0.7; line-height: 1.5; }
+    .order-minimal-items span { display: inline-block; margin-right: 1rem; }
+    .addresses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .address-minimal-card {
+      background: #0a0a0a;
+      border: 1px solid rgba(232,232,232,0.1);
+      padding: 1.25rem;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .address-minimal-card:hover { border-color: rgba(232,232,232,0.3); }
+    .address-minimal-card.default { border-color: #e8e8e8; }
+    .address-minimal-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.3px; }
+    .address-minimal-details { font-size: 0.7rem; opacity: 0.6; line-height: 1.4; margin-bottom: 0.75rem; }
+    .address-minimal-badge { position: absolute; top: 0.75rem; right: 0.75rem; font-size: 0.6rem; opacity: 0.5; }
+    .address-minimal-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(232,232,232,0.1);
+    }
+    .address-minimal-actions button {
+      background: none;
+      border: none;
+      font-size: 0.7rem;
+      cursor: pointer;
+      color: #e8e8e8;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+    .address-minimal-actions button:hover { opacity: 1; }
+    .profile-minimal-action-btn {
+      background: transparent;
+      border: 1px solid rgba(232,232,232,0.3);
+      border-radius: 40px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #e8e8e8;
+      font-family: inherit;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .profile-minimal-action-btn:hover {
+      background: #e8e8e8;
+      color: #000000;
+      border-color: #e8e8e8;
+    }
+    .profile-minimal-action-btn.secondary { border-color: rgba(232,232,232,0.2); opacity: 0.7; }
+    .profile-minimal-action-btn.secondary:hover { opacity: 1; background: transparent; border-color: #e8e8e8; }
+    .profile-minimal-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      opacity: 0.4;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(232,232,232,0.1);
+    }
+    .settings-item:last-child { border-bottom: none; }
+    .settings-item-label { font-size: 0.8rem; font-weight: 500; }
     
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1100; justify-content: center; align-items: center; }
-    .modal-content { background: #0a0a0a; max-width: 500px; width: 90%; border-radius: 20px; padding: 1.5rem; border: 1px solid #333; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.7rem; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; }
-    .modal-buttons { display: flex; gap: 0.8rem; margin-top: 1rem; }
-    .modal-btn { flex: 1; padding: 0.7rem; border-radius: 40px; border: 1.5px solid #e8e8e8; background: transparent; cursor: pointer; font-weight: 600; color: #e8e8e8; text-align: center; }
-    
-    .product-modal-content { max-width: 800px; display: flex; flex-wrap: wrap; padding: 0; overflow: hidden; position: relative; }
-    @media (min-width: 768px) { .product-modal-content { flex-direction: row; } }
-    .product-modal-img { flex: 1; min-width: 250px; background: #111; padding: 1rem; }
-    .product-modal-info { flex: 1; padding: 1.5rem; }
-    .size-selector { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1rem 0; }
-    .add-to-cart-btn { width: 100%; margin-top: 0.8rem; }
-    .close-modal-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; background: none; border: none; color: white; cursor: pointer; z-index: 10; }
-    
-    .cart-sidebar { position: fixed; top: 0; right: -100%; width: 350px; height: 100%; background: #0a0a0a; z-index: 1200; transition: right 0.3s; display: flex; flex-direction: column; border-left: 1px solid #2c2c2c; }
-    .cart-sidebar.open { right: 0; }
-    .cart-header { display: flex; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #2c2c2c; }
-    .cart-items { flex: 1; overflow-y: auto; padding: 0.8rem; }
-    .cart-item { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #2c2c2c; align-items: center; }
-    .cart-item-img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; }
-    .cart-item-info { flex: 1; font-size: 0.8rem; }
-    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 1rem; color: #e8e8e8; padding: 0.3rem; }
-    .cart-total { padding: 1rem; border-top: 1px solid #2c2c2c; font-weight: 600; }
-    .cart-btn-checkout { width: 100%; margin-top: 0.5rem; }
-    
-    /* Footer аккордеон */
+    /* Футер */
     .footer {
       margin-top: 3rem;
       padding-top: 2rem;
       border-top: 1px solid rgba(128,128,128,0.3);
     }
-    .footer-accordion {
-      margin-bottom: 2rem;
-    }
-    .accordion-item {
-      border-bottom: 1px solid rgba(128,128,128,0.2);
-    }
+    .footer-accordion { margin-bottom: 2rem; }
+    .accordion-item { border-bottom: 1px solid rgba(128,128,128,0.2); }
     .accordion-header {
       padding: 1rem 0;
       cursor: pointer;
@@ -337,20 +447,13 @@
       transition: all 0.2s;
       color: #e8e8e8;
     }
-    .accordion-header:hover {
-      opacity: 0.8;
-    }
-    .accordion-header i {
-      transition: transform 0.3s ease;
-    }
-    .accordion-header.active i {
-      transform: rotate(180deg);
-    }
+    .accordion-header:hover { opacity: 0.8; }
+    .accordion-header i { transition: transform 0.3s ease; }
+    .accordion-header.active i { transform: rotate(180deg); }
     .accordion-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease-out;
-      padding: 0 0 0 0;
     }
     .accordion-content.show {
       max-height: 500px;
@@ -363,13 +466,8 @@
       margin-bottom: 0.5rem;
       color: #e8e8e8;
     }
-    .accordion-content a {
-      color: #e8e8e8;
-      text-decoration: none;
-    }
-    .accordion-content a:hover {
-      text-decoration: underline;
-    }
+    .accordion-content a { color: #e8e8e8; text-decoration: none; }
+    .accordion-content a:hover { text-decoration: underline; }
     .footer-copyright {
       text-align: center;
       font-size: 0.65rem;
@@ -385,60 +483,87 @@
       text-align: center;
     }
     
-    .about-page, .delivery-page, .models-page {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 1rem;
+    /* Модальные окна */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px);
+      z-index: 1100;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
       background: #0a0a0a;
+      max-width: 500px;
+      width: 90%;
       border-radius: 20px;
+      padding: 1.5rem;
       border: 1px solid #333;
     }
-    .delivery-method { background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border-left: 3px solid #c0392b; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 0.7rem;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 8px;
+    }
+    .modal-buttons { display: flex; gap: 0.8rem; margin-top: 1rem; }
+    .modal-btn { flex: 1; padding: 0.7rem; border-radius: 40px; border: 1.5px solid #e8e8e8; background: transparent; cursor: pointer; font-weight: 600; color: #e8e8e8; text-align: center; }
+    .switch-auth { text-align: center; margin-top: 1rem; font-size: 0.7rem; opacity: 0.6; cursor: pointer; }
+    .switch-auth:hover { opacity: 1; }
+    
+    .product-modal-content { max-width: 800px; display: flex; flex-wrap: wrap; padding: 0; overflow: hidden; position: relative; }
+    @media (min-width: 768px) { .product-modal-content { flex-direction: row; } }
+    .product-modal-img { flex: 1; min-width: 250px; background: #111; padding: 1rem; }
+    .product-modal-info { flex: 1; padding: 1.5rem; }
+    .size-selector { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1rem 0; }
+    .add-to-cart-btn { width: 100%; margin-top: 0.8rem; }
+    .close-modal-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; background: none; border: none; color: white; cursor: pointer; z-index: 10; }
+    
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 350px;
+      height: 100%;
+      background: #0a0a0a;
+      z-index: 1200;
+      transition: right 0.3s;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #2c2c2c;
+    }
+    .cart-sidebar.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #2c2c2c; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 0.8rem; }
+    .cart-item { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #2c2c2c; align-items: center; }
+    .cart-item-img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; }
+    .cart-item-info { flex: 1; font-size: 0.8rem; }
+    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 1rem; color: #e8e8e8; padding: 0.3rem; }
+    .cart-total { padding: 1rem; border-top: 1px solid #2c2c2c; font-weight: 600; }
+    .cart-btn-checkout { width: 100%; margin-top: 0.5rem; }
     
     .splash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 2000; transition: opacity 1s ease; opacity: 1; pointer-events: none; }
     .glitch-text { font-size: clamp(1.8rem, 10vw, 5rem); font-weight: 500; letter-spacing: 4px; text-transform: uppercase; animation: glitch 0.9s infinite steps(1); color: #fff; }
     @keyframes glitch { 0%,100% { text-shadow: 0.02em 0 0 rgba(255,0,0,0.7), -0.02em -0.02em 0 rgba(0,255,255,0.7); } 50% { text-shadow: -0.03em 0.01em 0 rgba(255,0,0,0.7), 0.03em 0.02em 0 rgba(0,255,255,0.7); } }
     .splash-hidden { opacity: 0; visibility: hidden; transition: opacity 0.6s ease; }
     
-    /* Техподдержка */
-    .support-chat {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-    .support-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #c0392b;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-    .support-btn:hover {
-      transform: scale(1.1);
-      background: #e05a4a;
-    }
-    .support-popup {
-      position: absolute;
-      bottom: 70px;
-      right: 0;
-      width: 250px;
-      background: #0a0a0a;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 1rem;
-      display: none;
-      animation: fadeIn 0.2s ease;
-    }
+    .support-chat { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    .support-btn { width: 50px; height: 50px; border-radius: 50%; background: #c0392b; border: none; color: white; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.2s; }
+    .support-btn:hover { transform: scale(1.1); background: #e05a4a; }
+    .support-popup { position: absolute; bottom: 70px; right: 0; width: 250px; background: #0a0a0a; border: 1px solid #333; border-radius: 16px; padding: 1rem; display: none; animation: fadeInPopup 0.2s ease; }
     .support-popup.show { display: block; }
     .support-popup p { margin-bottom: 0.5rem; color: #e8e8e8; }
     .support-popup a { color: #c0392b; text-decoration: none; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInPopup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -483,9 +608,7 @@
   <div class="footer">
     <div class="footer-accordion">
       <div class="accordion-item">
-        <div class="accordion-header" data-accordion="delivery">
-          ДОСТАВКА <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="accordion-header" data-accordion="delivery">ДОСТАВКА <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-delivery">
           <p><strong>Курьерская доставка</strong><br>По Минску — 2-3 дня, 10 BYN. При заказе от 200 BYN — бесплатно. По Беларуси — 3-5 дней, 15 BYN.</p>
           <p><strong>Самовывоз</strong><br>г. Минск, ул. Мележа, 5 (пн-пт 11:00-20:00, сб 12:00-18:00). Бесплатно.</p>
@@ -494,9 +617,7 @@
         </div>
       </div>
       <div class="accordion-item">
-        <div class="accordion-header" data-accordion="payment">
-          ОПЛАТА <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="accordion-header" data-accordion="payment">ОПЛАТА <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-payment">
           <p><strong>При заказе с доставкой почтой:</strong> оплата наложенным платежом при получении.</p>
           <p><strong>При заказе с курьерской доставкой по Минску:</strong> оплата наличными курьеру или картой при получении.</p>
@@ -505,31 +626,21 @@
         </div>
       </div>
       <div class="accordion-item">
-        <div class="accordion-header" data-accordion="returns">
-          ВОЗВРАТ И ОБМЕН <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="accordion-header" data-accordion="returns">ВОЗВРАТ И ОБМЕН <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-returns">
           <p>Обмен и возврат товара надлежащего качества возможен в течение 14 дней с момента получения. Товар должен быть в оригинальной упаковке, без следов носки, с сохранением товарного вида.</p>
           <p>Для оформления возврата свяжитесь с нами по email: <strong>support@mirror-project.by</strong> или в Telegram <strong>@mirror_project</strong>.</p>
-          <p>Возврат денежных средств осуществляется в течение 10 рабочих дней.</p>
-          <p><strong>Исключения:</strong> товары с индивидуальными характеристиками (кастомные вещи) обмену и возврату не подлежат.</p>
         </div>
       </div>
       <div class="accordion-item">
-        <div class="accordion-header" data-accordion="about">
-          О НАС <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="accordion-header" data-accordion="about">О НАС <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-about">
           <p><strong>Отражение улицы. Минимализм. Качество.</strong></p>
-          <p>Mirror Project — это белорусский бренд уличной одежды, созданный в 2023 году. Мы объединяем строгую эстетику минимализма с духом городских улиц. Каждая вещь — это отражение внутреннего мира, где форма следует за функцией, а детали говорят громче слов.</p>
-          <p>Наша философия — создавать одежду, которая не кричит о себе, но запоминается. Черный цвет, чистые линии, качественные материалы. Мы не следуем трендам — мы создаем вневременные вещи для тех, кто ценит подлинность.</p>
-          <p>Каждый элемент дизайна продуман до мелочей: от кроя до фурнитуры. Мы используем только премиальные ткани и работаем с проверенными производствами. Mirror Project — это одежда для тех, кто выбирает себя.</p>
+          <p>Mirror Project — это белорусский бренд уличной одежды, созданный в 2023 году.</p>
         </div>
       </div>
       <div class="accordion-item">
-        <div class="accordion-header" data-accordion="contacts">
-          КОНТАКТЫ <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="accordion-header" data-accordion="contacts">КОНТАКТЫ <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-contacts">
           <p>Email: <a href="mailto:info@mirror-project.by">info@mirror-project.by</a></p>
           <p>Telegram: <a href="https://t.me/mirror_project" target="_blank">@mirror_project</a></p>
@@ -545,28 +656,35 @@
   </div>
 </div>
 
-<!-- Техподдержка -->
+<!-- Модальные окна -->
+<div id="authModal" class="modal"><div class="modal-content"><h2>РЕГИСТРАЦИЯ</h2><form id="authForm"><div class="form-group"><label>Имя</label><input type="text" id="regName" required></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required></div><div class="modal-buttons"><button type="button" id="closeAuthBtn" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></form><div class="switch-auth" id="switchAuthBtn">Уже есть аккаунт? Войти</div></div></div>
+
+<div id="loginModal" class="modal"><div class="modal-content"><h2>ВХОД</h2><form id="loginForm"><div class="form-group"><label>Email</label><input type="email" id="loginEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" required></div><div class="modal-buttons"><button type="button" id="closeLoginBtn" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ВОЙТИ</button></div></form><div class="switch-auth" id="switchToRegister">Нет аккаунта? Зарегистрироваться</div></div></div>
+
+<div id="changePasswordModal" class="modal"><div class="modal-content"><h2>СМЕНА ПАРОЛЯ</h2><form id="changePasswordForm"><div class="form-group"><label>Текущий пароль</label><input type="password" id="oldPassword" required></div><div class="form-group"><label>Новый пароль</label><input type="password" id="newPassword" required></div><div class="form-group"><label>Подтверждение</label><input type="password" id="confirmPassword" required></div><div class="modal-buttons"><button type="button" id="closePasswordModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СМЕНИТЬ</button></div></form></div></div>
+
+<div id="addressModal" class="modal"><div class="modal-content"><h2 id="addressModalTitle">ДОБАВИТЬ АДРЕС</h2><form id="addressForm"><div class="form-group"><label>Название</label><input type="text" id="addressName" placeholder="Дом/Работа"></div><div class="form-group"><label>Город</label><input type="text" id="addressCity" required placeholder="Минск"></div><div class="form-group"><label>Улица, дом</label><input type="text" id="addressStreet" required placeholder="ул. Мележа, 5"></div><div class="form-group"><label>Индекс</label><input type="text" id="addressZip" placeholder="220000"></div><div class="form-group"><label><input type="checkbox" id="addressDefault"> Сделать основным</label></div><div class="modal-buttons"><button type="button" id="closeAddressModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
+
+<div id="avatarModal" class="modal"><div class="modal-content"><h2>АВАТАР</h2><form id="avatarForm"><div class="form-group"><label>URL фото</label><input type="text" id="avatarUrl" placeholder="https://..."></div><div class="form-group"><label>Или файл</label><input type="file" id="avatarFile" accept="image/*"></div><div class="modal-buttons"><button type="button" id="closeAvatarModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
+
+<div id="productModal" class="modal"><div class="modal-content product-modal-content"><button class="close-modal-btn" id="closeModalBtn">&times;</button><div class="product-modal-img"><div class="gallery-container"><div class="gallery-main"><img id="modalMainImage" src=""></div><div class="gallery-thumbnails" id="galleryThumbnails"></div></div></div><div class="product-modal-info"><h2 id="modalTitle"></h2><div class="product-category" id="modalCategory"></div><div class="product-price" id="modalPrice"></div><div>Размер:</div><div class="size-selector" id="sizeSelector"></div><button class="add-to-cart-btn" id="modalAddToCartBtn">ДОБАВИТЬ В КОРЗИНУ</button></div></div></div>
+
+<div id="cartSidebar" class="cart-sidebar"><div class="cart-header"><h3>КОРЗИНА</h3><span id="closeCartBtn" style="cursor:pointer;">&times;</span></div><div class="cart-items" id="cartItemsContainer"></div><div class="cart-total" id="cartTotal"></div><div style="padding:1rem;"><button id="checkoutFromCartBtn" class="cart-btn-checkout">ПЕРЕЙТИ К ОПЛАТЕ</button></div></div>
+
+<div id="checkoutPage" class="modal"><div class="modal-content"><h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2><div id="checkoutSummary" style="background:#111; padding:1rem; border-radius:12px; margin:1rem 0;"></div><form id="checkoutForm"><div class="form-group"><label>Адрес доставки</label><select id="checkoutAddressSelect" style="background:#1a1a1a; border:1px solid #333; color:#fff; padding:0.7rem; border-radius:8px; width:100%;"></select><button type="button" id="addAddressCheckout" class="cart-btn-checkout" style="margin-top:0.5rem; width:100%;">+ НОВЫЙ АДРЕС</button></div><div class="form-group"><label>Телефон</label><input type="tel" id="checkoutPhone" required placeholder="+375 XX XXX XX XX"></div><div class="form-group"><label>Telegram (необязательно)</label><input type="text" id="checkoutTelegram" placeholder="@username или номер телефона"></div><div class="modal-buttons"><button type="button" id="closeCheckoutBtn" class="modal-btn">НАЗАД</button><button type="submit" class="modal-btn primary">ОФОРМИТЬ ЗАКАЗ</button></div></form></div></div>
+
+<div id="editProductModal" class="modal"><div class="modal-content" style="max-width: 600px;"><h2>РЕДАКТИРОВАНИЕ ТОВАРА</h2><form id="editProductForm"><div class="form-group"><label>Название</label><input type="text" id="editName" required></div><div class="form-group"><label>Цена (BYN)</label><input type="number" id="editPrice" required></div><div class="form-group"><label>Старая цена (скидка)</label><input type="number" id="editOldPrice" placeholder="Оставьте пустым"></div><div class="form-group"><label>Фотографии товара</label><input type="file" id="editImagesFiles" accept="image/*" multiple></div><div class="form-group"><label>Остатки (S:5, M:3, L:0)</label><input type="text" id="editStock" placeholder="S:5, M:3, L:0"></div><div class="form-group" id="dropTabCloseGroup" style="display: none;"><label><input type="checkbox" id="editTabClosed"> Закрыть вкладку DROP</label></div><div class="modal-buttons"><button type="button" id="closeEditModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
+
+<div id="modelModal" class="modal"><div class="modal-content"><h2 id="modelModalTitle">ДОБАВИТЬ ФОТО МОДЕЛИ</h2><form id="modelForm"><div class="form-group"><label>Выберите фото</label><input type="file" id="modelFile" accept="image/*" required></div><div class="modal-buttons"><button type="button" id="closeModelModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ДОБАВИТЬ</button></div></form></div></div>
+
 <div class="support-chat">
   <button class="support-btn" id="supportBtn"><i class="fas fa-comment-dots"></i></button>
   <div class="support-popup" id="supportPopup">
     <p><i class="fas fa-headset"></i> <strong>Вам помочь?</strong></p>
-    <p>Напишите нам в Telegram:<br><a href="https://t.me/mirror_project" target="_blank">@mirror_project</a></p>
-    <p>Или на email:<br><a href="mailto:support@mirror-project.by">support@mirror-project.by</a></p>
-    <p style="font-size:0.7rem; margin-top:0.5rem;">Ответим в течение 24 часов</p>
+    <p>Telegram: <a href="https://t.me/mirror_project" target="_blank">@mirror_project</a></p>
+    <p>Email: <a href="mailto:support@mirror-project.by">support@mirror-project.by</a></p>
   </div>
 </div>
-
-<!-- Модалки -->
-<div id="authModal" class="modal"><div class="modal-content"><h2>РЕГИСТРАЦИЯ</h2><form id="authForm"><div class="form-group"><label>Имя</label><input type="text" id="regName" required></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required></div><div class="modal-buttons"><button type="button" id="closeAuthBtn" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></form><div class="switch-auth" id="switchAuthBtn">Уже есть аккаунт? Войти</div></div></div>
-<div id="loginModal" class="modal" style="display: none;"><div class="modal-content"><h2>ВХОД</h2><form id="loginForm"><div class="form-group"><label>Email</label><input type="email" id="loginEmail" required></div><div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" required></div><div class="modal-buttons"><button type="button" id="closeLoginBtn" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ВОЙТИ</button></div></form><div class="switch-auth" id="switchToRegister">Нет аккаунта? Зарегистрироваться</div></div></div>
-<div id="changePasswordModal" class="modal"><div class="modal-content"><h2>СМЕНА ПАРОЛЯ</h2><form id="changePasswordForm"><div class="form-group"><label>Текущий пароль</label><input type="password" id="oldPassword" required></div><div class="form-group"><label>Новый пароль</label><input type="password" id="newPassword" required></div><div class="form-group"><label>Подтверждение</label><input type="password" id="confirmPassword" required></div><div class="modal-buttons"><button type="button" id="closePasswordModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СМЕНИТЬ</button></div></form></div></div>
-<div id="addressModal" class="modal"><div class="modal-content"><h2 id="addressModalTitle">ДОБАВИТЬ АДРЕС</h2><form id="addressForm"><div class="form-group"><label>Название</label><input type="text" id="addressName" placeholder="Дом/Работа"></div><div class="form-group"><label>Город</label><input type="text" id="addressCity" required placeholder="Минск"></div><div class="form-group"><label>Улица, дом</label><input type="text" id="addressStreet" required placeholder="ул. Мележа, 5"></div><div class="form-group"><label>Индекс</label><input type="text" id="addressZip" placeholder="220000"></div><div class="form-group"><label><input type="checkbox" id="addressDefault"> Сделать основным</label></div><div class="modal-buttons"><button type="button" id="closeAddressModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
-<div id="avatarModal" class="modal"><div class="modal-content"><h2>АВАТАР</h2><form id="avatarForm"><div class="form-group"><label>URL фото</label><input type="text" id="avatarUrl" placeholder="https://..."></div><div class="form-group"><label>Или файл</label><input type="file" id="avatarFile" accept="image/*"></div><div class="modal-buttons"><button type="button" id="closeAvatarModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
-<div id="productModal" class="modal"><div class="modal-content product-modal-content"><button class="close-modal-btn" id="closeModalBtn">&times;</button><div class="product-modal-img"><div class="gallery-container"><div class="gallery-main"><img id="modalMainImage" src=""></div><div class="gallery-thumbnails" id="galleryThumbnails"></div></div></div><div class="product-modal-info"><h2 id="modalTitle"></h2><div class="product-category" id="modalCategory"></div><div class="product-price" id="modalPrice"></div><div>Размер:</div><div class="size-selector" id="sizeSelector"></div><button class="add-to-cart-btn" id="modalAddToCartBtn">ДОБАВИТЬ В КОРЗИНУ</button></div></div></div>
-<div id="cartSidebar" class="cart-sidebar"><div class="cart-header"><h3>КОРЗИНА</h3><span id="closeCartBtn" style="cursor:pointer;">&times;</span></div><div class="cart-items" id="cartItemsContainer"></div><div class="cart-total" id="cartTotal"></div><div style="padding:1rem;"><button id="checkoutFromCartBtn" class="cart-btn-checkout">ПЕРЕЙТИ К ОПЛАТЕ</button></div></div>
-<div id="checkoutPage" class="modal"><div class="modal-content"><h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2><div id="checkoutSummary" style="background:#111; padding:1rem; border-radius:12px; margin:1rem 0;"></div><form id="checkoutForm"><div class="form-group"><label>Адрес доставки</label><select id="checkoutAddressSelect" style="background:#1a1a1a; border:1px solid #333; color:#fff; padding:0.7rem; border-radius:8px; width:100%;"></select><button type="button" id="addAddressCheckout" class="cart-btn-checkout" style="margin-top:0.5rem; width:100%;">+ Новый адрес</button></div><div class="form-group"><label>Телефон</label><input type="tel" id="checkoutPhone" required placeholder="+375 XX XXX XX XX"></div><div class="form-group"><label>Telegram (необязательно)</label><input type="text" id="checkoutTelegram" placeholder="@username или номер телефона"></div><div class="modal-buttons"><button type="button" id="closeCheckoutBtn" class="modal-btn">НАЗАД</button><button type="submit" class="modal-btn primary">ОФОРМИТЬ ЗАКАЗ</button></div></form></div></div>
-<div id="editProductModal" class="modal"><div class="modal-content" style="max-width: 600px;"><h2>РЕДАКТИРОВАНИЕ ТОВАРА</h2><form id="editProductForm"><div class="form-group"><label>Название</label><input type="text" id="editName" required></div><div class="form-group"><label>Цена (BYN)</label><input type="number" id="editPrice" required></div><div class="form-group"><label>Старая цена (скидка)</label><input type="number" id="editOldPrice" placeholder="Оставьте пустым"></div><div class="form-group"><label>Фотографии товара (можно выбрать несколько)</label><input type="file" id="editImagesFiles" accept="image/*" multiple></div><div class="form-group"><label>Остатки (S:5, M:3, L:0)</label><input type="text" id="editStock" placeholder="S:5, M:3, L:0"></div><div class="form-group" id="dropTabCloseGroup" style="display: none;"><label><input type="checkbox" id="editTabClosed"> Закрыть вкладку DROP</label></div><div class="modal-buttons"><button type="button" id="closeEditModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
-<div id="modelModal" class="modal"><div class="modal-content"><h2 id="modelModalTitle">ДОБАВИТЬ ФОТО МОДЕЛИ</h2><form id="modelForm"><div class="form-group"><label>Выберите фото</label><input type="file" id="modelFile" accept="image/*" required></div><div class="modal-buttons"><button type="button" id="closeModelModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ДОБАВИТЬ</button></div></form></div></div>
 
 <script>
   // Товары
@@ -799,69 +917,288 @@
     for(let i=0;i<rm.length;i++) rm[i].addEventListener("click", function() { cart.splice(parseInt(this.dataset.idx),1); updateCartUI(); });
   }
   
-  // Личный кабинет
-  function getUserData() { let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) return users[i]; return { orders: [], addresses: [], avatar: "" }; }
-  function saveUserData(data) { let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) { users[i] = { ...users[i], ...data }; break; } localStorage.setItem("mirror_users", JSON.stringify(users)); }
+  // Профиль
+  function getUserData() { 
+    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) return users[i]; 
+    return { orders: [], addresses: [], avatar: "" }; 
+  }
+  function saveUserData(data) { 
+    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) { 
+      users[i] = { ...users[i], ...data }; 
+      break; 
+    } 
+    localStorage.setItem("mirror_users", JSON.stringify(users)); 
+  }
+  
   function renderProfile() {
     let userData = getUserData();
-    let avatarHtml = userData.avatar ? '<img src="' + userData.avatar + '">' : '<i class="fas fa-user"></i>';
-    let html = '<div class="profile-header"><div class="profile-avatar" id="avatarClick"><div class="avatar-upload"><i class="fas fa-camera"></i></div>' + avatarHtml + '</div><div class="profile-info"><h2>' + currentUser.name + '</h2><p>' + currentUser.email + '</p></div></div>';
-    html += '<div class="profile-tabs"><button class="profile-tab active" data-tab="orders">📦 ЗАКАЗЫ</button><button class="profile-tab" data-tab="addresses">📍 АДРЕСА</button><button class="profile-tab" data-tab="security">🔐 ПАРОЛЬ</button></div>';
-    html += '<div id="ordersTab" class="profile-section active">';
-    if(!userData.orders || userData.orders.length === 0) html += '<p style="text-align:center; padding:2rem;">У вас пока нет заказов</p>';
-    else for(let i=0;i<userData.orders.length;i++) { let o = userData.orders[i]; html += '<div class="order-card"><div class="order-header"><span>Заказ #' + o.id + '</span><span class="order-date">' + o.date + '</span><span class="order-total">' + formatPrice(o.total) + '</span></div><div class="order-items">'; for(let j=0;j<o.items.length;j++) html += o.items[j].name + ' (' + o.items[j].size + ') x' + o.items[j].quantity + '<br>'; html += '</div></div>'; }
-    html += '</div><div id="addressesTab" class="profile-section"><button id="addAddressBtn" class="cart-btn-checkout" style="margin-bottom:1rem;">+ ДОБАВИТЬ АДРЕС</button>';
-    if(userData.addresses && userData.addresses.length > 0) for(let i=0;i<userData.addresses.length;i++) { let a = userData.addresses[i]; html += '<div class="address-card"><div><strong>' + a.name + '</strong><br>' + a.city + ', ' + a.street + (a.zip ? '<br>Индекс: ' + a.zip : '') + (a.default ? '<br><span class="address-default">Основной</span>' : '') + '</div><div class="address-actions"><button class="edit-address" data-idx="' + i + '"><i class="fas fa-edit"></i></button><button class="delete-address" data-idx="' + i + '"><i class="fas fa-trash"></i></button></div></div>'; }
-    else html += '<p style="text-align:center; padding:1rem;">Нет сохраненных адресов</p>';
-    html += '</div><div id="securityTab" class="profile-section"><button id="changePasswordBtn" class="cart-btn-checkout">СМЕНИТЬ ПАРОЛЬ</button></div>';
+    let avatarHtml = userData.avatar ? `<img src="${userData.avatar}">` : `<i class="fas fa-user"></i>`;
+    
+    let html = `
+      <div class="profile-minimal">
+        <div class="profile-minimal-header">
+          <div class="profile-minimal-avatar" id="avatarClick">
+            ${avatarHtml}
+          </div>
+          <div class="profile-minimal-info">
+            <h1>${currentUser.name}</h1>
+            <p>${currentUser.email}</p>
+          </div>
+        </div>
+        <div class="profile-minimal-nav">
+          <button class="profile-minimal-nav-item active" data-section="orders">ЗАКАЗЫ</button>
+          <button class="profile-minimal-nav-item" data-section="addresses">АДРЕСА</button>
+          <button class="profile-minimal-nav-item" data-section="settings">НАСТРОЙКИ</button>
+        </div>
+        <div id="profileSectionOrders" class="profile-minimal-section active">${renderOrdersSection(userData)}</div>
+        <div id="profileSectionAddresses" class="profile-minimal-section">${renderAddressesSection(userData)}</div>
+        <div id="profileSectionSettings" class="profile-minimal-section">${renderSettingsSection()}</div>
+      </div>
+    `;
+    
     document.getElementById("profileContainer").innerHTML = html;
-    document.getElementById("avatarClick") && document.getElementById("avatarClick").addEventListener("click", () => document.getElementById("avatarModal").style.display = "flex");
-    document.getElementById("addAddressBtn") && document.getElementById("addAddressBtn").addEventListener("click", () => { document.getElementById("addressModalTitle").innerText = "ДОБАВИТЬ АДРЕС"; document.getElementById("addressForm").reset(); window.editAddressIdx = null; document.getElementById("addressModal").style.display = "flex"; });
-    let editBtns = document.querySelectorAll(".edit-address"); for(let i=0;i<editBtns.length;i++) editBtns[i].addEventListener("click", function() { let idx = parseInt(this.dataset.idx); let addr = userData.addresses[idx]; document.getElementById("addressModalTitle").innerText = "РЕДАКТИРОВАТЬ"; document.getElementById("addressName").value = addr.name; document.getElementById("addressCity").value = addr.city; document.getElementById("addressStreet").value = addr.street; document.getElementById("addressZip").value = addr.zip || ""; document.getElementById("addressDefault").checked = addr.default || false; window.editAddressIdx = idx; document.getElementById("addressModal").style.display = "flex"; });
-    let delBtns = document.querySelectorAll(".delete-address"); for(let i=0;i<delBtns.length;i++) delBtns[i].addEventListener("click", function() { let idx = parseInt(this.dataset.idx); let addresses = userData.addresses.filter((_,j) => j !== idx); saveUserData({ addresses: addresses }); renderProfile(); });
-    document.getElementById("changePasswordBtn") && document.getElementById("changePasswordBtn").addEventListener("click", () => document.getElementById("changePasswordModal").style.display = "flex");
-    let tabs = document.querySelectorAll(".profile-tab"); for(let i=0;i<tabs.length;i++) tabs[i].addEventListener("click", function() { document.querySelectorAll(".profile-tab").forEach(t => t.classList.remove("active")); this.classList.add("active"); document.querySelectorAll(".profile-section").forEach(s => s.classList.remove("active")); document.getElementById(this.dataset.tab + "Tab").classList.add("active"); });
+    
+    document.getElementById("avatarClick")?.addEventListener("click", () => document.getElementById("avatarModal").style.display = "flex");
+    
+    let navItems = document.querySelectorAll(".profile-minimal-nav-item");
+    navItems.forEach(item => {
+      item.addEventListener("click", () => {
+        navItems.forEach(nav => nav.classList.remove("active"));
+        item.classList.add("active");
+        let section = item.dataset.section;
+        document.querySelectorAll(".profile-minimal-section").forEach(s => s.classList.remove("active"));
+        document.getElementById(`profileSection${section.charAt(0).toUpperCase() + section.slice(1)}`).classList.add("active");
+      });
+    });
+    
+    document.getElementById("addAddressBtn")?.addEventListener("click", () => {
+      window.editAddressIdx = null;
+      document.getElementById("addressModalTitle").innerText = "ДОБАВИТЬ АДРЕС";
+      document.getElementById("addressForm").reset();
+      document.getElementById("addressModal").style.display = "flex";
+    });
+    
+    document.querySelectorAll(".edit-address-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        let idx = parseInt(btn.dataset.idx);
+        let addr = userData.addresses[idx];
+        document.getElementById("addressModalTitle").innerText = "РЕДАКТИРОВАТЬ";
+        document.getElementById("addressName").value = addr.name;
+        document.getElementById("addressCity").value = addr.city;
+        document.getElementById("addressStreet").value = addr.street;
+        document.getElementById("addressZip").value = addr.zip || "";
+        document.getElementById("addressDefault").checked = addr.default || false;
+        window.editAddressIdx = idx;
+        document.getElementById("addressModal").style.display = "flex";
+      });
+    });
+    
+    document.querySelectorAll(".delete-address-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        let idx = parseInt(btn.dataset.idx);
+        let addresses = userData.addresses.filter((_, j) => j !== idx);
+        saveUserData({ addresses });
+        renderProfile();
+      });
+    });
+    
+    document.getElementById("changePasswordBtn")?.addEventListener("click", () => {
+      document.getElementById("changePasswordModal").style.display = "flex";
+    });
+    
+    document.getElementById("changeAvatarBtn")?.addEventListener("click", () => {
+      document.getElementById("avatarModal").style.display = "flex";
+    });
   }
-  function addOrder(orderItems, total) { let userData = getUserData(); let newOrder = { id: Date.now(), date: new Date().toLocaleDateString(), items: orderItems, total: total, telegram: document.getElementById("checkoutTelegram").value }; if(!userData.orders) userData.orders = []; userData.orders = [newOrder, ...userData.orders]; saveUserData({ orders: userData.orders }); }
-  function updateCheckoutAddresses() { let userData = getUserData(); let select = document.getElementById("checkoutAddressSelect"); if(!select) return; let html = '<option value="">Выберите адрес</option>'; if(userData.addresses) for(let i=0;i<userData.addresses.length;i++) html += '<option value="' + i + '">' + userData.addresses[i].name + ': ' + userData.addresses[i].city + ', ' + userData.addresses[i].street + '</option>'; html += '<option value="new">+ Новый адрес</option>'; select.innerHTML = html; if(userData.addresses && userData.addresses.length > 0) { let defaultIdx = userData.addresses.findIndex(a => a.default); if(defaultIdx !== -1) select.value = defaultIdx; } }
+  
+  function renderOrdersSection(userData) {
+    if (!userData.orders || userData.orders.length === 0) {
+      return '<div class="profile-minimal-empty">У вас пока нет заказов</div>';
+    }
+    let html = '<div class="orders-list">';
+    for (let i = 0; i < userData.orders.length; i++) {
+      let o = userData.orders[i];
+      html += `<div class="order-minimal-card"><div class="order-minimal-header"><span class="order-minimal-id">ЗАКАЗ #${o.id}</span><span class="order-minimal-date">${o.date}</span><span class="order-minimal-total">${formatPrice(o.total)}</span></div><div class="order-minimal-items">`;
+      for (let j = 0; j < o.items.length; j++) {
+        html += `<span>${o.items[j].name} (${o.items[j].size}) x${o.items[j].quantity}</span>`;
+      }
+      html += '</div></div>';
+    }
+    html += '</div>';
+    return html;
+  }
+  
+  function renderAddressesSection(userData) {
+    let html = '<div class="addresses-grid">';
+    if (userData.addresses && userData.addresses.length > 0) {
+      for (let i = 0; i < userData.addresses.length; i++) {
+        let a = userData.addresses[i];
+        html += `<div class="address-minimal-card ${a.default ? 'default' : ''}"><div class="address-minimal-name">${a.name || 'Адрес'}</div><div class="address-minimal-details">${a.city}<br>${a.street}${a.zip ? '<br>' + a.zip : ''}</div>${a.default ? '<div class="address-minimal-badge">ОСНОВНОЙ</div>' : ''}<div class="address-minimal-actions"><button class="edit-address-btn" data-idx="${i}">РЕДАКТИРОВАТЬ</button><button class="delete-address-btn" data-idx="${i}">УДАЛИТЬ</button></div></div>`;
+      }
+    } else {
+      html += '<div class="profile-minimal-empty" style="grid-column:1/-1;">Нет сохраненных адресов</div>';
+    }
+    html += '</div><button id="addAddressBtn" class="profile-minimal-action-btn"><i class="fas fa-plus"></i> ДОБАВИТЬ АДРЕС</button>';
+    return html;
+  }
+  
+  function renderSettingsSection() {
+    return `<div class="settings-item"><span class="settings-item-label">СМЕНА ПАРОЛЯ</span><button id="changePasswordBtn" class="profile-minimal-action-btn secondary">ИЗМЕНИТЬ</button></div><div class="settings-item"><span class="settings-item-label">АВАТАР</span><button id="changeAvatarBtn" class="profile-minimal-action-btn secondary">ЗАГРУЗИТЬ</button></div>`;
+  }
   
   // Авторизация
-  function setupAdminAccount() { let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); let exists = false; for(let i=0;i<users.length;i++) if(users[i].email === ADMIN_EMAIL) { exists = true; break; } if(!exists) users.push({ name: ADMIN_NAME, email: ADMIN_EMAIL, password: ADMIN_PASS, orders: [], addresses: [], avatar: "" }); localStorage.setItem("mirror_users", JSON.stringify(users)); }
-  function loadUser() { let saved = localStorage.getItem("mirror_current_user"); if(saved) { currentUser = JSON.parse(saved); updateAuthUI(); } }
-  function saveUserSession(user) { localStorage.setItem("mirror_current_user", JSON.stringify(user)); currentUser = user; updateAuthUI(); }
-  function logout() { localStorage.removeItem("mirror_current_user"); currentUser = null; updateAuthUI(); cart = []; updateCartUI(); }
-  function updateAuthUI() { let userInfo = document.getElementById("userInfoArea"); let loginBtn = document.getElementById("loginBtnHeader"); if(currentUser) { userInfo.style.display = "flex"; loginBtn.style.display = "none"; document.getElementById("userNameDisplay").innerText = isAdmin() ? "Админ" : currentUser.name; } else { userInfo.style.display = "none"; loginBtn.style.display = "block"; } }
+  function setupAdminAccount() { 
+    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    let exists = false; 
+    for(let i=0;i<users.length;i++) if(users[i].email === ADMIN_EMAIL) { exists = true; break; } 
+    if(!exists) users.push({ name: ADMIN_NAME, email: ADMIN_EMAIL, password: ADMIN_PASS, orders: [], addresses: [], avatar: "" }); 
+    localStorage.setItem("mirror_users", JSON.stringify(users)); 
+  }
+  function loadUser() { 
+    let saved = localStorage.getItem("mirror_current_user"); 
+    if(saved) { currentUser = JSON.parse(saved); updateAuthUI(); } 
+  }
+  function saveUserSession(user) { 
+    localStorage.setItem("mirror_current_user", JSON.stringify(user)); 
+    currentUser = user; 
+    updateAuthUI(); 
+  }
+  function logout() { 
+    localStorage.removeItem("mirror_current_user"); 
+    currentUser = null; 
+    updateAuthUI(); 
+    cart = []; 
+    updateCartUI(); 
+  }
+  function updateAuthUI() { 
+    let userInfo = document.getElementById("userInfoArea"); 
+    let loginBtn = document.getElementById("loginBtnHeader"); 
+    if(currentUser) { 
+      userInfo.style.display = "flex"; 
+      loginBtn.style.display = "none"; 
+      document.getElementById("userNameDisplay").innerText = isAdmin() ? "Админ" : currentUser.name; 
+    } else { 
+      userInfo.style.display = "none"; 
+      loginBtn.style.display = "block"; 
+    } 
+  }
   
   // Обработчики
-  document.getElementById("checkoutForm") && document.getElementById("checkoutForm").addEventListener("submit", function(e) {
-    e.preventDefault(); if(!currentUser) { alert("Войдите в аккаунт"); document.getElementById("authModal").style.display = "flex"; return; }
-    let select = document.getElementById("checkoutAddressSelect"); if(select.value === "new" || select.value === "") { alert("Выберите адрес"); return; }
-    let total = 0; for(let i=0;i<cart.length;i++) total += cart[i].price * cart[i].quantity;
-    addOrder(cart.map(i => ({ name: i.name, size: i.size, quantity: i.quantity })), total);
-    alert("✅ Заказ оформлен! Спасибо за покупку!"); cart = []; updateCartUI(); document.getElementById("checkoutPage").style.display = "none";
-  });
-  document.getElementById("addAddressCheckout") && document.getElementById("addAddressCheckout").addEventListener("click", () => document.getElementById("addressModal").style.display = "flex");
-  document.getElementById("addressForm") && document.getElementById("addressForm").addEventListener("submit", function(e) {
+  document.getElementById("checkoutForm")?.addEventListener("submit", function(e) {
     e.preventDefault(); 
-    let address = { name: document.getElementById("addressName").value || "Дом", city: document.getElementById("addressCity").value, street: document.getElementById("addressStreet").value, zip: document.getElementById("addressZip").value, default: document.getElementById("addressDefault").checked };
-    let userData = getUserData(); if(!userData.addresses) userData.addresses = [];
-    if(window.editAddressIdx !== undefined) userData.addresses[window.editAddressIdx] = address; else userData.addresses.push(address);
-    if(address.default) for(let i=0;i<userData.addresses.length;i++) userData.addresses[i].default = (i === (window.editAddressIdx !== undefined ? window.editAddressIdx : userData.addresses.length-1));
-    saveUserData({ addresses: userData.addresses }); if(document.getElementById("profilePage").classList.contains("active")) renderProfile(); updateCheckoutAddresses();
-    document.getElementById("addressModal").style.display = "none"; window.editAddressIdx = undefined;
+    if(!currentUser) { alert("Войдите в аккаунт"); document.getElementById("authModal").style.display = "flex"; return; }
+    let select = document.getElementById("checkoutAddressSelect"); 
+    if(!select.value || select.value === "") { alert("Выберите адрес доставки"); return; }
+    let total = 0; 
+    for(let i=0;i<cart.length;i++) total += cart[i].price * cart[i].quantity;
+    let userData = getUserData();
+    let selectedAddress = userData.addresses[parseInt(select.value)];
+    let newOrder = { 
+      id: Date.now(), 
+      date: new Date().toLocaleDateString(), 
+      items: cart.map(i => ({ name: i.name, size: i.size, quantity: i.quantity })), 
+      total: total,
+      address: selectedAddress,
+      phone: document.getElementById("checkoutPhone").value,
+      telegram: document.getElementById("checkoutTelegram").value
+    };
+    if(!userData.orders) userData.orders = [];
+    userData.orders = [newOrder, ...userData.orders];
+    saveUserData({ orders: userData.orders });
+    alert("✅ Заказ оформлен! Спасибо за покупку!"); 
+    cart = []; 
+    updateCartUI(); 
+    document.getElementById("checkoutPage").style.display = "none";
   });
-  document.getElementById("avatarForm") && document.getElementById("avatarForm").addEventListener("submit", function(e) {
-    e.preventDefault(); let url = document.getElementById("avatarUrl").value; let file = document.getElementById("avatarFile").files[0];
-    if(file) { let reader = new FileReader(); reader.onload = function(ev) { saveUserData({ avatar: ev.target.result }); renderProfile(); }; reader.readAsDataURL(file); }
-    else if(url) saveUserData({ avatar: url }); document.getElementById("avatarModal").style.display = "none";
+  
+  document.getElementById("addressForm")?.addEventListener("submit", function(e) {
+    e.preventDefault(); 
+    let address = { 
+      name: document.getElementById("addressName").value || "Адрес", 
+      city: document.getElementById("addressCity").value, 
+      street: document.getElementById("addressStreet").value, 
+      zip: document.getElementById("addressZip").value, 
+      default: document.getElementById("addressDefault").checked 
+    };
+    let userData = getUserData(); 
+    if(!userData.addresses) userData.addresses = [];
+    
+    if(window.editAddressIdx !== undefined && window.editAddressIdx !== null) {
+      userData.addresses[window.editAddressIdx] = address;
+    } else {
+      userData.addresses.push(address);
+    }
+    
+    if(address.default) {
+      for(let i=0;i<userData.addresses.length;i++) {
+        userData.addresses[i].default = (i === (window.editAddressIdx !== undefined && window.editAddressIdx !== null ? window.editAddressIdx : userData.addresses.length-1));
+      }
+    }
+    
+    saveUserData({ addresses: userData.addresses }); 
+    
+    // Обновляем отображение профиля
+    if(document.getElementById("profilePage").classList.contains("active")) {
+      renderProfile();
+    }
+    
+    // Обновляем селект в оформлении заказа
+    updateCheckoutAddressSelect();
+    
+    document.getElementById("addressModal").style.display = "none"; 
+    window.editAddressIdx = undefined;
   });
-  document.getElementById("changePasswordForm") && document.getElementById("changePasswordForm").addEventListener("submit", function(e) {
-    e.preventDefault(); let oldPass = document.getElementById("oldPassword").value, newPass = document.getElementById("newPassword").value, confirmPass = document.getElementById("confirmPassword").value;
+  
+  function updateCheckoutAddressSelect() {
+    let userData = getUserData();
+    let select = document.getElementById("checkoutAddressSelect");
+    if(select && userData.addresses) {
+      let html = '<option value="">Выберите адрес</option>';
+      for(let i=0;i<userData.addresses.length;i++) {
+        html += `<option value="${i}">${userData.addresses[i].name}: ${userData.addresses[i].city}, ${userData.addresses[i].street}</option>`;
+      }
+      select.innerHTML = html;
+      // Если есть основной адрес, выбираем его
+      let defaultIdx = userData.addresses.findIndex(a => a.default);
+      if(defaultIdx !== -1) select.value = defaultIdx;
+    }
+  }
+  
+  document.getElementById("avatarForm")?.addEventListener("submit", function(e) {
+    e.preventDefault(); 
+    let url = document.getElementById("avatarUrl").value; 
+    let file = document.getElementById("avatarFile").files[0];
+    if(file) { 
+      let reader = new FileReader(); 
+      reader.onload = function(ev) { 
+        saveUserData({ avatar: ev.target.result }); 
+        renderProfile(); 
+      }; 
+      reader.readAsDataURL(file); 
+    }
+    else if(url) { 
+      saveUserData({ avatar: url }); 
+      renderProfile(); 
+    }
+    document.getElementById("avatarModal").style.display = "none";
+  });
+  
+  document.getElementById("changePasswordForm")?.addEventListener("submit", function(e) {
+    e.preventDefault(); 
+    let oldPass = document.getElementById("oldPassword").value, 
+        newPass = document.getElementById("newPassword").value, 
+        confirmPass = document.getElementById("confirmPassword").value;
     if(oldPass !== currentUser.password) { alert("Неверный текущий пароль"); return; }
     if(newPass !== confirmPass) { alert("Пароли не совпадают"); return; }
-    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) { users[i].password = newPass; break; }
-    localStorage.setItem("mirror_users", JSON.stringify(users)); currentUser.password = newPass; localStorage.setItem("mirror_current_user", JSON.stringify(currentUser));
-    alert("Пароль успешно изменен!"); document.getElementById("changePasswordModal").style.display = "none";
+    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) { users[i].password = newPass; break; }
+    localStorage.setItem("mirror_users", JSON.stringify(users)); 
+    currentUser.password = newPass; 
+    localStorage.setItem("mirror_current_user", JSON.stringify(currentUser));
+    alert("Пароль успешно изменен!"); 
+    document.getElementById("changePasswordModal").style.display = "none";
   });
   
   document.getElementById("loginBtnHeader").onclick = () => document.getElementById("authModal").style.display = "flex";
@@ -875,40 +1212,75 @@
   document.getElementById("closeModelModal").onclick = () => document.getElementById("modelModal").style.display = "none";
   document.getElementById("openCartBtn").onclick = () => document.getElementById("cartSidebar").classList.add("open");
   document.getElementById("closeCartBtn").onclick = () => document.getElementById("cartSidebar").classList.remove("open");
-  document.getElementById("checkoutFromCartBtn").onclick = () => { document.getElementById("cartSidebar").classList.remove("open"); if(cart.length) { let total = 0; for(let i=0;i<cart.length;i++) total += cart[i].price * cart[i].quantity; let html = "<strong>Ваш заказ:</strong><br>"; for(let i=0;i<cart.length;i++) html += cart[i].name + " (" + cart[i].size + ") x" + cart[i].quantity + " — " + formatPrice(cart[i].price*cart[i].quantity) + "<br>"; html += "<br><strong>Итого: " + formatPrice(total) + "</strong>"; document.getElementById("checkoutSummary").innerHTML = html; updateCheckoutAddresses(); document.getElementById("checkoutPage").style.display = "flex"; } else alert("Корзина пуста"); };
+  document.getElementById("checkoutFromCartBtn").onclick = () => { 
+    document.getElementById("cartSidebar").classList.remove("open"); 
+    if(cart.length) { 
+      let total = 0; 
+      for(let i=0;i<cart.length;i++) total += cart[i].price * cart[i].quantity; 
+      let html = "<strong>Ваш заказ:</strong><br>"; 
+      for(let i=0;i<cart.length;i++) html += cart[i].name + " (" + cart[i].size + ") x" + cart[i].quantity + " — " + formatPrice(cart[i].price*cart[i].quantity) + "<br>"; 
+      html += "<br><strong>Итого: " + formatPrice(total) + "</strong>"; 
+      document.getElementById("checkoutSummary").innerHTML = html; 
+      updateCheckoutAddressSelect();
+      document.getElementById("checkoutPage").style.display = "flex"; 
+    } else alert("Корзина пуста"); 
+  };
   document.getElementById("closeCheckoutBtn").onclick = () => document.getElementById("checkoutPage").style.display = "none";
   document.getElementById("modalAddToCartBtn").onclick = () => { if(currentProduct && selectedSize) addToCart(currentProduct, selectedSize); };
   document.getElementById("logoutBtn").onclick = logout;
+  document.getElementById("addAddressCheckout")?.addEventListener("click", () => {
+    window.editAddressIdx = null;
+    document.getElementById("addressModalTitle").innerText = "ДОБАВИТЬ АДРЕС";
+    document.getElementById("addressForm").reset();
+    document.getElementById("addressModal").style.display = "flex";
+  });
   
   document.getElementById("authForm").onsubmit = function(e) {
-    e.preventDefault(); let name = document.getElementById("regName").value.trim(), email = document.getElementById("regEmail").value.trim(), pass = document.getElementById("regPassword").value;
+    e.preventDefault(); 
+    let name = document.getElementById("regName").value.trim(), 
+        email = document.getElementById("regEmail").value.trim(), 
+        pass = document.getElementById("regPassword").value;
     if(!name || !email || !pass) return alert("Заполните все поля");
-    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); for(let i=0;i<users.length;i++) if(users[i].email === email) return alert("Email уже зарегистрирован");
-    users.push({ name, email, password: pass, orders: [], addresses: [], avatar: "" }); localStorage.setItem("mirror_users", JSON.stringify(users));
-    saveUserSession({ name, email, password: pass }); alert("Регистрация успешна! Добро пожаловать!"); document.getElementById("authModal").style.display = "none";
+    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    for(let i=0;i<users.length;i++) if(users[i].email === email) return alert("Email уже зарегистрирован");
+    users.push({ name, email, password: pass, orders: [], addresses: [], avatar: "" }); 
+    localStorage.setItem("mirror_users", JSON.stringify(users));
+    saveUserSession({ name, email, password: pass }); 
+    alert("Регистрация успешна! Добро пожаловать!"); 
+    document.getElementById("authModal").style.display = "none";
   };
   document.getElementById("loginForm").onsubmit = function(e) {
-    e.preventDefault(); let email = document.getElementById("loginEmail").value.trim(), pass = document.getElementById("loginPassword").value;
-    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); let user = null; for(let i=0;i<users.length;i++) if(users[i].email === email && users[i].password === pass) { user = users[i]; break; }
-    if(user) { saveUserSession({ name: user.name, email: user.email, password: user.password }); alert("Добро пожаловать!"); document.getElementById("loginModal").style.display = "none"; }
+    e.preventDefault(); 
+    let email = document.getElementById("loginEmail").value.trim(), 
+        pass = document.getElementById("loginPassword").value;
+    let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
+    let user = null; 
+    for(let i=0;i<users.length;i++) if(users[i].email === email && users[i].password === pass) { user = users[i]; break; }
+    if(user) { 
+      saveUserSession({ name: user.name, email: user.email, password: user.password }); 
+      alert("Добро пожаловать!"); 
+      document.getElementById("loginModal").style.display = "none"; 
+    }
     else alert("Неверный email или пароль");
   };
   document.getElementById("switchAuthBtn").onclick = () => { document.getElementById("authModal").style.display = "none"; document.getElementById("loginModal").style.display = "flex"; };
   document.getElementById("switchToRegister").onclick = () => { document.getElementById("loginModal").style.display = "none"; document.getElementById("authModal").style.display = "flex"; };
-  document.getElementById("currencySelect").onchange = function(e) { currentCurrency = e.target.value; renderProducts(); updateCartUI(); };
+  document.getElementById("currencySelect").onchange = function(e) { 
+    currentCurrency = e.target.value; 
+    renderProducts(); 
+    updateCartUI(); 
+    if(document.getElementById("profilePage").classList.contains("active") && currentUser) renderProfile(); 
+  };
   
   // Техподдержка
-  document.getElementById("supportBtn").onclick = () => {
-    let popup = document.getElementById("supportPopup");
-    popup.classList.toggle("show");
-  };
+  document.getElementById("supportBtn").onclick = () => { document.getElementById("supportPopup").classList.toggle("show"); };
   document.addEventListener("click", function(e) {
     let popup = document.getElementById("supportPopup");
     let btn = document.getElementById("supportBtn");
     if(!btn.contains(e.target) && !popup.contains(e.target)) popup.classList.remove("show");
   });
   
-  // Аккордеон в футере
+  // Аккордеон
   let accordionHeaders = document.querySelectorAll(".accordion-header");
   for(let i=0;i<accordionHeaders.length;i++) {
     accordionHeaders[i].addEventListener("click", function() {
@@ -926,11 +1298,39 @@
   }
   
   let navBtns = document.querySelectorAll(".nav-btn");
-  for(let i=0;i<navBtns.length;i++) navBtns[i].onclick = function() { for(let j=0;j<navBtns.length;j++) navBtns[j].classList.remove("active"); this.classList.add("active"); document.querySelectorAll(".page").forEach(p => p.classList.remove("active")); document.getElementById(this.dataset.page + "Page").classList.add("active"); if(this.dataset.page === "shop") { renderTabs(); renderProducts(); } if(this.dataset.page === "profile" && currentUser) renderProfile(); if(this.dataset.page === "models") renderModels(); };
-  document.getElementById("logoLink").onclick = () => { for(let i=0;i<navBtns.length;i++) navBtns[i].classList.remove("active"); document.querySelector(".nav-btn[data-page='shop']").classList.add("active"); document.querySelectorAll(".page").forEach(p => p.classList.remove("active")); document.getElementById("shopPage").classList.add("active"); renderTabs(); renderProducts(); };
+  for(let i=0;i<navBtns.length;i++) navBtns[i].onclick = function() { 
+    for(let j=0;j<navBtns.length;j++) navBtns[j].classList.remove("active"); 
+    this.classList.add("active"); 
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active")); 
+    document.getElementById(this.dataset.page + "Page").classList.add("active"); 
+    if(this.dataset.page === "shop") { renderTabs(); renderProducts(); } 
+    if(this.dataset.page === "profile" && currentUser) renderProfile(); 
+    if(this.dataset.page === "models") renderModels(); 
+  };
+  document.getElementById("logoLink").onclick = () => { 
+    for(let i=0;i<navBtns.length;i++) navBtns[i].classList.remove("active"); 
+    document.querySelector(".nav-btn[data-page='shop']").classList.add("active"); 
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active")); 
+    document.getElementById("shopPage").classList.add("active"); 
+    renderTabs(); renderProducts(); 
+  };
   
-  setTimeout(function() { let splash = document.getElementById("splash"); if(splash) { splash.classList.add("splash-hidden"); setTimeout(function() { splash.style.display = "none"; }, 500); } }, 1500);
-  setupAdminAccount(); loadProducts(); loadModels(); loadUser(); renderTabs(); renderProducts(); renderModels(); updateCartUI();
+  setTimeout(function() { 
+    let splash = document.getElementById("splash"); 
+    if(splash) { 
+      splash.classList.add("splash-hidden"); 
+      setTimeout(function() { splash.style.display = "none"; }, 500); 
+    } 
+  }, 1500);
+  
+  setupAdminAccount(); 
+  loadProducts(); 
+  loadModels(); 
+  loadUser(); 
+  renderTabs(); 
+  renderProducts(); 
+  renderModels(); 
+  updateCartUI();
 </script>
 </body>
 </html>
