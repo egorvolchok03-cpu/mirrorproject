@@ -418,6 +418,76 @@
       from { transform: translateX(100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
+    
+    /* Стили для добавления фото по URL */
+    .add-url-section {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #111;
+      border-radius: 12px;
+      border: 1px solid #2c2c2c;
+    }
+    .url-input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .url-input-group input {
+      flex: 1;
+      padding: 0.7rem;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 8px;
+    }
+    .add-url-btn {
+      background: #c0392b;
+      border: none;
+      color: white;
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    .add-url-btn:hover {
+      background: #e05a4a;
+    }
+    .images-list {
+      margin-top: 1rem;
+    }
+    .image-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #1a1a1a;
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      margin: 0.25rem;
+    }
+    .image-item img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .image-item span {
+      font-size: 0.7rem;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .remove-image-btn {
+      background: none;
+      border: none;
+      color: #c0392b;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .remove-image-btn:hover {
+      color: #e05a4a;
+    }
   </style>
 </head>
 <body>
@@ -518,9 +588,49 @@
 
 <div id="checkoutPage" class="modal"><div class="modal-content"><h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2><div id="checkoutSummary" style="background:#111; padding:1rem; border-radius:12px; margin:1rem 0;"></div><form id="checkoutForm"><div class="form-group"><label>Адрес доставки</label><input type="text" id="checkoutAddress" required placeholder="г. Минск, ул. Мележа, 5"></div><div class="form-group"><label>Телефон</label><input type="tel" id="checkoutPhone" required placeholder="+375 XX XXX XX XX"></div><div class="form-group"><label>Имя получателя</label><input type="text" id="checkoutName" required placeholder="Ваше имя"></div><div class="form-group"><label>Telegram (необязательно)</label><input type="text" id="checkoutTelegram" placeholder="@username или номер телефона"></div><div class="modal-buttons"><button type="button" id="closeCheckoutBtn" class="modal-btn">НАЗАД</button><button type="submit" class="modal-btn primary">ОФОРМИТЬ ЗАКАЗ</button></div></form></div></div>
 
-<div id="editProductModal" class="modal"><div class="modal-content" style="max-width: 600px;"><h2>РЕДАКТИРОВАНИЕ ТОВАРА</h2><form id="editProductForm"><div class="form-group"><label>Название</label><input type="text" id="editName" required></div><div class="form-group"><label>Цена (BYN)</label><input type="number" id="editPrice" required></div><div class="form-group"><label>Старая цена (скидка)</label><input type="number" id="editOldPrice" placeholder="Оставьте пустым"></div><div class="form-group"><label>Фотографии товара</label><input type="file" id="editImagesFiles" accept="image/*" multiple></div><div class="form-group"><label>Остатки (S:5, M:3, L:0)</label><input type="text" id="editStock" placeholder="S:5, M:3, L:0"></div><div class="form-group" id="dropTabCloseGroup" style="display: none;"><label><input type="checkbox" id="editTabClosed"> Закрыть вкладку DROP</label></div><div id="currentImages" style="margin: 10px 0;"><label>Текущие фото:</label><div id="currentImagesList" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:5px;"></div></div><div class="modal-buttons"><button type="button" id="closeEditModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
+<div id="editProductModal" class="modal">
+  <div class="modal-content" style="max-width: 650px;">
+    <h2>РЕДАКТИРОВАНИЕ ТОВАРА</h2>
+    <form id="editProductForm">
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" id="editName" required>
+      </div>
+      <div class="form-group">
+        <label>Цена (BYN)</label>
+        <input type="number" id="editPrice" required>
+      </div>
+      <div class="form-group">
+        <label>Старая цена (скидка)</label>
+        <input type="number" id="editOldPrice" placeholder="Оставьте пустым">
+      </div>
+      <div class="form-group">
+        <label>Остатки (S:5, M:3, L:0)</label>
+        <input type="text" id="editStock" placeholder="S:5, M:3, L:0">
+      </div>
+      <div class="form-group" id="dropTabCloseGroup" style="display: none;">
+        <label><input type="checkbox" id="editTabClosed"> Закрыть вкладку DROP</label>
+      </div>
+      
+      <!-- Добавление фото по URL -->
+      <div class="add-url-section">
+        <label>Фотографии товара</label>
+        <div class="url-input-group">
+          <input type="text" id="newImageUrl" placeholder="https://example.com/photo.jpg">
+          <button type="button" id="addImageUrlBtn" class="add-url-btn">+ ДОБАВИТЬ ПО ССЫЛКЕ</button>
+        </div>
+        <div id="imagesList" class="images-list"></div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button type="button" id="closeEditModal" class="modal-btn">ОТМЕНА</button>
+        <button type="submit" class="modal-btn primary">СОХРАНИТЬ</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-<div id="modelModal" class="modal"><div class="modal-content"><h2 id="modelModalTitle">ДОБАВИТЬ ФОТО МОДЕЛИ</h2><form id="modelForm"><div class="form-group"><label>Выберите фото</label><input type="file" id="modelFile" accept="image/*" required></div><div class="modal-buttons"><button type="button" id="closeModelModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ДОБАВИТЬ</button></div></form></div></div>
+<div id="modelModal" class="modal"><div class="modal-content"><h2 id="modelModalTitle">ДОБАВИТЬ ФОТО МОДЕЛИ</h2><form id="modelForm"><div class="form-group"><label>URL фото</label><input type="url" id="modelImageUrl" required placeholder="https://example.com/photo.jpg"></div><div class="modal-buttons"><button type="button" id="closeModelModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ДОБАВИТЬ</button></div></form></div></div>
 
 <div class="support-chat">
   <button class="support-btn" id="supportBtn"><i class="fas fa-comment-dots"></i></button>
@@ -784,7 +894,6 @@
   function renderModels() {
     let html = "";
     
-    // Показываем квадрат с плюсом ТОЛЬКО для админа
     if(isAdmin) {
       html += '<div class="model-add" id="addModelBtn"><i class="fas fa-plus-circle"></i><span>Добавить фото</span></div>';
     }
@@ -812,39 +921,55 @@
   function openModelModal(index = null) {
     window.currentModelIndex = index;
     document.getElementById("modelModalTitle").innerText = index !== null ? "ЗАМЕНИТЬ ФОТО" : "ДОБАВИТЬ ФОТО";
-    document.getElementById("modelFile").value = "";
+    document.getElementById("modelImageUrl").value = "";
     document.getElementById("modelModal").style.display = "flex";
   }
   
   document.getElementById("modelForm").addEventListener("submit", function(e) {
     e.preventDefault();
-    let file = document.getElementById("modelFile").files[0];
-    if(file) {
-      let reader = new FileReader();
-      reader.onload = function(ev) {
-        if(window.currentModelIndex !== null) models[window.currentModelIndex] = ev.target.result;
-        else models.push(ev.target.result);
-        saveModels();
-        renderModels();
-        document.getElementById("modelModal").style.display = "none";
-      };
-      reader.readAsDataURL(file);
+    let url = document.getElementById("modelImageUrl").value.trim();
+    if(url) {
+      if(window.currentModelIndex !== null) models[window.currentModelIndex] = url;
+      else models.push(url);
+      saveModels();
+      renderModels();
+      document.getElementById("modelModal").style.display = "none";
     }
   });
   
-  function removeProductImage(productId, imageIndex) {
-    let product = products.find(p => p.id === productId);
-    if (product && product.images) {
-      product.images.splice(imageIndex, 1);
-      if (product.images.length > 0) {
-        product.img = product.images[0];
-      } else {
-        product.img = "https://placehold.co/600x600/1a1a1a/aaa?text=NO+IMAGE";
-        product.images = [product.img];
-      }
-      saveProducts();
-      renderProducts();
-      openEditModal(productId);
+  // Функция для отображения списка фото
+  function updateImagesList(product) {
+    const container = document.getElementById("imagesList");
+    if (!container) return;
+    
+    container.innerHTML = "";
+    if (product.images && product.images.length > 0) {
+      product.images.forEach((img, idx) => {
+        const div = document.createElement("div");
+        div.className = "image-item";
+        div.innerHTML = `
+          <img src="${img}" onerror="this.src='https://placehold.co/60x60/333/888?text=Error'">
+          <span>${img.length > 40 ? img.substring(0, 40) + "..." : img}</span>
+          <button type="button" class="remove-image-btn" data-idx="${idx}">✕</button>
+        `;
+        container.appendChild(div);
+      });
+      
+      container.querySelectorAll(".remove-image-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const idx = parseInt(btn.dataset.idx);
+          product.images.splice(idx, 1);
+          if (product.images.length > 0) {
+            product.img = product.images[0];
+          } else {
+            product.img = "https://placehold.co/600x600/1a1a1a/aaa?text=NO+IMAGE";
+            product.images = [product.img];
+          }
+          updateImagesList(product);
+        });
+      });
+    } else {
+      container.innerHTML = '<div style="opacity:0.5; text-align:center; padding:1rem;">Нет фотографий</div>';
     }
   }
   
@@ -859,24 +984,30 @@
     let dropGroup = document.getElementById("dropTabCloseGroup");
     if(product.category === "drop") { dropGroup.style.display = "block"; document.getElementById("editTabClosed").checked = dropTabClosed; }
     else dropGroup.style.display = "none";
-    document.getElementById("editImagesFiles").value = "";
+    document.getElementById("newImageUrl").value = "";
     window.currentEditId = productId;
     
-    let imagesList = document.getElementById("currentImagesList");
-    if (imagesList) {
-        imagesList.innerHTML = "";
-        if (product.images && product.images.length) {
-            product.images.forEach((img, idx) => {
-                imagesList.innerHTML += `<div style="position:relative; width:60px; height:60px;">
-                    <img src="${img}" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
-                    <button type="button" onclick="removeProductImage(${product.id}, ${idx})" style="position:absolute; top:-5px; right:-5px; background:#c0392b; border:none; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer;">×</button>
-                </div>`;
-            });
-        }
-    }
-    
+    updateImagesList(product);
     document.getElementById("editProductModal").style.display = "flex";
   }
+  
+  document.getElementById("addImageUrlBtn").addEventListener("click", function() {
+    const product = products.find(p => p.id === window.currentEditId);
+    if (!product) return;
+    
+    const url = document.getElementById("newImageUrl").value.trim();
+    if (!url) {
+      showNotification("Введите URL фотографии", "error");
+      return;
+    }
+    
+    if (!product.images) product.images = [];
+    product.images.push(url);
+    product.img = product.images[0];
+    updateImagesList(product);
+    document.getElementById("newImageUrl").value = "";
+    showNotification("Фото добавлено", "success");
+  });
   
   document.getElementById("editProductForm").addEventListener("submit", async function(e) {
     e.preventDefault();
@@ -886,33 +1017,6 @@
       product.price = parseFloat(document.getElementById("editPrice").value);
       product.oldPrice = document.getElementById("editOldPrice").value ? parseFloat(document.getElementById("editOldPrice").value) : null;
       
-      let files = document.getElementById("editImagesFiles").files;
-      if(files.length > 0) {
-        showNotification("⏳ Загрузка фотографий...", "success");
-        let newImages = [...(product.images || [])];
-        let loadedCount = 0;
-        
-        for(let i=0;i<files.length;i++) {
-          let reader = new FileReader();
-          reader.onload = (function(fileReader, idx) {
-            return function(ev) {
-              newImages.push(ev.target.result);
-              loadedCount++;
-              if(loadedCount === files.length) {
-                product.images = newImages;
-                product.img = product.images[0];
-                finishSave(product);
-              }
-            };
-          })(reader, i);
-          reader.readAsDataURL(files[i]);
-        }
-        return;
-      }
-      finishSave(product);
-    }
-    
-    async function finishSave(product) {
       let stockInput = document.getElementById("editStock").value;
       let stock = {};
       let stockPairs = stockInput.split(",");
@@ -923,24 +1027,13 @@
       product.stock = stock;
       if(product.category === "drop") dropTabClosed = document.getElementById("editTabClosed").checked;
       
-      // Сохраняем в localStorage
+      // Сохраняем в localStorage и облако
       localStorage.setItem("mirror_products", JSON.stringify(products));
       localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
+      await saveAllToCloud();
       
-      // Сохраняем в облако и ждём завершения
-      showNotification("💾 Сохранение в облако...", "success");
-      const saved = await saveAllToCloud();
-      
-      if(saved) {
-        // Дополнительная проверка: загружаем обратно из облака
-        await loadAllFromCloud();
-        showNotification("✅ Товар сохранён и синхронизирован!", "success");
-      } else {
-        showNotification("⚠️ Ошибка синхронизации, данные сохранены локально", "error");
-      }
-      
-      renderTabs();
       renderProducts();
+      showNotification("✅ Товар сохранён и синхронизирован!", "success");
       document.getElementById("editProductModal").style.display = "none";
     }
   });
@@ -1155,9 +1248,6 @@
   renderProducts(); 
   renderModels(); 
   updateCartUI();
-  
-  // Делаем функцию глобальной для вызова из onclick
-  window.removeProductImage = removeProductImage;
 </script>
 </body>
 </html>
