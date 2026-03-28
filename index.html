@@ -418,22 +418,6 @@
       from { transform: translateX(100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
-    
-    .sync-btn {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: #c0392b;
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 12px;
-      z-index: 1000;
-      display: none;
-    }
-    .sync-btn:hover { background: #e05a4a; }
   </style>
 </head>
 <body>
@@ -546,8 +530,6 @@
     <p>Email: <a href="mailto:support@mirror-project.by">support@mirror-project.by</a></p>
   </div>
 </div>
-
-<button class="sync-btn" id="syncBtn">🔄 Синхронизировать</button>
 
 <script>
   // ========== JSONBIN НАСТРОЙКИ ==========
@@ -745,16 +727,13 @@
   function updateAdminUI() {
     const adminInfo = document.getElementById("adminInfoArea");
     const adminLoginBtn = document.getElementById("adminLoginBtn");
-    const syncBtn = document.getElementById("syncBtn");
     
     if (isAdmin) {
       adminInfo.style.display = "flex";
       adminLoginBtn.style.display = "none";
-      if (syncBtn) syncBtn.style.display = "block";
     } else {
       adminInfo.style.display = "none";
       adminLoginBtn.style.display = "block";
-      if (syncBtn) syncBtn.style.display = "none";
     }
   }
   
@@ -803,7 +782,13 @@
   }
   
   function renderModels() {
-    let html = '<div class="model-add" id="addModelBtn"><i class="fas fa-plus-circle"></i><span>Добавить фото</span></div>';
+    let html = "";
+    
+    // Показываем квадрат с плюсом ТОЛЬКО для админа
+    if(isAdmin) {
+      html += '<div class="model-add" id="addModelBtn"><i class="fas fa-plus-circle"></i><span>Добавить фото</span></div>';
+    }
+    
     for(let i=0;i<models.length;i++) {
       html += '<div class="model-card" data-id="' + i + '">';
       if(isAdmin) {
@@ -904,21 +889,17 @@
       let files = document.getElementById("editImagesFiles").files;
       if(files.length > 0) {
         showNotification("⏳ Загрузка фотографий...", "success");
-        let newImages = [];
+        let newImages = [...(product.images || [])];
         let loadedCount = 0;
         
         for(let i=0;i<files.length;i++) {
           let reader = new FileReader();
           reader.onload = (function(fileReader, idx) {
             return function(ev) {
-              newImages[idx] = ev.target.result;
+              newImages.push(ev.target.result);
               loadedCount++;
               if(loadedCount === files.length) {
-                if (product.images) {
-                  product.images = [...product.images, ...newImages];
-                } else {
-                  product.images = newImages;
-                }
+                product.images = newImages;
                 product.img = product.images[0];
                 finishSave(product);
               }
@@ -948,11 +929,18 @@
       
       // Сохраняем в облако и ждём завершения
       showNotification("💾 Сохранение в облако...", "success");
-      await saveAllToCloud();
+      const saved = await saveAllToCloud();
+      
+      if(saved) {
+        // Дополнительная проверка: загружаем обратно из облака
+        await loadAllFromCloud();
+        showNotification("✅ Товар сохранён и синхронизирован!", "success");
+      } else {
+        showNotification("⚠️ Ошибка синхронизации, данные сохранены локально", "error");
+      }
       
       renderTabs();
       renderProducts();
-      showNotification("✅ Товар сохранён и синхронизирован!", "success");
       document.getElementById("editProductModal").style.display = "none";
     }
   });
@@ -1101,20 +1089,6 @@
     document.getElementById("addressForm").reset();
     document.getElementById("addressModal").style.display = "flex";
   });
-  
-  // Кнопка синхронизации
-  document.getElementById("syncBtn").onclick = async function() {
-    let btn = this;
-    btn.textContent = "🔄 Синхронизация...";
-    btn.disabled = true;
-    await saveAllToCloud();
-    await loadAllFromCloud();
-    btn.textContent = "✅ Готово!";
-    setTimeout(() => {
-      btn.textContent = "🔄 Синхронизировать";
-      btn.disabled = false;
-    }, 2000);
-  };
   
   // Техподдержка
   document.getElementById("supportBtn").onclick = () => { document.getElementById("supportPopup").classList.toggle("show"); };
