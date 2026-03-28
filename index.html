@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ВСЕ ТВОИ СТИЛИ ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
@@ -568,6 +567,22 @@
     .support-popup p { margin-bottom: 0.5rem; color: #e8e8e8; }
     .support-popup a { color: #c0392b; text-decoration: none; }
     @keyframes fadeInPopup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Кнопка синхронизации */
+    .sync-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #c0392b;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 12px;
+      z-index: 1000;
+    }
+    .sync-btn:hover { background: #e05a4a; }
   </style>
 </head>
 <body>
@@ -690,6 +705,8 @@
   </div>
 </div>
 
+<button class="sync-btn" id="syncBtn">🔄 Синхронизировать</button>
+
 <script>
   // ========== JSONBIN НАСТРОЙКИ ==========
   const BIN_ID = "69c6f12baa77b81da9288b2a";
@@ -758,45 +775,84 @@
   async function loadAllFromCloud() {
     try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, {
-            headers: { "X-Master-Key": API_KEY }
+            headers: { 
+                "X-Master-Key": API_KEY,
+                "Content-Type": "application/json"
+            }
         });
         
-        if (!res.ok) return;
+        if (!res.ok) {
+            console.error("❌ Ошибка загрузки, статус:", res.status);
+            return false;
+        }
         
         const data = await res.json();
+        console.log("📦 Данные из облака:", data);
         
-        if (data.record && data.record.users) {
-            localStorage.setItem("mirror_users", JSON.stringify(data.record.users));
-            console.log("✅ Загружено", data.record.users.length, "пользователей");
+        let updated = false;
+        
+        if (data.record && data.record.products && data.record.products.length > 0) {
+            for (let cloudProduct of data.record.products) {
+                let localProduct = products.find(p => p.id === cloudProduct.id);
+                if (localProduct) {
+                    localProduct.price = cloudProduct.price;
+                    localProduct.oldPrice = cloudProduct.oldPrice;
+                    if (cloudProduct.stock) localProduct.stock = cloudProduct.stock;
+                    if (cloudProduct.name) localProduct.name = cloudProduct.name;
+                    if (cloudProduct.img) localProduct.img = cloudProduct.img;
+                }
+            }
+            localStorage.setItem("mirror_products", JSON.stringify(products));
+            console.log("✅ Товары обновлены из облака");
+            updated = true;
         }
         
         if (data.record && data.record.models) {
             models = data.record.models;
             localStorage.setItem("mirror_models", JSON.stringify(models));
             renderModels();
+            updated = true;
         }
         
-        if (data.record && data.record.products) {
-            for (let cloudProduct of data.record.products) {
-                let localProduct = products.find(p => p.id === cloudProduct.id);
-                if (localProduct) {
-                    localProduct.price = cloudProduct.price;
-                    localProduct.oldPrice = cloudProduct.oldPrice;
-                }
-            }
-            localStorage.setItem("mirror_products", JSON.stringify(products));
-            renderProducts();
-            renderTabs();
+        if (data.record && data.record.users) {
+            localStorage.setItem("mirror_users", JSON.stringify(data.record.users));
+            console.log("✅ Загружено", data.record.users.length, "пользователей");
+            updated = true;
         }
         
         if (data.record && data.record.dropClosed !== undefined) {
             dropTabClosed = data.record.dropClosed;
             localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
+            updated = true;
         }
         
+        if (updated) {
+            renderProducts();
+            renderTabs();
+            if (currentUser) renderProfile();
+        }
+        
+        return true;
     } catch(e) {
-        console.error("❌ Ошибка загрузки:", e);
+        console.error("❌ Ошибка загрузки из облака:", e);
+        return false;
     }
+  }
+  
+  // ========== ФУНКЦИЯ ПРИНУДИТЕЛЬНОЙ СИНХРОНИЗАЦИИ ==========
+  async function forceSync() {
+    const btn = document.getElementById("syncBtn");
+    btn.textContent = "🔄 Синхронизация...";
+    btn.disabled = true;
+    
+    await loadAllFromCloud();
+    await saveAllToCloud();
+    
+    btn.textContent = "✅ Синхронизировано!";
+    setTimeout(() => {
+        btn.textContent = "🔄 Синхронизировать";
+        btn.disabled = false;
+    }, 2000);
   }
   
   function saveProducts() { 
@@ -822,8 +878,6 @@
         products[i].name = p[i].name; 
         products[i].img = p[i].img; 
       } 
-    } else { 
-      saveProducts(); 
     }
     let closed = localStorage.getItem("mirror_drop_closed"); 
     if(closed) dropTabClosed = JSON.parse(closed);
@@ -1040,7 +1094,7 @@
     for(let i=0;i<rm.length;i++) rm[i].addEventListener("click", function() { cart.splice(parseInt(this.dataset.idx),1); updateCartUI(); });
   }
   
-  // ========== ПРОФИЛЬ (с сохранением в облако) ==========
+  // ========== ПРОФИЛЬ ==========
   function getUserData() { 
     let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
     for(let i=0;i<users.length;i++) if(users[i].email === currentUser.email) return users[i]; 
@@ -1058,6 +1112,10 @@
   }
   
   function renderProfile() {
+    if (!currentUser) {
+      document.getElementById("profileContainer").innerHTML = '<div class="profile-minimal-empty">Войдите чтобы увидеть профиль</div>';
+      return;
+    }
     let userData = getUserData();
     let avatarHtml = userData.avatar ? `<img src="${userData.avatar}">` : `<i class="fas fa-user"></i>`;
     
@@ -1361,7 +1419,7 @@
     document.getElementById("addressModal").style.display = "flex";
   });
   
-  // ========== РЕГИСТРАЦИЯ С СОХРАНЕНИЕМ В ОБЛАКО ==========
+  // ========== РЕГИСТРАЦИЯ ==========
   document.getElementById("authForm").onsubmit = async function(e) {
     e.preventDefault(); 
     let name = document.getElementById("regName").value.trim(); 
@@ -1385,7 +1443,7 @@
     document.getElementById("authModal").style.display = "none";
   };
   
-  // ========== ВХОД С ЗАГРУЗКОЙ ДАННЫХ ИЗ ОБЛАКА ==========
+  // ========== ВХОД ==========
   document.getElementById("loginForm").onsubmit = async function(e) {
     e.preventDefault(); 
     let email = document.getElementById("loginEmail").value.trim(); 
@@ -1416,6 +1474,9 @@
     updateCartUI(); 
     if(document.getElementById("profilePage").classList.contains("active") && currentUser) renderProfile(); 
   };
+  
+  // Кнопка синхронизации
+  document.getElementById("syncBtn").onclick = forceSync;
   
   // Техподдержка
   document.getElementById("supportBtn").onclick = () => { document.getElementById("supportPopup").classList.toggle("show"); };
