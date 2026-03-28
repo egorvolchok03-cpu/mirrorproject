@@ -6,11 +6,15 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Mirror Project | Уличная одежда</title>
+  <title>Mirror Project</title>
+  
+  <!-- Favicon MP -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' font-weight='bold' text-anchor='middle' fill='%23e8e8e8' font-family='monospace'>MP</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' font-weight='bold' text-anchor='middle' fill='%23e8e8e8' font-family='monospace'>MP</text></svg>">
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Все стили из предыдущей версии + исправленный аккордеон */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
@@ -33,7 +37,7 @@
       padding-bottom: 1rem;
     }
     .logo-area { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .logo { font-size: 1.3rem; font-weight: 500; text-transform: uppercase; cursor: pointer; color: #e8e8e8; }
+    .logo { font-size: 1.3rem; font-weight: 500; text-transform: uppercase; cursor: pointer; color: #e8e8e8; font-family: 'Inter', sans-serif; }
     @media (min-width: 768px) { .logo { font-size: 1.8rem; } }
     .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .nav-btn {
@@ -105,27 +109,12 @@
       flex: 1;
     }
     .tab-btn {
-      background: none;
-      border: none;
-      padding: 0.4rem 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      cursor: pointer;
-      color: #e8e8e8;
-      opacity: 0.6;
-      transition: all 0.2s;
+      background: none; border: none; padding: 0.4rem 0.8rem; font-size: 0.75rem; font-weight: 500; cursor: pointer; color: #e8e8e8; opacity: 0.6; transition: all 0.2s;
     }
     .tab-btn.active { opacity: 1; border-bottom: 2px solid #e8e8e8; }
     .tab-btn.closed { text-decoration: line-through; opacity: 0.4; cursor: not-allowed; background: rgba(192,57,43,0.2); }
-    .edit-categories-btn, .add-category-btn {
-      padding: 0.3rem 0.6rem;
-      font-size: 0.7rem;
-      background: transparent;
-      border: 1px solid rgba(232,232,232,0.3);
-    }
-    .admin-only {
-      display: none;
-    }
+    .edit-categories-btn, .add-category-btn { padding: 0.3rem 0.6rem; font-size: 0.7rem; background: transparent; border: 1px solid rgba(232,232,232,0.3); }
+    .admin-only { display: none; }
     
     .products-grid {
       display: grid;
@@ -306,26 +295,11 @@
     }
     .model-card:hover .model-delete-icon { opacity: 1; }
     
-    /* Стили для заказов */
-    .orders-container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .orders-header {
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(232,232,232,0.2);
-    }
-    .orders-header h2 {
-      font-size: 1.2rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-    }
-    .orders-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    /* Заказы */
+    .orders-container { max-width: 1000px; margin: 0 auto; }
+    .orders-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(232,232,232,0.2); }
+    .orders-header h2 { font-size: 1.2rem; font-weight: 500; letter-spacing: 1px; }
+    .orders-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .order-card {
       background: #0a0a0a;
       border: 1px solid rgba(232,232,232,0.1);
@@ -333,9 +307,7 @@
       transition: all 0.2s;
       font-size: 0.75rem;
     }
-    .order-card:hover {
-      border-color: rgba(232,232,232,0.3);
-    }
+    .order-card:hover { border-color: rgba(232,232,232,0.3); }
     .order-header {
       display: flex;
       justify-content: space-between;
@@ -344,20 +316,9 @@
       padding-bottom: 0.25rem;
       border-bottom: 1px solid rgba(232,232,232,0.1);
     }
-    .order-id {
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: #c0392b;
-    }
-    .order-date {
-      font-size: 0.6rem;
-      opacity: 0.5;
-    }
-    .order-total {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #27ae60;
-    }
+    .order-id { font-size: 0.7rem; font-weight: 500; color: #c0392b; }
+    .order-date { font-size: 0.6rem; opacity: 0.5; }
+    .order-total { font-size: 0.8rem; font-weight: 600; color: #27ae60; }
     .order-info {
       display: flex;
       flex-wrap: wrap;
@@ -366,16 +327,9 @@
       padding: 0.25rem 0;
       border-bottom: 1px solid rgba(232,232,232,0.1);
     }
-    .order-info span {
-      font-size: 0.7rem;
-    }
-    .order-info strong {
-      color: #c0392b;
-      font-weight: 500;
-    }
-    .order-items {
-      margin-top: 0.25rem;
-    }
+    .order-info span { font-size: 0.7rem; }
+    .order-info strong { color: #c0392b; font-weight: 500; }
+    .order-items { margin-top: 0.25rem; }
     .order-item {
       display: flex;
       justify-content: space-between;
@@ -395,18 +349,10 @@
       transition: all 0.2s;
       text-align: right;
     }
-    .delete-order-btn:hover {
-      color: #e05a4a;
-      background: rgba(192,57,43,0.1);
-    }
-    .empty-orders {
-      text-align: center;
-      padding: 2rem;
-      opacity: 0.4;
-      font-size: 0.8rem;
-    }
+    .delete-order-btn:hover { color: #e05a4a; background: rgba(192,57,43,0.1); }
+    .empty-orders { text-align: center; padding: 2rem; opacity: 0.4; font-size: 0.8rem; }
     
-    /* Исправленный аккордеон */
+    /* Футер */
     .footer {
       margin-top: 3rem;
       padding-top: 2rem;
@@ -435,9 +381,7 @@
       transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: max-height;
     }
-    .accordion-content.show {
-      max-height: 500px;
-    }
+    .accordion-content.show { max-height: 500px; }
     .accordion-content p {
       font-size: 0.75rem;
       line-height: 1.5;
@@ -533,9 +477,7 @@
       justify-content: center;
       transition: all 0.2s;
     }
-    .close-modal-btn:hover {
-      background: rgba(255,255,255,0.1);
-    }
+    .close-modal-btn:hover { background: rgba(255,255,255,0.1); }
     
     /* Полноэкранный просмотр фото */
     .fullscreen-overlay {
@@ -571,11 +513,9 @@
       z-index: 2001;
       transition: all 0.2s;
     }
-    .fullscreen-close:hover {
-      opacity: 0.7;
-      transform: scale(1.1);
-    }
+    .fullscreen-close:hover { opacity: 0.7; transform: scale(1.1); }
     
+    /* Корзина */
     .cart-sidebar {
       position: fixed;
       top: 0;
@@ -604,10 +544,36 @@
     @keyframes glitch { 0%,100% { text-shadow: 0.02em 0 0 rgba(255,0,0,0.7), -0.02em -0.02em 0 rgba(0,255,255,0.7); } 50% { text-shadow: -0.03em 0.01em 0 rgba(255,0,0,0.7), 0.03em 0.02em 0 rgba(0,255,255,0.7); } }
     .splash-hidden { opacity: 0; visibility: hidden; transition: opacity 0.6s ease; }
     
+    /* Техподдержка */
     .support-chat { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-    .support-btn { width: 50px; height: 50px; border-radius: 50%; background: #c0392b; border: none; color: white; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.2s; }
+    .support-btn { 
+      width: 50px; 
+      height: 50px; 
+      border-radius: 50%; 
+      background: #c0392b; 
+      border: none; 
+      color: white; 
+      font-size: 1.5rem; 
+      cursor: pointer; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+      transition: transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .support-btn:hover { transform: scale(1.1); background: #e05a4a; }
-    .support-popup { position: absolute; bottom: 70px; right: 0; width: 250px; background: #0a0a0a; border: 1px solid #333; border-radius: 16px; padding: 1rem; display: none; animation: fadeInPopup 0.2s ease; }
+    .support-popup {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 250px;
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 1rem;
+      display: none;
+      animation: fadeInPopup 0.2s ease;
+    }
     .support-popup.show { display: block; }
     .support-popup p { margin-bottom: 0.5rem; color: #e8e8e8; }
     .support-popup a { color: #c0392b; text-decoration: none; }
@@ -637,36 +603,11 @@
       border-radius: 12px;
       border: 1px solid #2c2c2c;
     }
-    .url-input-group {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .url-input-group input {
-      flex: 1;
-      padding: 0.7rem;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: #fff;
-      border-radius: 8px;
-    }
-    .add-url-btn {
-      background: #c0392b;
-      border: none;
-      color: white;
-      padding: 0.7rem 1rem;
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 0.7rem;
-      font-weight: 500;
-    }
-    .add-url-btn:hover {
-      background: #e05a4a;
-    }
-    .images-list {
-      margin-top: 1rem;
-    }
+    .url-input-group { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+    .url-input-group input { flex: 1; padding: 0.7rem; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; }
+    .add-url-btn { background: #c0392b; border: none; color: white; padding: 0.7rem 1rem; border-radius: 40px; cursor: pointer; font-size: 0.7rem; font-weight: 500; }
+    .add-url-btn:hover { background: #e05a4a; }
+    .images-list { margin-top: 1rem; }
     .image-item {
       display: inline-flex;
       align-items: center;
@@ -676,37 +617,13 @@
       border-radius: 8px;
       margin: 0.25rem;
     }
-    .image-item img {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .image-item span {
-      font-size: 0.7rem;
-      max-width: 150px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .remove-image-btn {
-      background: none;
-      border: none;
-      color: #c0392b;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .remove-image-btn:hover {
-      color: #e05a4a;
-    }
+    .image-item img { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer; }
+    .image-item span { font-size: 0.7rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .remove-image-btn { background: none; border: none; color: #c0392b; cursor: pointer; font-size: 1rem; }
+    .remove-image-btn:hover { color: #e05a4a; }
     
-    /* Модалка редактирования категорий */
-    .categories-list {
-      margin: 1rem 0;
-      max-height: 400px;
-      overflow-y: auto;
-    }
+    /* Категории */
+    .categories-list { margin: 1rem 0; max-height: 400px; overflow-y: auto; }
     .category-edit-item {
       display: flex;
       align-items: center;
@@ -715,61 +632,14 @@
       border-bottom: 1px solid rgba(232,232,232,0.1);
       flex-wrap: wrap;
     }
-    .category-edit-item input[type="text"] {
-      flex: 2;
-      min-width: 120px;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: #fff;
-      padding: 0.5rem;
-      border-radius: 8px;
-    }
-    .category-closed-checkbox {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.7rem;
-      background: #1a1a1a;
-      padding: 0.3rem 0.6rem;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-    .category-closed-checkbox input {
-      width: auto;
-      margin: 0;
-      cursor: pointer;
-    }
-    .category-edit-item button {
-      background: none;
-      border: none;
-      color: #c0392b;
-      cursor: pointer;
-      font-size: 1rem;
-      padding: 0.3rem;
-      border-radius: 50%;
-      transition: all 0.2s;
-    }
-    .category-edit-item button:hover {
-      color: #e05a4a;
-      background: rgba(192,57,43,0.1);
-    }
-    .category-order-btns {
-      display: flex;
-      gap: 0.2rem;
-    }
-    .category-order-btns button {
-      background: none;
-      border: 1px solid #333;
-      color: #e8e8e8;
-      border-radius: 4px;
-      padding: 0.2rem 0.4rem;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-    .category-order-btns button:hover {
-      background: #c0392b;
-      border-color: #c0392b;
-    }
+    .category-edit-item input[type="text"] { flex: 2; min-width: 120px; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 0.5rem; border-radius: 8px; }
+    .category-closed-checkbox { display: flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; background: #1a1a1a; padding: 0.3rem 0.6rem; border-radius: 20px; cursor: pointer; }
+    .category-closed-checkbox input { width: auto; margin: 0; cursor: pointer; }
+    .category-edit-item button { background: none; border: none; color: #c0392b; cursor: pointer; font-size: 1rem; padding: 0.3rem; border-radius: 50%; transition: all 0.2s; }
+    .category-edit-item button:hover { color: #e05a4a; background: rgba(192,57,43,0.1); }
+    .category-order-btns { display: flex; gap: 0.2rem; }
+    .category-order-btns button { background: none; border: 1px solid #333; color: #e8e8e8; border-radius: 4px; padding: 0.2rem 0.4rem; font-size: 0.7rem; cursor: pointer; }
+    .category-order-btns button:hover { background: #c0392b; border-color: #c0392b; }
   </style>
 </head>
 <body>
@@ -826,17 +696,17 @@
       <div class="accordion-item">
         <div class="accordion-header" data-accordion="delivery">ДОСТАВКА <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-delivery">
-          <p><strong>Курьерская доставка</strong><br>По Минску — 2-3 дня, 10 BYN. При заказе от 200 BYN — бесплатно.</p>
-          <p><strong>Самовывоз</strong><br>г. Минск, Метро Московская (По времени, индивидуально).</p>
-          <p><strong>Почта Беларуси</strong><br>По всей РБ — 2-4 дней, от 8 BYN. Отслеживание по трек-номеру.</p>
-          <p><strong>Международная доставка</strong><br>Временно не осуществляется.</p>
+          <p><strong>Курьерская доставка</strong><br>По Минску — 2-3 дня, 10 BYN. При заказе от 200 BYN — бесплатно. По Беларуси — 3-5 дней, 15 BYN.</p>
+          <p><strong>Самовывоз</strong><br>г. Минск, ул. Мележа, 5 (пн-пт 11:00-20:00, сб 12:00-18:00). Бесплатно.</p>
+          <p><strong>Почта Беларуси</strong><br>По всей РБ — 5-10 дней, от 8 BYN. Отслеживание по трек-номеру.</p>
+          <p><strong>Международная доставка</strong><br>РФ, страны СНГ, Европа — от 10 дней. Стоимость рассчитывается индивидуально.</p>
         </div>
       </div>
       <div class="accordion-item">
         <div class="accordion-header" data-accordion="payment">ОПЛАТА <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-payment">
           <p><strong>При заказе с доставкой почтой:</strong> оплата наложенным платежом при получении.</p>
-          <p><strong>При заказе с курьерской доставкой по Минску:</strong> оплата наличными курьеру.</p>
+          <p><strong>При заказе с курьерской доставкой по Минску:</strong> оплата наличными курьеру или картой при получении.</p>
           <p><strong>Самовывоз:</strong> оплата на месте.</p>
           <p>Мы принимаем наличные, банковские карты (Visa, Mastercard, Белкарт), а также оплату через ЕРИП.</p>
         </div>
@@ -869,12 +739,12 @@
     </div>
     <div class="footer-copyright">
       <div class="creator">создатель бренда / генеральный директор Волчок Егор</div>
-      <div class="footer-requisites"></div>
+      <div class="footer-requisites">ИП Волчок Егор Сергеевич | УНП: 192837465 | г. Минск, ул. Мележа, 5, оф. 42</div>
     </div>
   </div>
 </div>
 
-<!-- Модальные окна (остаются без изменений) -->
+<!-- Модальные окна -->
 <div id="addressModal" class="modal"><div class="modal-content"><h2 id="addressModalTitle">АДРЕС ДОСТАВКИ</h2><form id="addressForm"><div class="form-group"><label>Город</label><input type="text" id="addressCity" required placeholder="Минск"></div><div class="form-group"><label>Улица, дом</label><input type="text" id="addressStreet" required placeholder="ул. Мележа, 5"></div><div class="form-group"><label>Индекс</label><input type="text" id="addressZip" placeholder="220000"></div><div class="modal-buttons"><button type="button" id="closeAddressModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
 
 <div id="productModal" class="modal"><div class="modal-content product-modal-content"><button class="close-modal-btn" id="closeModalBtn">&times;</button><div class="product-modal-img"><div class="gallery-container"><div class="gallery-main"><img id="modalMainImage" src=""></div><div class="gallery-thumbnails" id="galleryThumbnails"></div></div></div><div class="product-modal-info"><h2 id="modalTitle"></h2><div class="product-category" id="modalCategory"></div><div class="product-price" id="modalPrice"></div><div>Размер:</div><div class="size-selector" id="sizeSelector"></div><button class="add-to-cart-btn" id="modalAddToCartBtn">ДОБАВИТЬ В КОРЗИНУ</button></div></div></div>
@@ -887,23 +757,10 @@
   <div class="modal-content" style="max-width: 650px;">
     <h2>РЕДАКТИРОВАНИЕ ТОВАРА</h2>
     <form id="editProductForm">
-      <div class="form-group">
-        <label>Название</label>
-        <input type="text" id="editName" required>
-      </div>
-      <div class="form-group">
-        <label>Цена (BYN)</label>
-        <input type="number" id="editPrice" required>
-      </div>
-      <div class="form-group">
-        <label>Старая цена (скидка)</label>
-        <input type="number" id="editOldPrice" placeholder="Оставьте пустым">
-      </div>
-      <div class="form-group">
-        <label>Остатки (S:5, M:3, L:0)</label>
-        <input type="text" id="editStock" placeholder="S:5, M:3, L:0">
-      </div>
-      
+      <div class="form-group"><label>Название</label><input type="text" id="editName" required></div>
+      <div class="form-group"><label>Цена (BYN)</label><input type="number" id="editPrice" required></div>
+      <div class="form-group"><label>Старая цена (скидка)</label><input type="number" id="editOldPrice" placeholder="Оставьте пустым"></div>
+      <div class="form-group"><label>Остатки (S:5, M:3, L:0)</label><input type="text" id="editStock" placeholder="S:5, M:3, L:0"></div>
       <div class="add-url-section">
         <label>Фотографии товара</label>
         <div class="url-input-group">
@@ -912,7 +769,6 @@
         </div>
         <div id="imagesList" class="images-list"></div>
       </div>
-      
       <div class="modal-buttons">
         <button type="button" id="closeEditModal" class="modal-btn">ОТМЕНА</button>
         <button type="submit" class="modal-btn primary">СОХРАНИТЬ</button>
@@ -934,6 +790,7 @@
   </div>
 </div>
 
+<!-- Техподдержка -->
 <div class="support-chat">
   <button class="support-btn" id="supportBtn">
     <i class="fas fa-comment-dots"></i>
@@ -942,6 +799,7 @@
     <p><i class="fas fa-headset"></i> <strong>Вам помочь?</strong></p>
     <p>Telegram: <a href="https://t.me/mirror_project" target="_blank">@mirror_project</a></p>
     <p>Email: <a href="mailto:support@mirror-project.by">support@mirror-project.by</a></p>
+    <p style="font-size:0.7rem; margin-top:0.5rem;">Ответим в течение 24 часов</p>
   </div>
 </div>
 
@@ -965,7 +823,7 @@
     { id: 1, name: "OVERSIZED BLACK", category: "hoodies", typeLabel: "HOODIE", price: 149, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:5, XL:5}, img: "https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE", images: ["https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE"] },
     { id: 2, name: "MIRROR EDITION", category: "hoodies", typeLabel: "HOODIE", price: 169, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:3, M:5, L:4, XL:2}, img: "https://placehold.co/600x600/222222/ccc?text=MIRROR", images: ["https://placehold.co/600x600/222222/ccc?text=MIRROR"] },
     { id: 3, name: "ASH GREY", category: "hoodies", typeLabel: "HOODIE", price: 139, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:2, M:4, L:5, XL:3}, img: "https://placehold.co/600x600/3a3a3a/ccc?text=ASH", images: ["https://placehold.co/600x600/3a3a3a/ccc?text=ASH"] },
-    { id: 4, name: "MIRROR PROJECT", category: "tshirts", typeLabel: "T-SHIRT", price: 69, oldPrice: null, sizes: ["XS","S","M","L"], stock: {XS:4, S:5, M:5, L:3}, img: "https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL", images: ["https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL"] },
+    { id: 4, name: "MINIMAL LOGO", category: "tshirts", typeLabel: "T-SHIRT", price: 69, oldPrice: null, sizes: ["XS","S","M","L"], stock: {XS:4, S:5, M:5, L:3}, img: "https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL", images: ["https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL"] },
     { id: 5, name: "ARCHIVE FIT", category: "tshirts", typeLabel: "T-SHIRT", price: 79, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:4, XL:2}, img: "https://placehold.co/600x600/1f1f1f/d4d4d4?text=ARCHIVE", images: ["https://placehold.co/600x600/1f1f1f/d4d4d4?text=ARCHIVE"] },
     { id: 6, name: "OVERSIZED WHITE", category: "tshirts", typeLabel: "T-SHIRT", price: 74, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:5, XL:5}, img: "https://placehold.co/600x600/3a3a3a/f0f0f0?text=WHITE", images: ["https://placehold.co/600x600/3a3a3a/f0f0f0?text=WHITE"] },
     { id: 7, name: "TOTE CANVAS", category: "bags", typeLabel: "BAG", price: 59, oldPrice: null, sizes: ["ONE SIZE"], stock: {ONESIZE:8}, img: "https://placehold.co/600x600/2c2c2c/b8b8b8?text=TOTE", images: ["https://placehold.co/600x600/2c2c2c/b8b8b8?text=TOTE"] },
@@ -1000,81 +858,42 @@
     const overlay = document.createElement("div");
     overlay.className = "fullscreen-overlay";
     overlay.onclick = () => overlay.remove();
-    
     const img = document.createElement("img");
     img.src = imgSrc;
     img.className = "fullscreen-image";
     img.onclick = (e) => e.stopPropagation();
-    
     const closeBtn = document.createElement("button");
     closeBtn.innerHTML = "✕";
     closeBtn.className = "fullscreen-close";
     closeBtn.onclick = () => overlay.remove();
-    
     overlay.appendChild(closeBtn);
     overlay.appendChild(img);
     document.body.appendChild(overlay);
     document.body.style.overflow = "hidden";
-    
-    overlay.onclick = () => {
-      document.body.style.overflow = "";
-      overlay.remove();
-    };
+    overlay.onclick = () => { document.body.style.overflow = ""; overlay.remove(); };
   }
   
   // ========== СОХРАНЕНИЕ В ОБЛАКО ==========
   async function saveAllToCloud() {
     const allData = {
-        products: products.map(p => ({
-            id: p.id, name: p.name, category: p.category, typeLabel: p.typeLabel,
-            price: p.price, oldPrice: p.oldPrice, sizes: p.sizes,
-            stock: p.stock, img: p.img, images: p.images, badge: p.badge
-        })),
+        products: products.map(p => ({ id: p.id, name: p.name, category: p.category, typeLabel: p.typeLabel, price: p.price, oldPrice: p.oldPrice, sizes: p.sizes, stock: p.stock, img: p.img, images: p.images, badge: p.badge })),
         models: models,
         orders: orders,
         categories: categories
     };
-    
     try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Master-Key": API_KEY
-            },
-            body: JSON.stringify(allData)
-        });
-        
-        if (res.ok) {
-            console.log("✅ Данные сохранены в облако");
-            return true;
-        } else {
-            console.error("Ошибка сохранения, статус:", res.status);
-            return false;
-        }
-    } catch(e) {
-        console.error("❌ Ошибка:", e);
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY }, body: JSON.stringify(allData) });
+        if (res.ok) { console.log("✅ Данные сохранены в облако"); return true; }
         return false;
-    }
+    } catch(e) { console.error("❌ Ошибка:", e); return false; }
   }
   
   // ========== ЗАГРУЗКА ИЗ ОБЛАКА ==========
   async function loadAllFromCloud() {
     try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, {
-            headers: { 
-                "X-Master-Key": API_KEY,
-                "Content-Type": "application/json"
-            }
-        });
-        
-        if (!res.ok) {
-            console.error("Ошибка загрузки, статус:", res.status);
-            return false;
-        }
-        
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, { headers: { "X-Master-Key": API_KEY, "Content-Type": "application/json" } });
+        if (!res.ok) return false;
         const data = await res.json();
-        
         if (data.record && data.record.products) {
             for (let cloudProduct of data.record.products) {
                 let localProduct = products.find(p => p.id === cloudProduct.id);
@@ -1089,219 +908,65 @@
                 }
             }
             localStorage.setItem("mirror_products", JSON.stringify(products));
-            console.log("✅ Товары загружены из облака");
         }
-        
-        if (data.record && data.record.models) {
-            models = data.record.models;
-            localStorage.setItem("mirror_models", JSON.stringify(models));
-            renderModels();
-        }
-        
-        if (data.record && data.record.orders) {
-            orders = data.record.orders;
-            localStorage.setItem("mirror_orders", JSON.stringify(orders));
-            renderOrders();
-        }
-        
-        if (data.record && data.record.categories) {
-            categories = data.record.categories;
-            localStorage.setItem("mirror_categories", JSON.stringify(categories));
-        }
-        
+        if (data.record && data.record.models) { models = data.record.models; localStorage.setItem("mirror_models", JSON.stringify(models)); renderModels(); }
+        if (data.record && data.record.orders) { orders = data.record.orders; localStorage.setItem("mirror_orders", JSON.stringify(orders)); renderOrders(); }
+        if (data.record && data.record.categories) { categories = data.record.categories; localStorage.setItem("mirror_categories", JSON.stringify(categories)); }
         renderTabs();
         renderProducts();
         return true;
-    } catch(e) {
-        console.error("❌ Ошибка загрузки:", e);
-        return false;
-    }
+    } catch(e) { console.error("❌ Ошибка загрузки:", e); return false; }
   }
   
-  function saveProducts() { 
-    localStorage.setItem("mirror_products", JSON.stringify(products)); 
-    saveAllToCloud();
-  }
-  
-  function saveModels() { 
-    localStorage.setItem("mirror_models", JSON.stringify(models));
-    saveAllToCloud();
-  }
-  
-  function saveOrders() {
-    localStorage.setItem("mirror_orders", JSON.stringify(orders));
-    saveAllToCloud();
-    renderOrders();
-  }
-  
-  function saveCategories() {
-    localStorage.setItem("mirror_categories", JSON.stringify(categories));
-    saveAllToCloud();
-    renderTabs();
-  }
+  function saveProducts() { localStorage.setItem("mirror_products", JSON.stringify(products)); saveAllToCloud(); }
+  function saveModels() { localStorage.setItem("mirror_models", JSON.stringify(models)); saveAllToCloud(); }
+  function saveOrders() { localStorage.setItem("mirror_orders", JSON.stringify(orders)); saveAllToCloud(); renderOrders(); }
+  function saveCategories() { localStorage.setItem("mirror_categories", JSON.stringify(categories)); saveAllToCloud(); renderTabs(); }
   
   function loadProducts() { 
     let s = localStorage.getItem("mirror_products"); 
-    if(s) { 
-      let p = JSON.parse(s); 
-      for(let i=0;i<products.length;i++) if(p[i]) { 
-        products[i].price = p[i].price; 
-        products[i].oldPrice = p[i].oldPrice; 
-        products[i].stock = p[i].stock; 
-        products[i].images = p[i].images; 
-        products[i].name = p[i].name; 
-        products[i].img = p[i].img; 
-        if(p[i].category) products[i].category = p[i].category;
-      } 
-    }
-    
+    if(s) { let p = JSON.parse(s); for(let i=0;i<products.length;i++) if(p[i]) { products[i].price = p[i].price; products[i].oldPrice = p[i].oldPrice; products[i].stock = p[i].stock; products[i].images = p[i].images; products[i].name = p[i].name; products[i].img = p[i].img; if(p[i].category) products[i].category = p[i].category; } }
     renderProducts();
     renderTabs();
-    
     loadAllFromCloud();
   }
-  
-  function loadModels() { 
-    let s = localStorage.getItem("mirror_models"); 
-    if(s) models = JSON.parse(s); 
-    else models = []; 
-  }
-  
-  function loadOrders() {
-    let s = localStorage.getItem("mirror_orders");
-    if(s) orders = JSON.parse(s);
-    else orders = [];
-    renderOrders();
-  }
-  
-  function loadCategories() {
-    let s = localStorage.getItem("mirror_categories");
-    if(s) categories = JSON.parse(s);
-    else {
-      categories = [
-        { id: "hoodies", name: "ХУДИ", order: 0, closed: false },
-        { id: "tshirts", name: "ФУТБОЛКИ", order: 1, closed: false },
-        { id: "bags", name: "СУМКИ", order: 2, closed: false },
-        { id: "limited", name: "LIMITED", order: 3, closed: false },
-        { id: "drop", name: "DROP", order: 4, closed: false }
-      ];
-    }
-  }
+  function loadModels() { let s = localStorage.getItem("mirror_models"); if(s) models = JSON.parse(s); else models = []; }
+  function loadOrders() { let s = localStorage.getItem("mirror_orders"); if(s) orders = JSON.parse(s); else orders = []; renderOrders(); }
+  function loadCategories() { let s = localStorage.getItem("mirror_categories"); if(s) categories = JSON.parse(s); else categories = [{ id: "hoodies", name: "ХУДИ", order: 0, closed: false }, { id: "tshirts", name: "ФУТБОЛКИ", order: 1, closed: false }, { id: "bags", name: "СУМКИ", order: 2, closed: false }, { id: "limited", name: "LIMITED", order: 3, closed: false }, { id: "drop", name: "DROP", order: 4, closed: false }]; }
   
   // ========== ОТРИСОВКА КАТЕГОРИЙ ==========
   function renderTabs() {
     const container = document.getElementById("tabsContainer");
     if (!container) return;
-    
     let html = "";
     categories.sort((a, b) => a.order - b.order);
-    for(let cat of categories) {
-      html += `<button class="tab-btn${activeTab === cat.id ? ' active' : ''}${cat.closed ? ' closed' : ''}" data-tab="${cat.id}"${cat.closed ? ' disabled' : ''}>${cat.name}</button>`;
-    }
+    for(let cat of categories) html += `<button class="tab-btn${activeTab === cat.id ? ' active' : ''}${cat.closed ? ' closed' : ''}" data-tab="${cat.id}"${cat.closed ? ' disabled' : ''}>${cat.name}</button>`;
     container.innerHTML = html;
-    
     let tabBtns = document.querySelectorAll(".tab-btn:not(.closed)");
-    for(let i=0;i<tabBtns.length;i++) tabBtns[i].addEventListener("click", function() { 
-      activeTab = this.dataset.tab; 
-      renderTabs(); 
-      renderProducts(); 
-    });
+    for(let i=0;i<tabBtns.length;i++) tabBtns[i].addEventListener("click", function() { activeTab = this.dataset.tab; renderTabs(); renderProducts(); });
   }
   
   function openCategoriesEditor() {
     const container = document.getElementById("categoriesList");
     if (!container) return;
-    
     let html = "";
     categories.sort((a, b) => a.order - b.order);
     for(let i = 0; i < categories.length; i++) {
       let cat = categories[i];
-      html += `
-        <div class="category-edit-item" data-id="${cat.id}">
-          <input type="text" value="${cat.name}" data-field="name" data-id="${cat.id}">
-          <label class="category-closed-checkbox">
-            <input type="checkbox" data-field="closed" data-id="${cat.id}" ${cat.closed ? 'checked' : ''}> Закрыта
-          </label>
-          <div class="category-order-btns">
-            <button class="move-up-btn" data-id="${cat.id}" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>↑</button>
-            <button class="move-down-btn" data-id="${cat.id}" ${i === categories.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>↓</button>
-          </div>
-          <button class="delete-category-btn" data-id="${cat.id}" ${categories.length <= 1 ? 'disabled style="opacity:0.3;"' : ''}>🗑️</button>
-        </div>
-      `;
+      html += `<div class="category-edit-item" data-id="${cat.id}"><input type="text" value="${cat.name}" data-field="name" data-id="${cat.id}"><label class="category-closed-checkbox"><input type="checkbox" data-field="closed" data-id="${cat.id}" ${cat.closed ? 'checked' : ''}> Закрыта</label><div class="category-order-btns"><button class="move-up-btn" data-id="${cat.id}" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>↑</button><button class="move-down-btn" data-id="${cat.id}" ${i === categories.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>↓</button></div><button class="delete-category-btn" data-id="${cat.id}" ${categories.length <= 1 ? 'disabled style="opacity:0.3;"' : ''}>🗑️</button></div>`;
     }
     container.innerHTML = html;
-    
-    document.querySelectorAll(".category-edit-item input[data-field='name']").forEach(input => {
-      input.addEventListener("change", (e) => {
-        const id = input.dataset.id;
-        const cat = categories.find(c => c.id === id);
-        if (cat) cat.name = input.value;
-      });
-    });
-    
-    document.querySelectorAll(".category-closed-checkbox input").forEach(cb => {
-      cb.addEventListener("change", (e) => {
-        const parent = cb.closest(".category-edit-item");
-        const id = parent.dataset.id;
-        const cat = categories.find(c => c.id === id);
-        if (cat) cat.closed = cb.checked;
-      });
-    });
-    
-    document.querySelectorAll(".move-up-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        const index = categories.findIndex(c => c.id === id);
-        if (index > 0) {
-          [categories[index], categories[index - 1]] = [categories[index - 1], categories[index]];
-          categories.forEach((c, idx) => c.order = idx);
-          openCategoriesEditor();
-        }
-      });
-    });
-    
-    document.querySelectorAll(".move-down-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        const index = categories.findIndex(c => c.id === id);
-        if (index < categories.length - 1) {
-          [categories[index], categories[index + 1]] = [categories[index + 1], categories[index]];
-          categories.forEach((c, idx) => c.order = idx);
-          openCategoriesEditor();
-        }
-      });
-    });
-    
-    document.querySelectorAll(".delete-category-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        if (categories.length <= 1) {
-          showNotification("Нельзя удалить последнюю категорию", "error");
-          return;
-        }
-        if (confirm(`Удалить категорию "${categories.find(c => c.id === id).name}"? Товары из этой категории станут недоступны.`)) {
-          categories = categories.filter(c => c.id !== id);
-          const firstCat = categories[0];
-          products.forEach(p => {
-            if (p.category === id) p.category = firstCat.id;
-          });
-          saveCategories();
-          saveProducts();
-          renderTabs();
-          renderProducts();
-          openCategoriesEditor();
-        }
-      });
-    });
-    
+    document.querySelectorAll(".category-edit-item input[data-field='name']").forEach(input => { input.addEventListener("change", (e) => { const id = input.dataset.id; const cat = categories.find(c => c.id === id); if (cat) cat.name = input.value; }); });
+    document.querySelectorAll(".category-closed-checkbox input").forEach(cb => { cb.addEventListener("change", (e) => { const parent = cb.closest(".category-edit-item"); const id = parent.dataset.id; const cat = categories.find(c => c.id === id); if (cat) cat.closed = cb.checked; }); });
+    document.querySelectorAll(".move-up-btn").forEach(btn => { btn.addEventListener("click", () => { const id = btn.dataset.id; const index = categories.findIndex(c => c.id === id); if (index > 0) { [categories[index], categories[index - 1]] = [categories[index - 1], categories[index]]; categories.forEach((c, idx) => c.order = idx); openCategoriesEditor(); } }); });
+    document.querySelectorAll(".move-down-btn").forEach(btn => { btn.addEventListener("click", () => { const id = btn.dataset.id; const index = categories.findIndex(c => c.id === id); if (index < categories.length - 1) { [categories[index], categories[index + 1]] = [categories[index + 1], categories[index]]; categories.forEach((c, idx) => c.order = idx); openCategoriesEditor(); } }); });
+    document.querySelectorAll(".delete-category-btn").forEach(btn => { btn.addEventListener("click", () => { const id = btn.dataset.id; if (categories.length <= 1) { showNotification("Нельзя удалить последнюю категорию", "error"); return; } if (confirm(`Удалить категорию "${categories.find(c => c.id === id).name}"? Товары из этой категории станут недоступны.`)) { categories = categories.filter(c => c.id !== id); const firstCat = categories[0]; products.forEach(p => { if (p.category === id) p.category = firstCat.id; }); saveCategories(); saveProducts(); renderTabs(); renderProducts(); openCategoriesEditor(); } }); });
     document.getElementById("categoriesModal").style.display = "flex";
   }
   
   function addNewCategory() {
     const newId = "cat_" + Date.now();
-    const newOrder = categories.length;
-    categories.push({ id: newId, name: "НОВАЯ КАТЕГОРИЯ", order: newOrder, closed: false });
+    categories.push({ id: newId, name: "НОВАЯ КАТЕГОРИЯ", order: categories.length, closed: false });
     saveCategories();
     renderTabs();
     openCategoriesEditor();
@@ -1334,36 +999,18 @@
   
   function renderModels() {
     let html = "";
-    
-    if(isAdmin) {
-      html += '<div class="model-add" id="addModelBtn"><i class="fas fa-plus-circle"></i><span>Добавить фото</span></div>';
-    }
-    
+    if(isAdmin) html += '<div class="model-add" id="addModelBtn"><i class="fas fa-plus-circle"></i><span>Добавить фото</span></div>';
     for(let i=0;i<models.length;i++) {
       html += '<div class="model-card" data-id="' + i + '">';
-      if(isAdmin) {
-        html += '<div class="model-edit-icon" data-id="' + i + '"><i class="fas fa-cog"></i></div>';
-        html += '<div class="model-delete-icon" data-id="' + i + '"><i class="fas fa-trash"></i></div>';
-      }
+      if(isAdmin) { html += '<div class="model-edit-icon" data-id="' + i + '"><i class="fas fa-cog"></i></div>'; html += '<div class="model-delete-icon" data-id="' + i + '"><i class="fas fa-trash"></i></div>'; }
       html += '<img class="model-image" src="' + models[i] + '"></div>';
     }
     document.getElementById("modelsGrid").innerHTML = html;
-    
-    document.querySelectorAll(".model-image").forEach(img => {
-      img.addEventListener("click", (e) => {
-        e.stopPropagation();
-        openFullscreenImage(img.src);
-      });
-    });
-    
+    document.querySelectorAll(".model-image").forEach(img => { img.addEventListener("click", (e) => { e.stopPropagation(); openFullscreenImage(img.src); }); });
     if(isAdmin) {
       document.getElementById("addModelBtn")?.addEventListener("click", () => openModelModal());
-      document.querySelectorAll(".model-edit-icon").forEach(btn => {
-        btn.addEventListener("click", (e) => { e.stopPropagation(); openModelModal(parseInt(btn.dataset.id)); });
-      });
-      document.querySelectorAll(".model-delete-icon").forEach(btn => {
-        btn.addEventListener("click", (e) => { e.stopPropagation(); if(confirm("Удалить фото?")) { models.splice(parseInt(btn.dataset.id), 1); saveModels(); renderModels(); } });
-      });
+      document.querySelectorAll(".model-edit-icon").forEach(btn => { btn.addEventListener("click", (e) => { e.stopPropagation(); openModelModal(parseInt(btn.dataset.id)); }); });
+      document.querySelectorAll(".model-delete-icon").forEach(btn => { btn.addEventListener("click", (e) => { e.stopPropagation(); if(confirm("Удалить фото?")) { models.splice(parseInt(btn.dataset.id), 1); saveModels(); renderModels(); } }); });
     }
   }
   
@@ -1389,43 +1036,17 @@
   function updateImagesList(product) {
     const container = document.getElementById("imagesList");
     if (!container) return;
-    
     container.innerHTML = "";
     if (product.images && product.images.length > 0) {
       product.images.forEach((img, idx) => {
         const div = document.createElement("div");
         div.className = "image-item";
-        div.innerHTML = `
-          <img src="${img}" onerror="this.src='https://placehold.co/60x60/333/888?text=Error'">
-          <span>${img.length > 40 ? img.substring(0, 40) + "..." : img}</span>
-          <button type="button" class="remove-image-btn" data-idx="${idx}">✕</button>
-        `;
+        div.innerHTML = `<img src="${img}" onerror="this.src='https://placehold.co/60x60/333/888?text=Error'"><span>${img.length > 40 ? img.substring(0, 40) + "..." : img}</span><button type="button" class="remove-image-btn" data-idx="${idx}">✕</button>`;
         container.appendChild(div);
       });
-      
-      container.querySelectorAll(".remove-image-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          const idx = parseInt(btn.dataset.idx);
-          product.images.splice(idx, 1);
-          if (product.images.length > 0) {
-            product.img = product.images[0];
-          } else {
-            product.img = "https://placehold.co/600x600/1a1a1a/aaa?text=NO+IMAGE";
-            product.images = [product.img];
-          }
-          updateImagesList(product);
-        });
-      });
-      
-      container.querySelectorAll(".image-item img").forEach(img => {
-        img.addEventListener("click", (e) => {
-          e.stopPropagation();
-          openFullscreenImage(img.src);
-        });
-      });
-    } else {
-      container.innerHTML = '<div style="opacity:0.5; text-align:center; padding:1rem;">Нет фотографий</div>';
-    }
+      container.querySelectorAll(".remove-image-btn").forEach(btn => { btn.addEventListener("click", (e) => { const idx = parseInt(btn.dataset.idx); product.images.splice(idx, 1); if (product.images.length > 0) { product.img = product.images[0]; } else { product.img = "https://placehold.co/600x600/1a1a1a/aaa?text=NO+IMAGE"; product.images = [product.img]; } updateImagesList(product); }); });
+      container.querySelectorAll(".image-item img").forEach(img => { img.addEventListener("click", (e) => { e.stopPropagation(); openFullscreenImage(img.src); }); });
+    } else { container.innerHTML = '<div style="opacity:0.5; text-align:center; padding:1rem;">Нет фотографий</div>'; }
   }
   
   function openEditModal(productId) {
@@ -1438,7 +1059,6 @@
     document.getElementById("editStock").value = stockStr.slice(0, -2);
     document.getElementById("newImageUrl").value = "";
     window.currentEditId = productId;
-    
     updateImagesList(product);
     document.getElementById("editProductModal").style.display = "flex";
   }
@@ -1446,13 +1066,8 @@
   document.getElementById("addImageUrlBtn").addEventListener("click", function() {
     const product = products.find(p => p.id === window.currentEditId);
     if (!product) return;
-    
     const url = document.getElementById("newImageUrl").value.trim();
-    if (!url) {
-      showNotification("Введите URL фотографии", "error");
-      return;
-    }
-    
+    if (!url) { showNotification("Введите URL фотографии", "error"); return; }
     if (!product.images) product.images = [];
     product.images.push(url);
     product.img = product.images[0];
@@ -1468,19 +1083,13 @@
       product.name = document.getElementById("editName").value;
       product.price = parseFloat(document.getElementById("editPrice").value);
       product.oldPrice = document.getElementById("editOldPrice").value ? parseFloat(document.getElementById("editOldPrice").value) : null;
-      
       let stockInput = document.getElementById("editStock").value;
       let stock = {};
       let stockPairs = stockInput.split(",");
-      for(let i=0;i<stockPairs.length;i++) {
-        let pair = stockPairs[i].trim().split(":");
-        if(pair.length === 2) stock[pair[0]] = parseInt(pair[1]);
-      }
+      for(let i=0;i<stockPairs.length;i++) { let pair = stockPairs[i].trim().split(":"); if(pair.length === 2) stock[pair[0]] = parseInt(pair[1]); }
       product.stock = stock;
-      
       localStorage.setItem("mirror_products", JSON.stringify(products));
       await saveAllToCloud();
-      
       renderProducts();
       showNotification("✅ Товар сохранён и синхронизирован!", "success");
       document.getElementById("editProductModal").style.display = "none";
@@ -1500,19 +1109,8 @@
     document.getElementById("galleryThumbnails").innerHTML = thumbHtml;
     let thumbs = document.querySelectorAll(".gallery-thumb");
     for(let i=0;i<thumbs.length;i++) thumbs[i].addEventListener("click", function() { document.querySelectorAll(".gallery-thumb").forEach(t => t.classList.remove("active")); this.classList.add("active"); document.getElementById("modalMainImage").src = this.src; });
-    
-    document.getElementById("modalMainImage").addEventListener("click", (e) => {
-      e.stopPropagation();
-      openFullscreenImage(document.getElementById("modalMainImage").src);
-    });
-    
-    document.querySelectorAll(".gallery-thumb").forEach(thumb => {
-      thumb.addEventListener("click", (e) => {
-        e.stopPropagation();
-        openFullscreenImage(thumb.src);
-      });
-    });
-    
+    document.getElementById("modalMainImage").addEventListener("click", (e) => { e.stopPropagation(); openFullscreenImage(document.getElementById("modalMainImage").src); });
+    document.querySelectorAll(".gallery-thumb").forEach(thumb => { thumb.addEventListener("click", (e) => { e.stopPropagation(); openFullscreenImage(thumb.src); }); });
     let sizeHtml = "";
     for(let i=0;i<product.sizes.length;i++) {
       let size = product.sizes[i];
@@ -1549,71 +1147,24 @@
     document.getElementById("cartTotal").innerHTML = "ИТОГО: " + formatPrice(total);
     let rm = document.querySelectorAll(".cart-item-remove");
     for(let i=0;i<rm.length;i++) rm[i].addEventListener("click", function() { cart.splice(parseInt(this.dataset.idx),1); updateCartUI(); });
-    
-    document.querySelectorAll(".cart-item-img").forEach(img => {
-      img.addEventListener("click", () => {
-        openFullscreenImage(img.src);
-      });
-    });
+    document.querySelectorAll(".cart-item-img").forEach(img => { img.addEventListener("click", () => { openFullscreenImage(img.src); }); });
   }
   
   // ========== ЗАКАЗЫ ==========
   function renderOrders() {
     const container = document.getElementById("ordersList");
     if (!container) return;
-    
-    if (!orders || orders.length === 0) {
-        container.innerHTML = '<div class="empty-orders">Нет заказов</div>';
-        return;
-    }
-    
+    if (!orders || orders.length === 0) { container.innerHTML = '<div class="empty-orders">Нет заказов</div>'; return; }
     let html = '';
     for (let i = 0; i < orders.length; i++) {
         let o = orders[i];
-        html += `
-            <div class="order-card" data-id="${o.id}">
-                <div class="order-header">
-                    <span class="order-id">#${o.id}</span>
-                    <span class="order-date">${o.date}</span>
-                    <span class="order-total">${formatPrice(o.total)}</span>
-                </div>
-                <div class="order-info">
-                    <span><strong>${o.name || 'Гость'}</strong> | ${o.phone || ''}</span>
-                    <span>${o.address || ''}</span>
-                    ${o.telegram ? `<span>@${o.telegram}</span>` : ''}
-                </div>
-                <div class="order-items">
-                    ${o.items.map(item => `
-                        <div class="order-item">
-                            <span>${item.name} (${item.size}) x${item.quantity}</span>
-                            <span>${formatPrice(item.price * item.quantity)}</span>
-                        </div>
-                    `).join('')}
-                </div>
-                <button class="delete-order-btn" data-id="${o.id}">Удалить</button>
-            </div>
-        `;
+        html += `<div class="order-card" data-id="${o.id}"><div class="order-header"><span class="order-id">#${o.id}</span><span class="order-date">${o.date}</span><span class="order-total">${formatPrice(o.total)}</span></div><div class="order-info"><span><strong>${o.name || 'Гость'}</strong> | ${o.phone || ''}</span><span>${o.address || ''}</span>${o.telegram ? `<span>@${o.telegram}</span>` : ''}</div><div class="order-items">${o.items.map(item => `<div class="order-item"><span>${item.name} (${item.size}) x${item.quantity}</span><span>${formatPrice(item.price * item.quantity)}</span></div>`).join('')}</div><button class="delete-order-btn" data-id="${o.id}">Удалить</button></div>`;
     }
     container.innerHTML = html;
-    
-    document.querySelectorAll(".delete-order-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const orderId = parseInt(btn.dataset.id);
-            if (confirm("Удалить заказ #" + orderId + "?")) {
-                orders = orders.filter(o => o.id !== orderId);
-                saveOrders();
-                renderOrders();
-                showNotification("Заказ удален", "success");
-            }
-        });
-    });
+    document.querySelectorAll(".delete-order-btn").forEach(btn => { btn.addEventListener("click", (e) => { e.stopPropagation(); const orderId = parseInt(btn.dataset.id); if (confirm("Удалить заказ #" + orderId + "?")) { orders = orders.filter(o => o.id !== orderId); saveOrders(); renderOrders(); showNotification("Заказ удален", "success"); } }); });
   }
   
-  function addOrder(orderData) {
-    orders.unshift(orderData);
-    saveOrders();
-  }
+  function addOrder(orderData) { orders.unshift(orderData); saveOrders(); }
   
   // ========== АДМИН АВТОРИЗАЦИЯ ==========
   function adminLogin(password) {
@@ -1626,27 +1177,14 @@
       renderModels();
       renderOrders();
       return true;
-    } else {
-      showNotification("Неверный пароль", "error");
-      return false;
-    }
+    } else { showNotification("Неверный пароль", "error"); return false; }
   }
-  
-  function adminLogout() {
-    isAdmin = false;
-    localStorage.removeItem("mirror_admin");
-    updateAdminUI();
-    renderProducts();
-    renderModels();
-    showNotification("Вы вышли из админки", "success");
-  }
-  
+  function adminLogout() { isAdmin = false; localStorage.removeItem("mirror_admin"); updateAdminUI(); renderProducts(); renderModels(); showNotification("Вы вышли из админки", "success"); }
   function updateAdminUI() {
     const adminInfo = document.getElementById("adminInfoArea");
     const adminOrdersBtn = document.querySelector(".nav-btn[data-page='orders']");
     const editCategoriesBtn = document.getElementById("editCategoriesBtn");
     const addCategoryBtn = document.getElementById("addCategoryBtn");
-    
     if (isAdmin) {
       adminInfo.style.display = "flex";
       if (adminOrdersBtn) adminOrdersBtn.style.display = "block";
@@ -1657,40 +1195,36 @@
       if (adminOrdersBtn) adminOrdersBtn.style.display = "none";
       if (editCategoriesBtn) editCategoriesBtn.style.display = "none";
       if (addCategoryBtn) addCategoryBtn.style.display = "none";
-      if (document.getElementById("ordersPage").classList.contains("active")) {
-        document.querySelector(".nav-btn[data-page='shop']").click();
-      }
+      if (document.getElementById("ordersPage").classList.contains("active")) { document.querySelector(".nav-btn[data-page='shop']").click(); }
     }
   }
-  
-  function loadAdminSession() {
-    const saved = localStorage.getItem("mirror_admin");
-    if (saved === "true") {
-      isAdmin = true;
-      updateAdminUI();
-    }
-  }
+  function loadAdminSession() { const saved = localStorage.getItem("mirror_admin"); if (saved === "true") { isAdmin = true; updateAdminUI(); } }
   
   // ========== СКРЫТЫЙ ВХОД ПО КОМБИНАЦИИ КЛАВИШ ==========
   let keyBuffer = "";
   const SECRET_CODE = "admin";
-
   document.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    
     keyBuffer += e.key.toLowerCase();
-    if (keyBuffer.length > SECRET_CODE.length) {
-      keyBuffer = keyBuffer.slice(-SECRET_CODE.length);
-    }
-    
+    if (keyBuffer.length > SECRET_CODE.length) keyBuffer = keyBuffer.slice(-SECRET_CODE.length);
     if (keyBuffer === SECRET_CODE) {
       const password = prompt("🔐 Введите пароль администратора:");
-      if (password === ADMIN_PASSWORD) {
-        adminLogin(password);
-      } else if (password !== null) {
-        showNotification("❌ Неверный пароль", "error");
-      }
+      if (password === ADMIN_PASSWORD) { adminLogin(password); } else if (password !== null) { showNotification("❌ Неверный пароль", "error"); }
       keyBuffer = "";
+    }
+  });
+  
+  // ========== ТЕХПОДДЕРЖКА ==========
+  document.getElementById("supportBtn").addEventListener("click", function(e) {
+    e.stopPropagation();
+    const popup = document.getElementById("supportPopup");
+    popup.classList.toggle("show");
+  });
+  document.addEventListener("click", function(e) {
+    const popup = document.getElementById("supportPopup");
+    const btn = document.getElementById("supportBtn");
+    if (!btn.contains(e.target) && !popup.contains(e.target)) {
+      popup.classList.remove("show");
     }
   });
   
@@ -1698,41 +1232,22 @@
   document.getElementById("checkoutForm").onsubmit = function(e) {
     e.preventDefault();
     let total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-    let newOrder = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
-      items: cart.map(i => ({ name: i.name, size: i.size, quantity: i.quantity, price: i.price })),
-      total: total,
-      address: document.getElementById("checkoutAddress").value,
-      phone: document.getElementById("checkoutPhone").value,
-      name: document.getElementById("checkoutName").value,
-      telegram: document.getElementById("checkoutTelegram").value
-    };
+    let newOrder = { id: Date.now(), date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(), items: cart.map(i => ({ name: i.name, size: i.size, quantity: i.quantity, price: i.price })), total: total, address: document.getElementById("checkoutAddress").value, phone: document.getElementById("checkoutPhone").value, name: document.getElementById("checkoutName").value, telegram: document.getElementById("checkoutTelegram").value };
     addOrder(newOrder);
     cart = [];
     updateCartUI();
     document.getElementById("checkoutPage").style.display = "none";
     showNotification("✅ Заказ оформлен!", "success");
   };
-  
   document.getElementById("addressForm").onsubmit = function(e) {
     e.preventDefault();
-    let address = {
-      city: document.getElementById("addressCity").value,
-      street: document.getElementById("addressStreet").value,
-      zip: document.getElementById("addressZip").value
-    };
+    let address = { city: document.getElementById("addressCity").value, street: document.getElementById("addressStreet").value, zip: document.getElementById("addressZip").value };
     localStorage.setItem("lastAddress", JSON.stringify(address));
     showNotification("Адрес сохранён", "success");
     document.getElementById("addressModal").style.display = "none";
-    
     let lastAddress = localStorage.getItem("lastAddress");
-    if (lastAddress) {
-      let addr = JSON.parse(lastAddress);
-      document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`;
-    }
+    if (lastAddress) { let addr = JSON.parse(lastAddress); document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`; }
   };
-  
   document.getElementById("logoutBtn").onclick = adminLogout;
   document.getElementById("closeModalBtn").onclick = () => document.getElementById("productModal").style.display = "none";
   document.getElementById("closeAddressModal").onclick = () => document.getElementById("addressModal").style.display = "none";
@@ -1749,59 +1264,28 @@
       for(let i of cart) html += `${i.name} (${i.size}) x${i.quantity} — ${formatPrice(i.price * i.quantity)}<br>`;
       html += `<br><strong>Итого: ${formatPrice(total)}</strong>`;
       document.getElementById("checkoutSummary").innerHTML = html;
-      
       let lastAddress = localStorage.getItem("lastAddress");
-      if (lastAddress) {
-        let addr = JSON.parse(lastAddress);
-        document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`;
-      }
-      
+      if (lastAddress) { let addr = JSON.parse(lastAddress); document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`; }
       document.getElementById("checkoutPage").style.display = "flex";
     } else showNotification("Корзина пуста", "error");
   };
   document.getElementById("modalAddToCartBtn").onclick = () => { if(currentProduct && selectedSize) addToCart(currentProduct, selectedSize); };
-  document.getElementById("currencySelect").onchange = function(e) { 
-    currentCurrency = e.target.value; 
-    renderProducts(); 
-    updateCartUI(); 
-  };
-  document.getElementById("addAddressCheckout")?.addEventListener("click", () => {
-    document.getElementById("addressModalTitle").innerText = "АДРЕС ДОСТАВКИ";
-    document.getElementById("addressForm").reset();
-    document.getElementById("addressModal").style.display = "flex";
-  });
-  
+  document.getElementById("currencySelect").onchange = function(e) { currentCurrency = e.target.value; renderProducts(); updateCartUI(); };
+  document.getElementById("addAddressCheckout")?.addEventListener("click", () => { document.getElementById("addressModalTitle").innerText = "АДРЕС ДОСТАВКИ"; document.getElementById("addressForm").reset(); document.getElementById("addressModal").style.display = "flex"; });
   document.getElementById("editCategoriesBtn").addEventListener("click", openCategoriesEditor);
   document.getElementById("addCategoryBtn").addEventListener("click", addNewCategory);
   document.getElementById("closeCategoriesModal").addEventListener("click", () => document.getElementById("categoriesModal").style.display = "none");
-  document.getElementById("saveCategoriesBtn").addEventListener("click", () => {
-    saveCategories();
-    renderTabs();
-    document.getElementById("categoriesModal").style.display = "none";
-    showNotification("Категории сохранены", "success");
-  });
+  document.getElementById("saveCategoriesBtn").addEventListener("click", () => { saveCategories(); renderTabs(); document.getElementById("categoriesModal").style.display = "none"; showNotification("Категории сохранены", "success"); });
   
-  // Исправленный аккордеон - закрывается плавно
+  // Аккордеон
   let accordionHeaders = document.querySelectorAll(".accordion-header");
   for(let i=0;i<accordionHeaders.length;i++) {
     accordionHeaders[i].addEventListener("click", function() {
       let content = document.getElementById("accordion-" + this.dataset.accordion);
       let allContents = document.querySelectorAll(".accordion-content");
       let allHeaders = document.querySelectorAll(".accordion-header");
-      
-      // Закрываем все
-      allContents.forEach(c => {
-        if (c !== content && c.classList.contains("show")) {
-          c.classList.remove("show");
-        }
-      });
-      allHeaders.forEach(h => {
-        if (h !== this && h.classList.contains("active")) {
-          h.classList.remove("active");
-        }
-      });
-      
-      // Переключаем текущий
+      allContents.forEach(c => { if (c !== content && c.classList.contains("show")) c.classList.remove("show"); });
+      allHeaders.forEach(h => { if (h !== this && h.classList.contains("active")) h.classList.remove("active"); });
       content.classList.toggle("show");
       this.classList.toggle("active");
     });
@@ -1828,18 +1312,11 @@
   
   setTimeout(function() { 
     let splash = document.getElementById("splash"); 
-    if(splash) { 
-      splash.classList.add("splash-hidden"); 
-      setTimeout(function() { splash.style.display = "none"; }, 500); 
-    } 
+    if(splash) { splash.classList.add("splash-hidden"); setTimeout(function() { splash.style.display = "none"; }, 500); } 
   }, 1500);
   
-  // Загрузка последнего адреса
   let lastAddress = localStorage.getItem("lastAddress");
-  if (lastAddress) {
-    let addr = JSON.parse(lastAddress);
-    document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`;
-  }
+  if (lastAddress) { let addr = JSON.parse(lastAddress); document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`; }
   
   loadCategories();
   loadProducts(); 
