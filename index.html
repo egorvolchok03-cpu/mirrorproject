@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Все стили остаются как в предыдущей версии + добавляем */
+    /* Все стили из предыдущей версии + исправленный аккордеон */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
@@ -117,13 +117,7 @@
     }
     .tab-btn.active { opacity: 1; border-bottom: 2px solid #e8e8e8; }
     .tab-btn.closed { text-decoration: line-through; opacity: 0.4; cursor: not-allowed; background: rgba(192,57,43,0.2); }
-    .edit-categories-btn {
-      padding: 0.3rem 0.6rem;
-      font-size: 0.7rem;
-      background: transparent;
-      border: 1px solid rgba(232,232,232,0.3);
-    }
-    .add-category-btn {
+    .edit-categories-btn, .add-category-btn {
       padding: 0.3rem 0.6rem;
       font-size: 0.7rem;
       background: transparent;
@@ -412,6 +406,7 @@
       font-size: 0.8rem;
     }
     
+    /* Исправленный аккордеон */
     .footer {
       margin-top: 3rem;
       padding-top: 2rem;
@@ -437,11 +432,11 @@
     .accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease-out;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: max-height;
     }
     .accordion-content.show {
       max-height: 500px;
-      padding-bottom: 1rem;
     }
     .accordion-content p {
       font-size: 0.75rem;
@@ -449,6 +444,7 @@
       opacity: 0.7;
       margin-bottom: 0.5rem;
       color: #e8e8e8;
+      padding-bottom: 1rem;
     }
     .accordion-content a { color: #e8e8e8; text-decoration: none; }
     .accordion-content a:hover { text-decoration: underline; }
@@ -830,17 +826,17 @@
       <div class="accordion-item">
         <div class="accordion-header" data-accordion="delivery">ДОСТАВКА <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-delivery">
-          <p><strong>Курьерская доставка</strong><br>По Минску — 2-3 дня, 10 BYN. При заказе от 200 BYN — бесплатно. По Беларуси — 3-5 дней, 15 BYN.</p>
-          <p><strong>Самовывоз</strong><br>г. Минск, ул. Мележа, 5 (пн-пт 11:00-20:00, сб 12:00-18:00). Бесплатно.</p>
-          <p><strong>Почта Беларуси</strong><br>По всей РБ — 5-10 дней, от 8 BYN. Отслеживание по трек-номеру.</p>
-          <p><strong>Международная доставка</strong><br>РФ, страны СНГ, Европа — от 10 дней. Стоимость рассчитывается индивидуально.</p>
+          <p><strong>Курьерская доставка</strong><br>По Минску — 2-3 дня, 10 BYN. При заказе от 200 BYN — бесплатно.</p>
+          <p><strong>Самовывоз</strong><br>г. Минск, Метро Московская (По времени, индивидуально).</p>
+          <p><strong>Почта Беларуси</strong><br>По всей РБ — 2-4 дней, от 8 BYN. Отслеживание по трек-номеру.</p>
+          <p><strong>Международная доставка</strong><br>Временно не осуществляется.</p>
         </div>
       </div>
       <div class="accordion-item">
         <div class="accordion-header" data-accordion="payment">ОПЛАТА <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-payment">
           <p><strong>При заказе с доставкой почтой:</strong> оплата наложенным платежом при получении.</p>
-          <p><strong>При заказе с курьерской доставкой по Минску:</strong> оплата наличными курьеру или картой при получении.</p>
+          <p><strong>При заказе с курьерской доставкой по Минску:</strong> оплата наличными курьеру.</p>
           <p><strong>Самовывоз:</strong> оплата на месте.</p>
           <p>Мы принимаем наличные, банковские карты (Visa, Mastercard, Белкарт), а также оплату через ЕРИП.</p>
         </div>
@@ -856,7 +852,9 @@
         <div class="accordion-header" data-accordion="about">О НАС <i class="fas fa-chevron-down"></i></div>
         <div class="accordion-content" id="accordion-about">
           <p><strong>Отражение улицы. Минимализм. Качество.</strong></p>
-          <p>Mirror Project — это белорусский бренд уличной одежды, созданный в 2023 году.</p>
+          <p>Mirror Project — это белорусский бренд уличной одежды, созданный в 2023 году. Мы объединяем строгую эстетику минимализма с духом городских улиц. Каждая вещь — это отражение внутреннего мира, где форма следует за функцией, а детали говорят громче слов.</p>
+          <p>Наша философия — создавать одежду, которая не кричит о себе, но запоминается. Черный цвет, чистые линии, качественные материалы. Мы не следуем трендам — мы создаем вневременные вещи для тех, кто ценит подлинность.</p>
+          <p>Каждый элемент дизайна продуман до мелочей: от кроя до фурнитуры. Мы используем только премиальные ткани и работаем с проверенными производствами. Mirror Project — это одежда для тех, кто выбирает себя.</p>
         </div>
       </div>
       <div class="accordion-item">
@@ -871,12 +869,12 @@
     </div>
     <div class="footer-copyright">
       <div class="creator">создатель бренда / генеральный директор Волчок Егор</div>
-      <div class="footer-requisites">ИП Волчок Егор Сергеевич | УНП: 192837465 | г. Минск, ул. Мележа, 5, оф. 42</div>
+      <div class="footer-requisites"></div>
     </div>
   </div>
 </div>
 
-<!-- Модальные окна -->
+<!-- Модальные окна (остаются без изменений) -->
 <div id="addressModal" class="modal"><div class="modal-content"><h2 id="addressModalTitle">АДРЕС ДОСТАВКИ</h2><form id="addressForm"><div class="form-group"><label>Город</label><input type="text" id="addressCity" required placeholder="Минск"></div><div class="form-group"><label>Улица, дом</label><input type="text" id="addressStreet" required placeholder="ул. Мележа, 5"></div><div class="form-group"><label>Индекс</label><input type="text" id="addressZip" placeholder="220000"></div><div class="modal-buttons"><button type="button" id="closeAddressModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">СОХРАНИТЬ</button></div></form></div></div>
 
 <div id="productModal" class="modal"><div class="modal-content product-modal-content"><button class="close-modal-btn" id="closeModalBtn">&times;</button><div class="product-modal-img"><div class="gallery-container"><div class="gallery-main"><img id="modalMainImage" src=""></div><div class="gallery-thumbnails" id="galleryThumbnails"></div></div></div><div class="product-modal-info"><h2 id="modalTitle"></h2><div class="product-category" id="modalCategory"></div><div class="product-price" id="modalPrice"></div><div>Размер:</div><div class="size-selector" id="sizeSelector"></div><button class="add-to-cart-btn" id="modalAddToCartBtn">ДОБАВИТЬ В КОРЗИНУ</button></div></div></div>
@@ -951,7 +949,7 @@
   const API_KEY = "$2a$10$qnI3cd5GeF1LMtvhkfPEHun31qeT9m7988UvjmCsF/ejG51vTnpLS";
   const ADMIN_PASSWORD = "admin123";
   
-  // ========== КАТЕГОРИИ (теперь у всех есть closed) ==========
+  // ========== КАТЕГОРИИ ==========
   let categories = [
     { id: "hoodies", name: "ХУДИ", order: 0, closed: false },
     { id: "tshirts", name: "ФУТБОЛКИ", order: 1, closed: false },
@@ -965,7 +963,7 @@
     { id: 1, name: "OVERSIZED BLACK", category: "hoodies", typeLabel: "HOODIE", price: 149, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:5, XL:5}, img: "https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE", images: ["https://placehold.co/600x600/1a1a1a/aaa?text=HOODIE"] },
     { id: 2, name: "MIRROR EDITION", category: "hoodies", typeLabel: "HOODIE", price: 169, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:3, M:5, L:4, XL:2}, img: "https://placehold.co/600x600/222222/ccc?text=MIRROR", images: ["https://placehold.co/600x600/222222/ccc?text=MIRROR"] },
     { id: 3, name: "ASH GREY", category: "hoodies", typeLabel: "HOODIE", price: 139, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:2, M:4, L:5, XL:3}, img: "https://placehold.co/600x600/3a3a3a/ccc?text=ASH", images: ["https://placehold.co/600x600/3a3a3a/ccc?text=ASH"] },
-    { id: 4, name: "MINIMAL LOGO", category: "tshirts", typeLabel: "T-SHIRT", price: 69, oldPrice: null, sizes: ["XS","S","M","L"], stock: {XS:4, S:5, M:5, L:3}, img: "https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL", images: ["https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL"] },
+    { id: 4, name: "MIRROR PROJECT", category: "tshirts", typeLabel: "T-SHIRT", price: 69, oldPrice: null, sizes: ["XS","S","M","L"], stock: {XS:4, S:5, M:5, L:3}, img: "https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL", images: ["https://placehold.co/600x600/2a2a2a/e0e0e0?text=MINIMAL"] },
     { id: 5, name: "ARCHIVE FIT", category: "tshirts", typeLabel: "T-SHIRT", price: 79, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:4, XL:2}, img: "https://placehold.co/600x600/1f1f1f/d4d4d4?text=ARCHIVE", images: ["https://placehold.co/600x600/1f1f1f/d4d4d4?text=ARCHIVE"] },
     { id: 6, name: "OVERSIZED WHITE", category: "tshirts", typeLabel: "T-SHIRT", price: 74, oldPrice: null, sizes: ["S","M","L","XL"], stock: {S:5, M:5, L:5, XL:5}, img: "https://placehold.co/600x600/3a3a3a/f0f0f0?text=WHITE", images: ["https://placehold.co/600x600/3a3a3a/f0f0f0?text=WHITE"] },
     { id: 7, name: "TOTE CANVAS", category: "bags", typeLabel: "BAG", price: 59, oldPrice: null, sizes: ["ONE SIZE"], stock: {ONESIZE:8}, img: "https://placehold.co/600x600/2c2c2c/b8b8b8?text=TOTE", images: ["https://placehold.co/600x600/2c2c2c/b8b8b8?text=TOTE"] },
@@ -1282,7 +1280,6 @@
         }
         if (confirm(`Удалить категорию "${categories.find(c => c.id === id).name}"? Товары из этой категории станут недоступны.`)) {
           categories = categories.filter(c => c.id !== id);
-          // Переносим товары из удалённой категории в первую
           const firstCat = categories[0];
           products.forEach(p => {
             if (p.category === id) p.category = firstCat.id;
@@ -1782,37 +1779,29 @@
     showNotification("Категории сохранены", "success");
   });
   
-  // Закрытие модалки по клику вне её
-  document.querySelectorAll(".modal").forEach(modal => {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-  });
-  
-  // Техподдержка
-  document.getElementById("supportBtn").onclick = () => { document.getElementById("supportPopup").classList.toggle("show"); };
-  document.addEventListener("click", function(e) {
-    let popup = document.getElementById("supportPopup");
-    let btn = document.getElementById("supportBtn");
-    if(!btn.contains(e.target) && !popup.contains(e.target)) popup.classList.remove("show");
-  });
-  
-  // Аккордеон
+  // Исправленный аккордеон - закрывается плавно
   let accordionHeaders = document.querySelectorAll(".accordion-header");
   for(let i=0;i<accordionHeaders.length;i++) {
     accordionHeaders[i].addEventListener("click", function() {
       let content = document.getElementById("accordion-" + this.dataset.accordion);
-      let isOpen = content.classList.contains("show");
       let allContents = document.querySelectorAll(".accordion-content");
-      for(let j=0;j<allContents.length;j++) allContents[j].classList.remove("show");
       let allHeaders = document.querySelectorAll(".accordion-header");
-      for(let j=0;j<allHeaders.length;j++) allHeaders[j].classList.remove("active");
-      if(!isOpen) {
-        content.classList.add("show");
-        this.classList.add("active");
-      }
+      
+      // Закрываем все
+      allContents.forEach(c => {
+        if (c !== content && c.classList.contains("show")) {
+          c.classList.remove("show");
+        }
+      });
+      allHeaders.forEach(h => {
+        if (h !== this && h.classList.contains("active")) {
+          h.classList.remove("active");
+        }
+      });
+      
+      // Переключаем текущий
+      content.classList.toggle("show");
+      this.classList.toggle("active");
     });
   }
   
