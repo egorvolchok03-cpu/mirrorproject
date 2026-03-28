@@ -723,90 +723,82 @@
   function convertPrice(p) { return Math.round(p * exchangeRates[currentCurrency]); }
   function formatPrice(p) { return convertPrice(p) + " " + currentCurrency; }
   
-  // ========== ОБЩАЯ СИНХРОНИЗАЦИЯ С JSONBIN ==========
-  
-  // Сохранение всех данных в облако
+  // ========== СОХРАНЕНИЕ ВСЕХ ДАННЫХ В ОБЛАКО ==========
   async function saveAllToCloud() {
+    const users = JSON.parse(localStorage.getItem("mirror_users") || "[]");
     const allData = {
-      products: products,
-      models: models,
-      users: JSON.parse(localStorage.getItem("mirror_users") || "[]"),
-      dropClosed: dropTabClosed
+        products: products,
+        models: models,
+        users: users,
+        dropClosed: dropTabClosed
     };
+    
     try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": API_KEY
-        },
-        body: JSON.stringify(allData)
-      });
-      if (res.ok) {
-        console.log("✅ Все данные сохранены в облако");
-        return true;
-      }
-      return false;
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY
+            },
+            body: JSON.stringify(allData)
+        });
+        
+        if (res.ok) {
+            console.log("✅ Данные сохранены в облако");
+            return true;
+        }
+        return false;
     } catch(e) {
-      console.error("❌ Ошибка сохранения:", e);
-      return false;
+        console.error("❌ Ошибка:", e);
+        return false;
     }
   }
   
-  // Загрузка всех данных из облака
+  // ========== ЗАГРУЗКА ВСЕХ ДАННЫХ ИЗ ОБЛАКА ==========
   async function loadAllFromCloud() {
     try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, {
-        headers: { 
-          "X-Master-Key": API_KEY,
-          "Cache-Control": "no-cache, no-store, must-revalidate"
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?_=${Date.now()}`, {
+            headers: { "X-Master-Key": API_KEY }
+        });
+        
+        if (!res.ok) return;
+        
+        const data = await res.json();
+        
+        if (data.record && data.record.users) {
+            localStorage.setItem("mirror_users", JSON.stringify(data.record.users));
+            console.log("✅ Загружено", data.record.users.length, "пользователей");
         }
-      });
-      const data = await res.json();
-      if (data.record) {
-        // Загружаем товары
-        if (data.record.products) {
-          for (let cloudProduct of data.record.products) {
-            let localProduct = products.find(p => p.id === cloudProduct.id);
-            if (localProduct) {
-              localProduct.price = cloudProduct.price;
-              localProduct.oldPrice = cloudProduct.oldPrice;
-              if (cloudProduct.stock) localProduct.stock = cloudProduct.stock;
-              if (cloudProduct.name) localProduct.name = cloudProduct.name;
+        
+        if (data.record && data.record.models) {
+            models = data.record.models;
+            localStorage.setItem("mirror_models", JSON.stringify(models));
+            renderModels();
+        }
+        
+        if (data.record && data.record.products) {
+            for (let cloudProduct of data.record.products) {
+                let localProduct = products.find(p => p.id === cloudProduct.id);
+                if (localProduct) {
+                    localProduct.price = cloudProduct.price;
+                    localProduct.oldPrice = cloudProduct.oldPrice;
+                }
             }
-          }
-          localStorage.setItem("mirror_products", JSON.stringify(products));
+            localStorage.setItem("mirror_products", JSON.stringify(products));
+            renderProducts();
+            renderTabs();
         }
         
-        // Загружаем модели (фото)
-        if (data.record.models) {
-          models = data.record.models;
-          localStorage.setItem("mirror_models", JSON.stringify(models));
-          renderModels();
+        if (data.record && data.record.dropClosed !== undefined) {
+            dropTabClosed = data.record.dropClosed;
+            localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
         }
         
-        // Загружаем пользователей
-        if (data.record.users) {
-          localStorage.setItem("mirror_users", JSON.stringify(data.record.users));
-        }
-        
-        // Загружаем состояние вкладки DROP
-        if (data.record.dropClosed !== undefined) {
-          dropTabClosed = data.record.dropClosed;
-          localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
-        }
-        
-        console.log("✅ Все данные загружены из облака");
-        renderProducts();
-        renderTabs();
-        if (currentUser) renderProfile();
-      }
     } catch(e) {
-      console.error("❌ Ошибка загрузки из облака:", e);
+        console.error("❌ Ошибка загрузки:", e);
     }
   }
   
-  // Обёртки для сохранения (вызываются при любых изменениях)
   function saveProducts() { 
     localStorage.setItem("mirror_products", JSON.stringify(products)); 
     localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
@@ -818,11 +810,6 @@
     saveAllToCloud();
   }
   
-  function saveUsers() {
-    saveAllToCloud();
-  }
-  
-  // Загрузка начальных данных
   function loadProducts() { 
     let s = localStorage.getItem("mirror_products"); 
     if(s) { 
@@ -855,7 +842,7 @@
   
   function isAdmin() { return currentUser && currentUser.email === ADMIN_EMAIL; }
   
-  // ========== ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ ==========
+  // ========== ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ) ==========
   function renderTabs() {
     let tabs = [{ id: "hoodies", name: "ХУДИ" }, { id: "tshirts", name: "ФУТБОЛКИ" }, { id: "bags", name: "СУМКИ" }, { id: "limited", name: "LIMITED" }, { id: "drop", name: "DROP" }];
     let html = "";
@@ -1067,7 +1054,7 @@
       break; 
     } 
     localStorage.setItem("mirror_users", JSON.stringify(users)); 
-    saveAllToCloud(); // Сохраняем в облако
+    saveAllToCloud();
   }
   
   function renderProfile() {
@@ -1374,35 +1361,53 @@
     document.getElementById("addressModal").style.display = "flex";
   });
   
-  document.getElementById("authForm").onsubmit = function(e) {
+  // ========== РЕГИСТРАЦИЯ С СОХРАНЕНИЕМ В ОБЛАКО ==========
+  document.getElementById("authForm").onsubmit = async function(e) {
     e.preventDefault(); 
-    let name = document.getElementById("regName").value.trim(), 
-        email = document.getElementById("regEmail").value.trim(), 
-        pass = document.getElementById("regPassword").value;
+    let name = document.getElementById("regName").value.trim(); 
+    let email = document.getElementById("regEmail").value.trim(); 
+    let pass = document.getElementById("regPassword").value;
+    
     if(!name || !email || !pass) return alert("Заполните все поля");
+    
     let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
-    for(let i=0;i<users.length;i++) if(users[i].email === email) return alert("Email уже зарегистрирован");
-    users.push({ name, email, password: pass, orders: [], addresses: [], avatar: "" }); 
+    if(users.find(u => u.email === email)) return alert("Email уже зарегистрирован");
+    
+    const newUser = { name, email, password: pass, orders: [], addresses: [], avatar: "" };
+    users.push(newUser);
     localStorage.setItem("mirror_users", JSON.stringify(users));
-    saveUserSession({ name, email, password: pass }); 
-    alert("Регистрация успешна! Добро пожаловать!"); 
+    
+    await saveAllToCloud();
+    
+    saveUserSession({ name, email, password: pass });
+    
+    alert("Регистрация успешна!"); 
     document.getElementById("authModal").style.display = "none";
-    saveAllToCloud();
   };
-  document.getElementById("loginForm").onsubmit = function(e) {
+  
+  // ========== ВХОД С ЗАГРУЗКОЙ ДАННЫХ ИЗ ОБЛАКА ==========
+  document.getElementById("loginForm").onsubmit = async function(e) {
     e.preventDefault(); 
-    let email = document.getElementById("loginEmail").value.trim(), 
-        pass = document.getElementById("loginPassword").value;
+    let email = document.getElementById("loginEmail").value.trim(); 
+    let pass = document.getElementById("loginPassword").value;
+    
+    await loadAllFromCloud();
+    
     let users = JSON.parse(localStorage.getItem("mirror_users") || "[]"); 
-    let user = null; 
-    for(let i=0;i<users.length;i++) if(users[i].email === email && users[i].password === pass) { user = users[i]; break; }
+    let user = users.find(u => u.email === email && u.password === pass);
+    
     if(user) { 
       saveUserSession({ name: user.name, email: user.email, password: user.password }); 
       alert("Добро пожаловать!"); 
-      document.getElementById("loginModal").style.display = "none"; 
+      document.getElementById("loginModal").style.display = "none";
+      if (document.getElementById("profilePage").classList.contains("active")) {
+        renderProfile();
+      }
+    } else {
+      alert("Неверный email или пароль");
     }
-    else alert("Неверный email или пароль");
   };
+  
   document.getElementById("switchAuthBtn").onclick = () => { document.getElementById("authModal").style.display = "none"; document.getElementById("loginModal").style.display = "flex"; };
   document.getElementById("switchToRegister").onclick = () => { document.getElementById("loginModal").style.display = "none"; document.getElementById("authModal").style.display = "flex"; };
   document.getElementById("currencySelect").onchange = function(e) { 
