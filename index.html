@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* Все стили остаются как в предыдущей версии + добавляем */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
@@ -45,7 +46,8 @@
     @media (min-width: 768px) { .header-right { gap: 1rem; } }
     
     .cart-icon-btn, .logout-btn, 
-    .cart-btn-checkout, .modal-btn, .add-to-cart-btn, .size-btn, .support-btn {
+    .cart-btn-checkout, .modal-btn, .add-to-cart-btn, .size-btn, .support-btn,
+    .edit-categories-btn, .add-category-btn {
       background: transparent;
       border: 1.5px solid #e8e8e8;
       border-radius: 40px;
@@ -59,7 +61,8 @@
     }
     .cart-icon-btn:hover, .logout-btn:hover, 
     .cart-btn-checkout:hover, .modal-btn:hover, .add-to-cart-btn:hover, 
-    .size-btn:hover, .support-btn:hover {
+    .size-btn:hover, .support-btn:hover,
+    .edit-categories-btn:hover, .add-category-btn:hover {
       background-color: #e8e8e8;
       color: #000000;
     }
@@ -86,10 +89,49 @@
     }
     .currency-select option { background: #0a0a0a; color: #e8e8e8; }
     
-    .tabs { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 1rem 0 1.5rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.5rem; }
-    .tab-btn { background: none; border: none; padding: 0.4rem 0.8rem; font-size: 0.75rem; font-weight: 500; cursor: pointer; color: #e8e8e8; opacity: 0.6; }
+    .tabs-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0 1.5rem;
+      border-bottom: 1px solid rgba(128,128,128,0.3);
+      padding-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      flex: 1;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #e8e8e8;
+      opacity: 0.6;
+      transition: all 0.2s;
+    }
     .tab-btn.active { opacity: 1; border-bottom: 2px solid #e8e8e8; }
-    .tab-btn.closed { text-decoration: line-through; opacity: 0.4; cursor: not-allowed; }
+    .tab-btn.closed { text-decoration: line-through; opacity: 0.4; cursor: not-allowed; background: rgba(192,57,43,0.2); }
+    .edit-categories-btn {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      background: transparent;
+      border: 1px solid rgba(232,232,232,0.3);
+    }
+    .add-category-btn {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      background: transparent;
+      border: 1px solid rgba(232,232,232,0.3);
+    }
+    .admin-only {
+      display: none;
+    }
     
     .products-grid {
       display: grid;
@@ -270,7 +312,7 @@
     }
     .model-card:hover .model-delete-icon { opacity: 1; }
     
-    /* Стили для заказов - минималистично */
+    /* Стили для заказов */
     .orders-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -662,6 +704,76 @@
     .remove-image-btn:hover {
       color: #e05a4a;
     }
+    
+    /* Модалка редактирования категорий */
+    .categories-list {
+      margin: 1rem 0;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .category-edit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(232,232,232,0.1);
+      flex-wrap: wrap;
+    }
+    .category-edit-item input[type="text"] {
+      flex: 2;
+      min-width: 120px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 8px;
+    }
+    .category-closed-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      background: #1a1a1a;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .category-closed-checkbox input {
+      width: auto;
+      margin: 0;
+      cursor: pointer;
+    }
+    .category-edit-item button {
+      background: none;
+      border: none;
+      color: #c0392b;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.3rem;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    .category-edit-item button:hover {
+      color: #e05a4a;
+      background: rgba(192,57,43,0.1);
+    }
+    .category-order-btns {
+      display: flex;
+      gap: 0.2rem;
+    }
+    .category-order-btns button {
+      background: none;
+      border: 1px solid #333;
+      color: #e8e8e8;
+      border-radius: 4px;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+    .category-order-btns button:hover {
+      background: #c0392b;
+      border-color: #c0392b;
+    }
   </style>
 </head>
 <body>
@@ -689,7 +801,11 @@
   </div>
 
   <div id="shopPage" class="page active">
-    <div class="tabs" id="tabsContainer"></div>
+    <div class="tabs-wrapper">
+      <div class="tabs" id="tabsContainer"></div>
+      <button class="edit-categories-btn admin-only" id="editCategoriesBtn" style="display: none;"><i class="fas fa-cog"></i></button>
+      <button class="add-category-btn admin-only" id="addCategoryBtn" style="display: none;"><i class="fas fa-plus"></i></button>
+    </div>
     <div class="products-grid" id="productsGrid"></div>
   </div>
 
@@ -789,9 +905,6 @@
         <label>Остатки (S:5, M:3, L:0)</label>
         <input type="text" id="editStock" placeholder="S:5, M:3, L:0">
       </div>
-      <div class="form-group" id="dropTabCloseGroup" style="display: none;">
-        <label><input type="checkbox" id="editTabClosed"> Закрыть вкладку DROP</label>
-      </div>
       
       <div class="add-url-section">
         <label>Фотографии товара</label>
@@ -812,6 +925,17 @@
 
 <div id="modelModal" class="modal"><div class="modal-content"><h2 id="modelModalTitle">ДОБАВИТЬ ФОТО МОДЕЛИ</h2><form id="modelForm"><div class="form-group"><label>URL фото</label><input type="url" id="modelImageUrl" required placeholder="https://example.com/photo.jpg"></div><div class="modal-buttons"><button type="button" id="closeModelModal" class="modal-btn">ОТМЕНА</button><button type="submit" class="modal-btn primary">ДОБАВИТЬ</button></div></form></div></div>
 
+<div id="categoriesModal" class="modal">
+  <div class="modal-content" style="max-width: 600px;">
+    <h2>РЕДАКТИРОВАНИЕ КАТЕГОРИЙ</h2>
+    <div class="categories-list" id="categoriesList"></div>
+    <div class="modal-buttons">
+      <button type="button" id="closeCategoriesModal" class="modal-btn">ОТМЕНА</button>
+      <button type="button" id="saveCategoriesBtn" class="modal-btn primary">СОХРАНИТЬ</button>
+    </div>
+  </div>
+</div>
+
 <div class="support-chat">
   <button class="support-btn" id="supportBtn"><i class="fas fa-comment-dots"></i></button>
   <div class="support-popup" id="supportPopup">
@@ -826,6 +950,15 @@
   const BIN_ID = "69c6f12baa77b81da9288b2a";
   const API_KEY = "$2a$10$qnI3cd5GeF1LMtvhkfPEHun31qeT9m7988UvjmCsF/ejG51vTnpLS";
   const ADMIN_PASSWORD = "admin123";
+  
+  // ========== КАТЕГОРИИ (теперь у всех есть closed) ==========
+  let categories = [
+    { id: "hoodies", name: "ХУДИ", order: 0, closed: false },
+    { id: "tshirts", name: "ФУТБОЛКИ", order: 1, closed: false },
+    { id: "bags", name: "СУМКИ", order: 2, closed: false },
+    { id: "limited", name: "LIMITED", order: 3, closed: false },
+    { id: "drop", name: "DROP", order: 4, closed: false }
+  ];
   
   // ========== ТОВАРЫ ==========
   let products = [
@@ -847,7 +980,6 @@
 
   let cart = [], isAdmin = false;
   let activeTab = "hoodies", currentProduct = null, selectedSize = null;
-  let dropTabClosed = false;
   let models = [];
   let orders = [];
   const exchangeRates = { BYN: 1, RUB: 28.5, USD: 0.305 };
@@ -900,7 +1032,7 @@
         })),
         models: models,
         orders: orders,
-        dropClosed: dropTabClosed
+        categories: categories
     };
     
     try {
@@ -953,6 +1085,7 @@
                     if (cloudProduct.name) localProduct.name = cloudProduct.name;
                     if (cloudProduct.images) localProduct.images = cloudProduct.images;
                     if (cloudProduct.img) localProduct.img = cloudProduct.img;
+                    if (cloudProduct.category) localProduct.category = cloudProduct.category;
                 }
             }
             localStorage.setItem("mirror_products", JSON.stringify(products));
@@ -971,13 +1104,13 @@
             renderOrders();
         }
         
-        if (data.record && data.record.dropClosed !== undefined) {
-            dropTabClosed = data.record.dropClosed;
-            localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
+        if (data.record && data.record.categories) {
+            categories = data.record.categories;
+            localStorage.setItem("mirror_categories", JSON.stringify(categories));
         }
         
-        renderProducts();
         renderTabs();
+        renderProducts();
         return true;
     } catch(e) {
         console.error("❌ Ошибка загрузки:", e);
@@ -987,7 +1120,6 @@
   
   function saveProducts() { 
     localStorage.setItem("mirror_products", JSON.stringify(products)); 
-    localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
     saveAllToCloud();
   }
   
@@ -1002,6 +1134,12 @@
     renderOrders();
   }
   
+  function saveCategories() {
+    localStorage.setItem("mirror_categories", JSON.stringify(categories));
+    saveAllToCloud();
+    renderTabs();
+  }
+  
   function loadProducts() { 
     let s = localStorage.getItem("mirror_products"); 
     if(s) { 
@@ -1013,10 +1151,9 @@
         products[i].images = p[i].images; 
         products[i].name = p[i].name; 
         products[i].img = p[i].img; 
+        if(p[i].category) products[i].category = p[i].category;
       } 
     }
-    let closed = localStorage.getItem("mirror_drop_closed"); 
-    if(closed) dropTabClosed = JSON.parse(closed);
     
     renderProducts();
     renderTabs();
@@ -1037,151 +1174,142 @@
     renderOrders();
   }
   
-  // ========== ОТРИСОВКА ЗАКАЗОВ ==========
-  function renderOrders() {
-    const container = document.getElementById("ordersList");
+  function loadCategories() {
+    let s = localStorage.getItem("mirror_categories");
+    if(s) categories = JSON.parse(s);
+    else {
+      categories = [
+        { id: "hoodies", name: "ХУДИ", order: 0, closed: false },
+        { id: "tshirts", name: "ФУТБОЛКИ", order: 1, closed: false },
+        { id: "bags", name: "СУМКИ", order: 2, closed: false },
+        { id: "limited", name: "LIMITED", order: 3, closed: false },
+        { id: "drop", name: "DROP", order: 4, closed: false }
+      ];
+    }
+  }
+  
+  // ========== ОТРИСОВКА КАТЕГОРИЙ ==========
+  function renderTabs() {
+    const container = document.getElementById("tabsContainer");
     if (!container) return;
     
-    if (!orders || orders.length === 0) {
-        container.innerHTML = '<div class="empty-orders">Нет заказов</div>';
-        return;
-    }
-    
-    let html = '';
-    for (let i = 0; i < orders.length; i++) {
-        let o = orders[i];
-        html += `
-            <div class="order-card" data-id="${o.id}">
-                <div class="order-header">
-                    <span class="order-id">#${o.id}</span>
-                    <span class="order-date">${o.date}</span>
-                    <span class="order-total">${formatPrice(o.total)}</span>
-                </div>
-                <div class="order-info">
-                    <span><strong>${o.name || 'Гость'}</strong> | ${o.phone || ''}</span>
-                    <span>${o.address || ''}</span>
-                    ${o.telegram ? `<span>@${o.telegram}</span>` : ''}
-                </div>
-                <div class="order-items">
-                    ${o.items.map(item => `
-                        <div class="order-item">
-                            <span>${item.name} (${item.size}) x${item.quantity}</span>
-                            <span>${formatPrice(item.price * item.quantity)}</span>
-                        </div>
-                    `).join('')}
-                </div>
-                <button class="delete-order-btn" data-id="${o.id}">Удалить</button>
-            </div>
-        `;
+    let html = "";
+    categories.sort((a, b) => a.order - b.order);
+    for(let cat of categories) {
+      html += `<button class="tab-btn${activeTab === cat.id ? ' active' : ''}${cat.closed ? ' closed' : ''}" data-tab="${cat.id}"${cat.closed ? ' disabled' : ''}>${cat.name}</button>`;
     }
     container.innerHTML = html;
     
-    // Добавляем обработчики удаления
-    document.querySelectorAll(".delete-order-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const orderId = parseInt(btn.dataset.id);
-            if (confirm("Удалить заказ #" + orderId + "?")) {
-                orders = orders.filter(o => o.id !== orderId);
-                saveOrders();
-                renderOrders();
-                showNotification("Заказ удален", "success");
-            }
-        });
+    let tabBtns = document.querySelectorAll(".tab-btn:not(.closed)");
+    for(let i=0;i<tabBtns.length;i++) tabBtns[i].addEventListener("click", function() { 
+      activeTab = this.dataset.tab; 
+      renderTabs(); 
+      renderProducts(); 
     });
   }
   
-  function addOrder(orderData) {
-    orders.unshift(orderData);
-    saveOrders();
-  }
-  
-  // ========== АДМИН АВТОРИЗАЦИЯ ==========
-  function adminLogin(password) {
-    if (password === ADMIN_PASSWORD) {
-      isAdmin = true;
-      localStorage.setItem("mirror_admin", "true");
-      updateAdminUI();
-      showNotification("Добро пожаловать, Админ!", "success");
-      renderProducts();
-      renderModels();
-      renderOrders();
-      return true;
-    } else {
-      showNotification("Неверный пароль", "error");
-      return false;
-    }
-  }
-  
-  function adminLogout() {
-    isAdmin = false;
-    localStorage.removeItem("mirror_admin");
-    updateAdminUI();
-    renderProducts();
-    renderModels();
-    showNotification("Вы вышли из админки", "success");
-  }
-  
-  function updateAdminUI() {
-    const adminInfo = document.getElementById("adminInfoArea");
-    const adminOrdersBtn = document.querySelector(".nav-btn[data-page='orders']");
+  function openCategoriesEditor() {
+    const container = document.getElementById("categoriesList");
+    if (!container) return;
     
-    if (isAdmin) {
-      adminInfo.style.display = "flex";
-      if (adminOrdersBtn) adminOrdersBtn.style.display = "block";
-    } else {
-      adminInfo.style.display = "none";
-      if (adminOrdersBtn) adminOrdersBtn.style.display = "none";
-      if (document.getElementById("ordersPage").classList.contains("active")) {
-        document.querySelector(".nav-btn[data-page='shop']").click();
-      }
-    }
-  }
-  
-  function loadAdminSession() {
-    const saved = localStorage.getItem("mirror_admin");
-    if (saved === "true") {
-      isAdmin = true;
-      updateAdminUI();
-    }
-  }
-  
-  // ========== СКРЫТЫЙ ВХОД ПО КОМБИНАЦИИ КЛАВИШ ==========
-  let keyBuffer = "";
-  const SECRET_CODE = "admin";
-
-  document.addEventListener("keydown", (e) => {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    
-    keyBuffer += e.key.toLowerCase();
-    if (keyBuffer.length > SECRET_CODE.length) {
-      keyBuffer = keyBuffer.slice(-SECRET_CODE.length);
-    }
-    
-    if (keyBuffer === SECRET_CODE) {
-      const password = prompt("🔐 Введите пароль администратора:");
-      if (password === ADMIN_PASSWORD) {
-        adminLogin(password);
-      } else if (password !== null) {
-        showNotification("❌ Неверный пароль", "error");
-      }
-      keyBuffer = "";
-    }
-  });
-  
-  // ========== ОТРИСОВКА ==========
-  function renderTabs() {
-    let tabs = [{ id: "hoodies", name: "ХУДИ" }, { id: "tshirts", name: "ФУТБОЛКИ" }, { id: "bags", name: "СУМКИ" }, { id: "limited", name: "LIMITED" }, { id: "drop", name: "DROP" }];
     let html = "";
-    for(let i=0;i<tabs.length;i++) {
-      let isClosed = (tabs[i].id === "drop" && dropTabClosed);
-      html += '<button class="tab-btn' + (activeTab === tabs[i].id ? ' active' : '') + (isClosed ? ' closed' : '') + '" data-tab="' + tabs[i].id + '"' + (isClosed ? ' disabled' : '') + '>' + tabs[i].name + '</button>';
+    categories.sort((a, b) => a.order - b.order);
+    for(let i = 0; i < categories.length; i++) {
+      let cat = categories[i];
+      html += `
+        <div class="category-edit-item" data-id="${cat.id}">
+          <input type="text" value="${cat.name}" data-field="name" data-id="${cat.id}">
+          <label class="category-closed-checkbox">
+            <input type="checkbox" data-field="closed" data-id="${cat.id}" ${cat.closed ? 'checked' : ''}> Закрыта
+          </label>
+          <div class="category-order-btns">
+            <button class="move-up-btn" data-id="${cat.id}" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>↑</button>
+            <button class="move-down-btn" data-id="${cat.id}" ${i === categories.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>↓</button>
+          </div>
+          <button class="delete-category-btn" data-id="${cat.id}" ${categories.length <= 1 ? 'disabled style="opacity:0.3;"' : ''}>🗑️</button>
+        </div>
+      `;
     }
-    document.getElementById("tabsContainer").innerHTML = html;
-    let tabBtns = document.querySelectorAll(".tab-btn:not(.closed)");
-    for(let i=0;i<tabBtns.length;i++) tabBtns[i].addEventListener("click", function() { activeTab = this.dataset.tab; renderTabs(); renderProducts(); });
+    container.innerHTML = html;
+    
+    document.querySelectorAll(".category-edit-item input[data-field='name']").forEach(input => {
+      input.addEventListener("change", (e) => {
+        const id = input.dataset.id;
+        const cat = categories.find(c => c.id === id);
+        if (cat) cat.name = input.value;
+      });
+    });
+    
+    document.querySelectorAll(".category-closed-checkbox input").forEach(cb => {
+      cb.addEventListener("change", (e) => {
+        const parent = cb.closest(".category-edit-item");
+        const id = parent.dataset.id;
+        const cat = categories.find(c => c.id === id);
+        if (cat) cat.closed = cb.checked;
+      });
+    });
+    
+    document.querySelectorAll(".move-up-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        const index = categories.findIndex(c => c.id === id);
+        if (index > 0) {
+          [categories[index], categories[index - 1]] = [categories[index - 1], categories[index]];
+          categories.forEach((c, idx) => c.order = idx);
+          openCategoriesEditor();
+        }
+      });
+    });
+    
+    document.querySelectorAll(".move-down-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        const index = categories.findIndex(c => c.id === id);
+        if (index < categories.length - 1) {
+          [categories[index], categories[index + 1]] = [categories[index + 1], categories[index]];
+          categories.forEach((c, idx) => c.order = idx);
+          openCategoriesEditor();
+        }
+      });
+    });
+    
+    document.querySelectorAll(".delete-category-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        if (categories.length <= 1) {
+          showNotification("Нельзя удалить последнюю категорию", "error");
+          return;
+        }
+        if (confirm(`Удалить категорию "${categories.find(c => c.id === id).name}"? Товары из этой категории станут недоступны.`)) {
+          categories = categories.filter(c => c.id !== id);
+          // Переносим товары из удалённой категории в первую
+          const firstCat = categories[0];
+          products.forEach(p => {
+            if (p.category === id) p.category = firstCat.id;
+          });
+          saveCategories();
+          saveProducts();
+          renderTabs();
+          renderProducts();
+          openCategoriesEditor();
+        }
+      });
+    });
+    
+    document.getElementById("categoriesModal").style.display = "flex";
   }
   
+  function addNewCategory() {
+    const newId = "cat_" + Date.now();
+    const newOrder = categories.length;
+    categories.push({ id: newId, name: "НОВАЯ КАТЕГОРИЯ", order: newOrder, closed: false });
+    saveCategories();
+    renderTabs();
+    openCategoriesEditor();
+    showNotification("Новая категория добавлена", "success");
+  }
+  
+  // ========== ОТРИСОВКА ТОВАРОВ ==========
   function renderProducts() {
     let filtered = products.filter(p => p.category === activeTab);
     let html = "";
@@ -1309,9 +1437,6 @@
     let stockStr = "";
     for(let size in product.stock) stockStr += size + ":" + product.stock[size] + ", ";
     document.getElementById("editStock").value = stockStr.slice(0, -2);
-    let dropGroup = document.getElementById("dropTabCloseGroup");
-    if(product.category === "drop") { dropGroup.style.display = "block"; document.getElementById("editTabClosed").checked = dropTabClosed; }
-    else dropGroup.style.display = "none";
     document.getElementById("newImageUrl").value = "";
     window.currentEditId = productId;
     
@@ -1353,10 +1478,8 @@
         if(pair.length === 2) stock[pair[0]] = parseInt(pair[1]);
       }
       product.stock = stock;
-      if(product.category === "drop") dropTabClosed = document.getElementById("editTabClosed").checked;
       
       localStorage.setItem("mirror_products", JSON.stringify(products));
-      localStorage.setItem("mirror_drop_closed", JSON.stringify(dropTabClosed));
       await saveAllToCloud();
       
       renderProducts();
@@ -1436,10 +1559,141 @@
   }
   
   // ========== ЗАКАЗЫ ==========
-  function saveOrder(orderData) {
-    addOrder(orderData);
-    showNotification("✅ Заказ оформлен!", "success");
+  function renderOrders() {
+    const container = document.getElementById("ordersList");
+    if (!container) return;
+    
+    if (!orders || orders.length === 0) {
+        container.innerHTML = '<div class="empty-orders">Нет заказов</div>';
+        return;
+    }
+    
+    let html = '';
+    for (let i = 0; i < orders.length; i++) {
+        let o = orders[i];
+        html += `
+            <div class="order-card" data-id="${o.id}">
+                <div class="order-header">
+                    <span class="order-id">#${o.id}</span>
+                    <span class="order-date">${o.date}</span>
+                    <span class="order-total">${formatPrice(o.total)}</span>
+                </div>
+                <div class="order-info">
+                    <span><strong>${o.name || 'Гость'}</strong> | ${o.phone || ''}</span>
+                    <span>${o.address || ''}</span>
+                    ${o.telegram ? `<span>@${o.telegram}</span>` : ''}
+                </div>
+                <div class="order-items">
+                    ${o.items.map(item => `
+                        <div class="order-item">
+                            <span>${item.name} (${item.size}) x${item.quantity}</span>
+                            <span>${formatPrice(item.price * item.quantity)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="delete-order-btn" data-id="${o.id}">Удалить</button>
+            </div>
+        `;
+    }
+    container.innerHTML = html;
+    
+    document.querySelectorAll(".delete-order-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const orderId = parseInt(btn.dataset.id);
+            if (confirm("Удалить заказ #" + orderId + "?")) {
+                orders = orders.filter(o => o.id !== orderId);
+                saveOrders();
+                renderOrders();
+                showNotification("Заказ удален", "success");
+            }
+        });
+    });
   }
+  
+  function addOrder(orderData) {
+    orders.unshift(orderData);
+    saveOrders();
+  }
+  
+  // ========== АДМИН АВТОРИЗАЦИЯ ==========
+  function adminLogin(password) {
+    if (password === ADMIN_PASSWORD) {
+      isAdmin = true;
+      localStorage.setItem("mirror_admin", "true");
+      updateAdminUI();
+      showNotification("Добро пожаловать, Админ!", "success");
+      renderProducts();
+      renderModels();
+      renderOrders();
+      return true;
+    } else {
+      showNotification("Неверный пароль", "error");
+      return false;
+    }
+  }
+  
+  function adminLogout() {
+    isAdmin = false;
+    localStorage.removeItem("mirror_admin");
+    updateAdminUI();
+    renderProducts();
+    renderModels();
+    showNotification("Вы вышли из админки", "success");
+  }
+  
+  function updateAdminUI() {
+    const adminInfo = document.getElementById("adminInfoArea");
+    const adminOrdersBtn = document.querySelector(".nav-btn[data-page='orders']");
+    const editCategoriesBtn = document.getElementById("editCategoriesBtn");
+    const addCategoryBtn = document.getElementById("addCategoryBtn");
+    
+    if (isAdmin) {
+      adminInfo.style.display = "flex";
+      if (adminOrdersBtn) adminOrdersBtn.style.display = "block";
+      if (editCategoriesBtn) editCategoriesBtn.style.display = "block";
+      if (addCategoryBtn) addCategoryBtn.style.display = "block";
+    } else {
+      adminInfo.style.display = "none";
+      if (adminOrdersBtn) adminOrdersBtn.style.display = "none";
+      if (editCategoriesBtn) editCategoriesBtn.style.display = "none";
+      if (addCategoryBtn) addCategoryBtn.style.display = "none";
+      if (document.getElementById("ordersPage").classList.contains("active")) {
+        document.querySelector(".nav-btn[data-page='shop']").click();
+      }
+    }
+  }
+  
+  function loadAdminSession() {
+    const saved = localStorage.getItem("mirror_admin");
+    if (saved === "true") {
+      isAdmin = true;
+      updateAdminUI();
+    }
+  }
+  
+  // ========== СКРЫТЫЙ ВХОД ПО КОМБИНАЦИИ КЛАВИШ ==========
+  let keyBuffer = "";
+  const SECRET_CODE = "admin";
+
+  document.addEventListener("keydown", (e) => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    
+    keyBuffer += e.key.toLowerCase();
+    if (keyBuffer.length > SECRET_CODE.length) {
+      keyBuffer = keyBuffer.slice(-SECRET_CODE.length);
+    }
+    
+    if (keyBuffer === SECRET_CODE) {
+      const password = prompt("🔐 Введите пароль администратора:");
+      if (password === ADMIN_PASSWORD) {
+        adminLogin(password);
+      } else if (password !== null) {
+        showNotification("❌ Неверный пароль", "error");
+      }
+      keyBuffer = "";
+    }
+  });
   
   // ========== ОБРАБОТЧИКИ ==========
   document.getElementById("checkoutForm").onsubmit = function(e) {
@@ -1455,10 +1709,11 @@
       name: document.getElementById("checkoutName").value,
       telegram: document.getElementById("checkoutTelegram").value
     };
-    saveOrder(newOrder);
+    addOrder(newOrder);
     cart = [];
     updateCartUI();
     document.getElementById("checkoutPage").style.display = "none";
+    showNotification("✅ Заказ оформлен!", "success");
   };
   
   document.getElementById("addressForm").onsubmit = function(e) {
@@ -1515,6 +1770,16 @@
     document.getElementById("addressModalTitle").innerText = "АДРЕС ДОСТАВКИ";
     document.getElementById("addressForm").reset();
     document.getElementById("addressModal").style.display = "flex";
+  });
+  
+  document.getElementById("editCategoriesBtn").addEventListener("click", openCategoriesEditor);
+  document.getElementById("addCategoryBtn").addEventListener("click", addNewCategory);
+  document.getElementById("closeCategoriesModal").addEventListener("click", () => document.getElementById("categoriesModal").style.display = "none");
+  document.getElementById("saveCategoriesBtn").addEventListener("click", () => {
+    saveCategories();
+    renderTabs();
+    document.getElementById("categoriesModal").style.display = "none";
+    showNotification("Категории сохранены", "success");
   });
   
   // Закрытие модалки по клику вне её
@@ -1585,6 +1850,7 @@
     document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`;
   }
   
+  loadCategories();
   loadProducts(); 
   loadModels(); 
   loadOrders();
