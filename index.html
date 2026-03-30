@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Mirror Project</title>
+  <title>Mirror Project | Уличная одежда</title>
   
   <!-- Favicon MP -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' font-weight='bold' text-anchor='middle' fill='%23e8e8e8' font-family='monospace'>MP</text></svg>">
@@ -22,7 +22,123 @@
       color: #e8e8e8;
       line-height: 1.4;
       overflow-x: hidden;
+      cursor: none;
     }
+    
+    /* Кастомный курсор */
+    .custom-cursor {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      border: 2px solid #e8e8e8;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s ease, width 0.2s, height 0.2s;
+      transform: translate(-50%, -50%);
+    }
+    .custom-cursor.hover {
+      width: 40px;
+      height: 40px;
+      border-color: #c0392b;
+      background: rgba(192,57,43,0.1);
+    }
+    .custom-cursor.active {
+      width: 16px;
+      height: 16px;
+      border-color: #c0392b;
+      background: #c0392b;
+    }
+    
+    a, button, .product-card, .tab-btn, .cart-icon-btn, .support-btn,
+    .edit-categories-btn, .add-category-btn, .logout-btn, .modal-btn,
+    .add-to-cart-btn, .size-btn, .delete-order-btn {
+      cursor: none;
+    }
+    
+    /* Сплеш-скрин */
+    .splash-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.8s ease;
+      opacity: 1;
+    }
+    .splash-title {
+      font-size: 3rem;
+      letter-spacing: 6px;
+      position: relative;
+      animation: flicker 2s infinite;
+      font-family: Arial, sans-serif;
+    }
+    .splash-title.mirror {
+      transform: scaleX(-1);
+    }
+    @keyframes flicker {
+      0% { opacity: 1; }
+      5% { opacity: 0.4; }
+      10% { opacity: 1; }
+      15% { opacity: 0.2; }
+      20% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    .splash-title::before,
+    .splash-title::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+    .splash-title::before {
+      color: red;
+      z-index: -1;
+      animation: glitchTop 1s infinite linear alternate-reverse;
+    }
+    .splash-title::after {
+      color: cyan;
+      z-index: -2;
+      animation: glitchBottom 1.2s infinite linear alternate-reverse;
+    }
+    @keyframes glitchTop {
+      0% { clip-path: inset(0 0 80% 0); transform: translate(-2px, -2px); }
+      50% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 2px); }
+      100% { clip-path: inset(0 0 85% 0); transform: translate(-1px, 1px); }
+    }
+    @keyframes glitchBottom {
+      0% { clip-path: inset(80% 0 0 0); transform: translate(2px, 2px); }
+      50% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, -2px); }
+      100% { clip-path: inset(85% 0 0 0); transform: translate(1px, -1px); }
+    }
+    .splash-noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.05;
+      background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+      animation: noiseMove 0.2s infinite;
+    }
+    @keyframes noiseMove {
+      0% { transform: translate(0,0); }
+      50% { transform: translate(-5%,5%); }
+      100% { transform: translate(5%,-5%); }
+    }
+    .splash-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
     .container { max-width: 1280px; margin: 0 auto; padding: 1rem; }
     @media (min-width: 768px) { .container { padding: 2rem; } }
     
@@ -218,7 +334,6 @@
     .page { display: none; }
     .page.active { display: block; }
     
-    /* Модели */
     .models-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -295,9 +410,15 @@
     }
     .model-card:hover .model-delete-icon { opacity: 1; }
     
-    /* Заказы */
     .orders-container { max-width: 1000px; margin: 0 auto; }
-    .orders-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(232,232,232,0.2); }
+    .orders-header { 
+      margin-bottom: 1.5rem; 
+      padding-bottom: 0.5rem; 
+      border-bottom: 1px solid rgba(232,232,232,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     .orders-header h2 { font-size: 1.2rem; font-weight: 500; letter-spacing: 1px; }
     .orders-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .order-card {
@@ -352,7 +473,6 @@
     .delete-order-btn:hover { color: #e05a4a; background: rgba(192,57,43,0.1); }
     .empty-orders { text-align: center; padding: 2rem; opacity: 0.4; font-size: 0.8rem; }
     
-    /* Футер */
     .footer {
       margin-top: 3rem;
       padding-top: 2rem;
@@ -407,7 +527,6 @@
       text-align: center;
     }
     
-    /* Модальные окна */
     .modal {
       display: none;
       position: fixed;
@@ -479,7 +598,6 @@
     }
     .close-modal-btn:hover { background: rgba(255,255,255,0.1); }
     
-    /* Полноэкранный просмотр фото */
     .fullscreen-overlay {
       position: fixed;
       top: 0;
@@ -515,7 +633,6 @@
     }
     .fullscreen-close:hover { opacity: 0.7; transform: scale(1.1); }
     
-    /* Корзина */
     .cart-sidebar {
       position: fixed;
       top: 0;
@@ -539,12 +656,6 @@
     .cart-total { padding: 1rem; border-top: 1px solid #2c2c2c; font-weight: 600; }
     .cart-btn-checkout { width: 100%; margin-top: 0.5rem; }
     
-    .splash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 2000; transition: opacity 1s ease; opacity: 1; pointer-events: none; }
-    .glitch-text { font-size: clamp(1.8rem, 10vw, 5rem); font-weight: 500; letter-spacing: 4px; text-transform: uppercase; animation: glitch 0.9s infinite steps(1); color: #fff; }
-    @keyframes glitch { 0%,100% { text-shadow: 0.02em 0 0 rgba(255,0,0,0.7), -0.02em -0.02em 0 rgba(0,255,255,0.7); } 50% { text-shadow: -0.03em 0.01em 0 rgba(255,0,0,0.7), 0.03em 0.02em 0 rgba(0,255,255,0.7); } }
-    .splash-hidden { opacity: 0; visibility: hidden; transition: opacity 0.6s ease; }
-    
-    /* Техподдержка */
     .support-chat { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
     .support-btn { 
       width: 50px; 
@@ -595,7 +706,6 @@
       to { transform: translateX(0); opacity: 1; }
     }
     
-    /* Стили для добавления фото по URL */
     .add-url-section {
       margin: 1rem 0;
       padding: 1rem;
@@ -622,7 +732,6 @@
     .remove-image-btn { background: none; border: none; color: #c0392b; cursor: pointer; font-size: 1rem; }
     .remove-image-btn:hover { color: #e05a4a; }
     
-    /* Категории */
     .categories-list { margin: 1rem 0; max-height: 400px; overflow-y: auto; }
     .category-edit-item {
       display: flex;
@@ -644,7 +753,14 @@
 </head>
 <body>
 
-<div id="splash" class="splash-overlay"><div class="glitch-text">MIRROR PROJECT</div></div>
+<!-- Сплеш-скрин -->
+<div id="splash" class="splash-overlay">
+  <div class="splash-noise"></div>
+  <h1 id="splashTitle" class="splash-title" data-text="MIRROR PROJECT">MIRROR PROJECT</h1>
+</div>
+
+<!-- Кастомный курсор -->
+<div class="custom-cursor" id="customCursor"></div>
 
 <div class="container">
   <div class="header">
@@ -686,6 +802,7 @@
     <div class="orders-container">
       <div class="orders-header">
         <h2>ЗАКАЗЫ</h2>
+        <button id="refreshOrdersBtn" class="cart-btn-checkout" style="padding: 0.3rem 1rem;">🔄 Обновить</button>
       </div>
       <div id="ordersList" class="orders-list"></div>
     </div>
@@ -790,7 +907,6 @@
   </div>
 </div>
 
-<!-- Техподдержка -->
 <div class="support-chat">
   <button class="support-btn" id="supportBtn">
     <i class="fas fa-comment-dots"></i>
@@ -804,6 +920,72 @@
 </div>
 
 <script>
+  // ========== СПЛЕШ-СКРИН С АНИМАЦИЕЙ ==========
+  const splashTitle = document.getElementById("splashTitle");
+  const splashOverlay = document.getElementById("splash");
+
+  const phases = [
+    { text: "MIRROR PROJECT", mirror: false },
+    { text: "MIRROR PROJECT", mirror: true },
+    { text: "ЗЕРКАЛЬНЫЙ ПРОЕКТ", mirror: false },
+    { text: "MIRROR PROJECT", mirror: false }
+  ];
+
+  let step = 0;
+  let splashInterval;
+
+  function glitchTransition(newText, mirror) {
+    let iterations = 0;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+
+    const intervalId = setInterval(() => {
+      splashTitle.textContent = newText
+        .split("")
+        .map((char, index) => {
+          if (index < iterations) return newText[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join("");
+
+      iterations += 1 / 2;
+
+      if (iterations >= newText.length) {
+        clearInterval(intervalId);
+        splashTitle.textContent = newText;
+        splashTitle.setAttribute("data-text", newText);
+
+        if (mirror) {
+          splashTitle.classList.add("mirror");
+        } else {
+          splashTitle.classList.remove("mirror");
+        }
+      }
+    }, 40);
+  }
+
+  function nextPhase() {
+    step = (step + 1) % phases.length;
+    const phase = phases[step];
+    glitchTransition(phase.text, phase.mirror);
+  }
+
+  // Запускаем анимацию
+  splashInterval = setInterval(nextPhase, 2000);
+
+  // Останавливаем через 6 секунд и фиксируем на "ЗЕРКАЛЬНЫЙ ПРОЕКТ"
+  setTimeout(() => {
+    clearInterval(splashInterval);
+    glitchTransition("ЗЕРКАЛЬНЫЙ ПРОЕКТ", false);
+    
+    // Скрываем сплеш через 1 секунду после последнего текста
+    setTimeout(() => {
+      splashOverlay.classList.add("splash-hidden");
+      setTimeout(() => {
+        splashOverlay.style.display = "none";
+      }, 800);
+    }, 1000);
+  }, 6000);
+  
   // ========== JSONBIN НАСТРОЙКИ ==========
   const BIN_ID = "69c6f12baa77b81da9288b2a";
   const API_KEY = "$2a$10$qnI3cd5GeF1LMtvhkfPEHun31qeT9m7988UvjmCsF/ejG51vTnpLS";
@@ -837,7 +1019,7 @@
   ];
 
   let cart = [], isAdmin = false;
-  let activeTab = "hoodies", currentProduct = null, selectedSize = null;
+  let activeTab = null;
   let models = [];
   let orders = [];
   const exchangeRates = { BYN: 1, RUB: 28.5, USD: 0.305 };
@@ -852,6 +1034,30 @@
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 4000);
   }
+  
+  // ========== КАСТОМНЫЙ КУРСОР ==========
+  const cursor = document.getElementById("customCursor");
+  
+  document.addEventListener("mousemove", (e) => {
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+  });
+  
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest("a, button, .product-card, .tab-btn, .cart-icon-btn, .support-btn, .edit-categories-btn, .add-category-btn, .logout-btn, .modal-btn, .add-to-cart-btn, .size-btn, .delete-order-btn")) {
+      cursor.classList.add("hover");
+    } else {
+      cursor.classList.remove("hover");
+    }
+  });
+  
+  document.addEventListener("mousedown", () => {
+    cursor.classList.add("active");
+  });
+  
+  document.addEventListener("mouseup", () => {
+    cursor.classList.remove("active");
+  });
   
   // ========== ПОЛНОЭКРАННЫЙ ПРОСМОТР ФОТО ==========
   function openFullscreenImage(imgSrc) {
@@ -871,6 +1077,15 @@
     document.body.appendChild(overlay);
     document.body.style.overflow = "hidden";
     overlay.onclick = () => { document.body.style.overflow = ""; overlay.remove(); };
+  }
+  
+  // ========== ФУНКЦИИ РАБОТЫ С КАТЕГОРИЯМИ ==========
+  function getFirstAvailableCategory() {
+    let available = categories.filter(c => !c.closed);
+    if (available.length > 0) {
+      return available[0].id;
+    }
+    return null;
   }
   
   // ========== СОХРАНЕНИЕ В ОБЛАКО ==========
@@ -912,8 +1127,6 @@
         if (data.record && data.record.models) { models = data.record.models; localStorage.setItem("mirror_models", JSON.stringify(models)); renderModels(); }
         if (data.record && data.record.orders) { orders = data.record.orders; localStorage.setItem("mirror_orders", JSON.stringify(orders)); renderOrders(); }
         if (data.record && data.record.categories) { categories = data.record.categories; localStorage.setItem("mirror_categories", JSON.stringify(categories)); }
-        renderTabs();
-        renderProducts();
         return true;
     } catch(e) { console.error("❌ Ошибка загрузки:", e); return false; }
   }
@@ -926,8 +1139,6 @@
   function loadProducts() { 
     let s = localStorage.getItem("mirror_products"); 
     if(s) { let p = JSON.parse(s); for(let i=0;i<products.length;i++) if(p[i]) { products[i].price = p[i].price; products[i].oldPrice = p[i].oldPrice; products[i].stock = p[i].stock; products[i].images = p[i].images; products[i].name = p[i].name; products[i].img = p[i].img; if(p[i].category) products[i].category = p[i].category; } }
-    renderProducts();
-    renderTabs();
     loadAllFromCloud();
   }
   function loadModels() { let s = localStorage.getItem("mirror_models"); if(s) models = JSON.parse(s); else models = []; }
@@ -938,12 +1149,33 @@
   function renderTabs() {
     const container = document.getElementById("tabsContainer");
     if (!container) return;
-    let html = "";
+    
     categories.sort((a, b) => a.order - b.order);
-    for(let cat of categories) html += `<button class="tab-btn${activeTab === cat.id ? ' active' : ''}${cat.closed ? ' closed' : ''}" data-tab="${cat.id}"${cat.closed ? ' disabled' : ''}>${cat.name}</button>`;
+    
+    let currentCategory = categories.find(c => c.id === activeTab);
+    if (!currentCategory || currentCategory.closed) {
+      let firstAvailable = getFirstAvailableCategory();
+      if (firstAvailable) {
+        activeTab = firstAvailable;
+      }
+    }
+    
+    let html = "";
+    for(let cat of categories) {
+      let isClosed = cat.closed;
+      html += `<button class="tab-btn${activeTab === cat.id ? ' active' : ''}${isClosed ? ' closed' : ''}" data-tab="${cat.id}"${isClosed ? ' disabled' : ''}>${cat.name}</button>`;
+    }
     container.innerHTML = html;
+    
     let tabBtns = document.querySelectorAll(".tab-btn:not(.closed)");
-    for(let i=0;i<tabBtns.length;i++) tabBtns[i].addEventListener("click", function() { activeTab = this.dataset.tab; renderTabs(); renderProducts(); });
+    for(let i=0;i<tabBtns.length;i++) {
+      tabBtns[i].addEventListener("click", function() { 
+        activeTab = this.dataset.tab;
+        localStorage.setItem("mirror_active_tab", activeTab);
+        renderTabs(); 
+        renderProducts(); 
+      });
+    }
   }
   
   function openCategoriesEditor() {
@@ -1229,16 +1461,51 @@
   });
   
   // ========== ОБРАБОТЧИКИ ==========
-  document.getElementById("checkoutForm").onsubmit = function(e) {
+  document.getElementById("checkoutForm").onsubmit = async function(e) {
     e.preventDefault();
     let total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-    let newOrder = { id: Date.now(), date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(), items: cart.map(i => ({ name: i.name, size: i.size, quantity: i.quantity, price: i.price })), total: total, address: document.getElementById("checkoutAddress").value, phone: document.getElementById("checkoutPhone").value, name: document.getElementById("checkoutName").value, telegram: document.getElementById("checkoutTelegram").value };
-    addOrder(newOrder);
+    let newOrder = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
+      items: cart.map(i => ({ name: i.name, size: i.size, quantity: i.quantity, price: i.price })),
+      total: total,
+      address: document.getElementById("checkoutAddress").value,
+      phone: document.getElementById("checkoutPhone").value,
+      name: document.getElementById("checkoutName").value,
+      telegram: document.getElementById("checkoutTelegram").value
+    };
+    
+    orders.unshift(newOrder);
+    localStorage.setItem("mirror_orders", JSON.stringify(orders));
+    renderOrders();
+    
+    let cloudSaved = false;
+    try {
+      const allData = {
+        products: products.map(p => ({ id: p.id, name: p.name, category: p.category, typeLabel: p.typeLabel, price: p.price, oldPrice: p.oldPrice, sizes: p.sizes, stock: p.stock, img: p.img, images: p.images, badge: p.badge })),
+        models: models,
+        orders: orders,
+        categories: categories
+      };
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
+        body: JSON.stringify(allData)
+      });
+      if (res.ok) cloudSaved = true;
+    } catch(e) { console.error("Ошибка синхронизации:", e); }
+    
+    if (cloudSaved) {
+      showNotification("✅ Заказ оформлен и синхронизирован!", "success");
+    } else {
+      showNotification("⚠️ Заказ сохранён локально. Админ увидит после обновления.", "warning");
+    }
+    
     cart = [];
     updateCartUI();
     document.getElementById("checkoutPage").style.display = "none";
-    showNotification("✅ Заказ оформлен!", "success");
   };
+  
   document.getElementById("addressForm").onsubmit = function(e) {
     e.preventDefault();
     let address = { city: document.getElementById("addressCity").value, street: document.getElementById("addressStreet").value, zip: document.getElementById("addressZip").value };
@@ -1248,6 +1515,15 @@
     let lastAddress = localStorage.getItem("lastAddress");
     if (lastAddress) { let addr = JSON.parse(lastAddress); document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`; }
   };
+  
+  document.getElementById("refreshOrdersBtn")?.addEventListener("click", async function() {
+    if (!isAdmin) return;
+    showNotification("🔄 Синхронизация заказов...", "success");
+    await loadAllFromCloud();
+    renderOrders();
+    showNotification("✅ Заказы обновлены", "success");
+  });
+  
   document.getElementById("logoutBtn").onclick = adminLogout;
   document.getElementById("closeModalBtn").onclick = () => document.getElementById("productModal").style.display = "none";
   document.getElementById("closeAddressModal").onclick = () => document.getElementById("addressModal").style.display = "none";
@@ -1310,11 +1586,6 @@
     renderTabs(); renderProducts(); 
   };
   
-  setTimeout(function() { 
-    let splash = document.getElementById("splash"); 
-    if(splash) { splash.classList.add("splash-hidden"); setTimeout(function() { splash.style.display = "none"; }, 500); } 
-  }, 1500);
-  
   let lastAddress = localStorage.getItem("lastAddress");
   if (lastAddress) { let addr = JSON.parse(lastAddress); document.getElementById("checkoutAddress").value = `${addr.city}, ${addr.street}`; }
   
@@ -1323,7 +1594,18 @@
   loadModels(); 
   loadOrders();
   loadAdminSession();
-  renderTabs(); 
+  
+  let savedTab = localStorage.getItem("mirror_active_tab");
+  let savedCategory = categories.find(c => c.id === savedTab);
+  
+  if (savedTab && savedCategory && !savedCategory.closed) {
+    activeTab = savedTab;
+  } else {
+    let firstAvailable = getFirstAvailableCategory();
+    activeTab = firstAvailable || (categories[0]?.id);
+  }
+  
+  renderTabs();
   renderProducts(); 
   renderModels(); 
   updateCartUI();
