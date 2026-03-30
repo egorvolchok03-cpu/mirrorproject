@@ -969,15 +969,12 @@
     glitchTransition(phase.text, phase.mirror);
   }
 
-  // Запускаем анимацию
   splashInterval = setInterval(nextPhase, 2000);
 
-  // Останавливаем через 6 секунд и фиксируем на "ЗЕРКАЛЬНЫЙ ПРОЕКТ"
   setTimeout(() => {
     clearInterval(splashInterval);
     glitchTransition("ЗЕРКАЛЬНЫЙ ПРОЕКТ", false);
     
-    // Скрываем сплеш через 1 секунду после последнего текста
     setTimeout(() => {
       splashOverlay.classList.add("splash-hidden");
       setTimeout(() => {
@@ -990,6 +987,32 @@
   const BIN_ID = "69c6f12baa77b81da9288b2a";
   const API_KEY = "$2a$10$qnI3cd5GeF1LMtvhkfPEHun31qeT9m7988UvjmCsF/ejG51vTnpLS";
   const ADMIN_PASSWORD = "admin123";
+  
+  // ========== TELEGRAM УВЕДОМЛЕНИЯ ==========
+  const TELEGRAM_BOT_TOKEN = "8454850406:AAHLj_B9Q5yv8gFaQXPLFOiJqwCPALl-Wg4";
+  const TELEGRAM_CHAT_ID = "7535767928";
+
+  async function sendTelegramMessage(message) {
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: "HTML"
+        })
+      });
+      if (response.ok) {
+        console.log("✅ Уведомление отправлено в Telegram");
+      } else {
+        console.error("Ошибка отправки:", await response.text());
+      }
+    } catch(e) {
+      console.error("❌ Ошибка:", e);
+    }
+  }
   
   // ========== КАТЕГОРИИ ==========
   let categories = [
@@ -1478,6 +1501,23 @@
     orders.unshift(newOrder);
     localStorage.setItem("mirror_orders", JSON.stringify(orders));
     renderOrders();
+    
+    // ========== ОТПРАВКА В TELEGRAM ==========
+    const orderMessage = `🛍️ <b>НОВЫЙ ЗАКАЗ #${newOrder.id}</b>
+
+👤 <b>Клиент:</b> ${newOrder.name}
+📞 <b>Телефон:</b> ${newOrder.phone}
+📍 <b>Адрес:</b> ${newOrder.address}
+${newOrder.telegram ? `💬 <b>Telegram:</b> ${newOrder.telegram}` : ''}
+
+<b>📦 Товары:</b>
+${newOrder.items.map(i => `• ${i.name} (${i.size}) x${i.quantity} — ${formatPrice(i.price * i.quantity)}`).join('\n')}
+
+<b>💰 Итого:</b> ${formatPrice(newOrder.total)}
+🕐 <b>Время:</b> ${newOrder.date}`;
+    
+    await sendTelegramMessage(orderMessage);
+    // ====================================
     
     let cloudSaved = false;
     try {
