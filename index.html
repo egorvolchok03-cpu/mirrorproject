@@ -8,12 +8,25 @@
   <meta http-equiv="Expires" content="0">
   <title>Mirror Project | Уличная одежда</title>
   
+  <!-- SEO -->
+  <meta name="description" content="Mirror Project — белорусский бренд уличной одежды. Минимализм, качество, городской стиль. Худи, футболки, сумки. Доставка по Беларуси и СНГ.">
+  <meta name="keywords" content="mirror project, бренд одежды, уличная одежда, худи, футболки, сумки, белорусский бренд, минимализм, streetwear, минск">
+  <meta name="author" content="Mirror Project">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mirror Project | Уличная одежда">
+  <meta property="og:description" content="Отражение улицы. Минимализм. Качество. Белорусский бренд уличной одежды.">
+  <meta property="og:type" content="website">
+  
   <!-- Favicon MP -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' font-weight='bold' text-anchor='middle' fill='%23e8e8e8' font-family='monospace'>MP</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' font-weight='bold' text-anchor='middle' fill='%23e8e8e8' font-family='monospace'>MP</text></svg>">
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -52,11 +65,11 @@
     
     a, button, .product-card, .tab-btn, .cart-icon-btn, .support-btn,
     .edit-categories-btn, .add-category-btn, .logout-btn, .modal-btn,
-    .add-to-cart-btn, .size-btn, .delete-order-btn {
+    .add-to-cart-btn, .size-btn, .delete-order-btn, .review-card {
       cursor: none;
     }
     
-    /* Сплеш-скрин */
+    /* ЗАСТАВКА - БЕЛАЯ ВЕРСИЯ С VHS ЭФФЕКТОМ */
     .splash-overlay {
       position: fixed;
       top: 0;
@@ -68,75 +81,237 @@
       justify-content: center;
       align-items: center;
       z-index: 2000;
-      transition: opacity 0.8s ease;
+      transition: opacity 1.8s ease;
       opacity: 1;
     }
-    .splash-title {
-      font-size: 3rem;
-      letter-spacing: 6px;
+    .splash-hidden {
+      opacity: 0;
+      visibility: visible;
+      pointer-events: none;
+    }
+    .splash-container {
+      text-align: center;
       position: relative;
-      animation: flicker 2s infinite;
-      font-family: Arial, sans-serif;
+      width: 100%;
+      z-index: 15;
     }
-    .splash-title.mirror {
-      transform: scaleX(-1);
+    .splash-text {
+      font-size: 72px;
+      letter-spacing: 4px;
+      position: relative;
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
     }
-    @keyframes flicker {
-      0% { opacity: 1; }
-      5% { opacity: 0.4; }
-      10% { opacity: 1; }
-      15% { opacity: 0.2; }
-      20% { opacity: 1; }
-      100% { opacity: 1; }
+    .splash-final {
+      font-family: 'Space Grotesk', monospace;
+      letter-spacing: 8px;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(255,255,255,0.8);
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
     }
-    .splash-title::before,
-    .splash-title::after {
+    .splash-ghost {
+      display: none;
+    }
+    
+    /* Эффект VHS - белое цветное искажение */
+    .splash-text::before,
+    .splash-text::after {
       content: attr(data-text);
       position: absolute;
       left: 0;
+      top: 0;
       width: 100%;
-      overflow: hidden;
+      opacity: 0.4;
+      pointer-events: none;
     }
-    .splash-title::before {
-      color: red;
-      z-index: -1;
-      animation: glitchTop 1s infinite linear alternate-reverse;
+    .splash-text::before {
+      transform: translate(-2px, 1px);
+      color: rgba(255,255,255,0.6);
+      text-shadow: 0 0 2px rgba(255,255,255,0.5);
+      animation: vhsGlitchShiftWhite 0.15s infinite alternate;
     }
-    .splash-title::after {
-      color: cyan;
-      z-index: -2;
-      animation: glitchBottom 1.2s infinite linear alternate-reverse;
+    .splash-text::after {
+      transform: translate(2px, -1px);
+      color: rgba(255,255,255,0.6);
+      text-shadow: 0 0 2px rgba(255,255,255,0.5);
+      animation: vhsGlitchShiftWhite 0.12s infinite alternate-reverse;
     }
-    @keyframes glitchTop {
-      0% { clip-path: inset(0 0 80% 0); transform: translate(-2px, -2px); }
-      50% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 2px); }
-      100% { clip-path: inset(0 0 85% 0); transform: translate(-1px, 1px); }
+    
+    @keyframes vhsGlitchShiftWhite {
+      0% { transform: translate(-2px, 1px); opacity: 0.4; }
+      100% { transform: translate(2px, -1px); opacity: 0.7; }
     }
-    @keyframes glitchBottom {
-      0% { clip-path: inset(80% 0 0 0); transform: translate(2px, 2px); }
-      50% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, -2px); }
-      100% { clip-path: inset(85% 0 0 0); transform: translate(1px, -1px); }
-    }
-    .splash-noise {
-      position: fixed;
+    
+    /* VHS мерцание экрана - белое */
+    .splash-overlay::before {
+      content: '';
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.2) 0px,
+        rgba(0, 0, 0, 0.2) 2px,
+        transparent 2px,
+        transparent 4px
+      );
       pointer-events: none;
-      opacity: 0.05;
-      background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
-      animation: noiseMove 0.2s infinite;
+      z-index: 10;
+      animation: vhsScanlines 0.2s linear infinite;
     }
-    @keyframes noiseMove {
-      0% { transform: translate(0,0); }
-      50% { transform: translate(-5%,5%); }
-      100% { transform: translate(5%,-5%); }
-    }
-    .splash-hidden {
-      opacity: 0;
-      visibility: hidden;
+    
+    /* VHS цветовые полосы - белые */
+    .splash-overlay::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.03) 30%,
+        rgba(255, 255, 255, 0.05) 70%,
+        transparent 100%
+      );
       pointer-events: none;
+      z-index: 10;
+      animation: vhsColorShiftWhite 0.3s ease-in-out infinite;
+    }
+    
+    @keyframes vhsScanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+    
+    @keyframes vhsColorShiftWhite {
+      0% { opacity: 0.2; transform: translateX(-5px); }
+      50% { opacity: 0.4; transform: translateX(5px); }
+      100% { opacity: 0.2; transform: translateX(-5px); }
+    }
+    
+    /* Эффект VHS - шум (белый) */
+    .vhs-noise {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="noise"><feTurbulence baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+      background-repeat: repeat;
+      background-size: 200px;
+      pointer-events: none;
+      z-index: 11;
+      opacity: 0.1;
+      animation: vhsNoise 0.2s steps(2) infinite;
+    }
+    
+    @keyframes vhsNoise {
+      0% { transform: translate(0, 0); opacity: 0.05; }
+      100% { transform: translate(-2px, 2px); opacity: 0.1; }
+    }
+    
+    @keyframes splashFlicker {
+      0%,100%{opacity:1}
+      25%{opacity:0.8}
+      50%{opacity:0.85}
+      75%{opacity:0.75}
+    }
+    .splash-flicker {
+      animation: splashFlicker .12s infinite;
+    }
+    .splash-shake {
+      animation: splashShake .02s infinite;
+    }
+    @keyframes splashShake {
+      0%{transform:translate(0,0)}
+      25%{transform:translate(-0.5px,0.5px)}
+      75%{transform:translate(0.5px,-0.5px)}
+      100%{transform:translate(0,0)}
+    }
+    .splash-mirror {
+      transform: scaleX(-1);
+    }
+    .splash-rotate {
+      transform: rotate(180deg);
+    }
+    .splash-data {
+      position: absolute;
+      top: 20%;
+      right: 5%;
+      font-size: 12px;
+      opacity: 0.6;
+      width: 340px;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+      border-left: 1px solid rgba(255,255,255,0.3);
+      padding-left: 16px;
+      z-index: 15;
+    }
+    .splash-data div {
+      margin: 6px 0;
+      font-family: monospace;
+      color: #ffffff;
+      text-shadow: 0 0 3px rgba(255,255,255,0.3);
+    }
+    .splash-loader {
+      margin-top: 48px;
+      width: 480px;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 15;
+    }
+    .splash-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffffff, #cccccc);
+      box-shadow: 0 0 12px rgba(255,255,255,0.6);
+      transition: width 0.08s linear;
+    }
+    .splash-percent {
+      text-align: center;
+      margin-top: 12px;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 14px;
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+      z-index: 15;
+      position: relative;
+    }
+    @keyframes splashDrop {
+      0%{opacity:1}
+      35%{opacity:0}
+      45%{opacity:1}
+      80%{opacity:0.3}
+      100%{opacity:1}
+    }
+    .splash-framedrop {
+      animation: splashDrop .18s infinite;
+    }
+    @keyframes splashFadeOut {
+      to { opacity: 0; }
+    }
+    .splash-fade {
+      animation: splashFadeOut 1.8s forwards;
+    }
+    @keyframes splashGlowPulse {
+      0%{text-shadow:0 0 0px #fff}
+      100%{text-shadow:0 0 16px #ffffff, 0 0 4px rgba(255,255,255,0.8)}
+    }
+    .splash-glow {
+      animation: splashGlowPulse 0.8s ease-out forwards;
     }
     
     .container { max-width: 1280px; margin: 0 auto; padding: 1rem; }
@@ -473,6 +648,107 @@
     .delete-order-btn:hover { color: #e05a4a; background: rgba(192,57,43,0.1); }
     .empty-orders { text-align: center; padding: 2rem; opacity: 0.4; font-size: 0.8rem; }
     
+    /* Отзывы */
+    .reviews-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    .reviews-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(232,232,232,0.2);
+      padding-bottom: 0.5rem;
+    }
+    .reviews-stats {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: #0a0a0a;
+      border-radius: 12px;
+      border: 1px solid rgba(232,232,232,0.1);
+    }
+    .rating-big {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #e8e8e8;
+    }
+    .rating-text {
+      font-size: 0.7rem;
+      opacity: 0.5;
+      margin-top: 0.25rem;
+    }
+    .reviews-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .review-card {
+      background: #0a0a0a;
+      border: 1px solid rgba(232,232,232,0.1);
+      padding: 1rem;
+      transition: all 0.2s;
+    }
+    .review-card:hover {
+      border-color: rgba(232,232,232,0.3);
+    }
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .review-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .review-age {
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+    .review-rating {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+    }
+    .review-product {
+      font-size: 0.7rem;
+      color: #c0392b;
+      margin-bottom: 0.5rem;
+    }
+    .review-text {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+    .review-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      opacity: 0.5;
+      border-top: 1px solid rgba(232,232,232,0.1);
+      padding-top: 0.5rem;
+    }
+    .review-like {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .review-like:hover {
+      opacity: 1;
+    }
+    
     .footer {
       margin-top: 3rem;
       padding-top: 2rem;
@@ -527,6 +803,7 @@
       text-align: center;
     }
     
+    /* Модальные окна */
     .modal {
       display: none;
       position: fixed;
@@ -753,10 +1030,18 @@
 </head>
 <body>
 
-<!-- Сплеш-скрин -->
+<!-- ЗАСТАВКА С VHS ЭФФЕКТОМ - БЕЛАЯ ВЕРСИЯ -->
 <div id="splash" class="splash-overlay">
-  <div class="splash-noise"></div>
-  <h1 id="splashTitle" class="splash-title" data-text="MIRROR PROJECT">MIRROR PROJECT</h1>
+  <div class="vhs-noise"></div>
+  <div class="splash-container">
+    <div id="splashText" class="splash-text splash-flicker">MIRROR PROJECT</div>
+    <div id="splashGhost" class="splash-text splash-ghost">Зеркальный проект</div>
+    <div id="splashData" class="splash-data"></div>
+    <div class="splash-loader">
+      <div id="splashBar" class="splash-bar"></div>
+      <div id="splashPercent" class="splash-percent">0%</div>
+    </div>
+  </div>
 </div>
 
 <!-- Кастомный курсор -->
@@ -770,6 +1055,7 @@
         <button class="nav-btn active" data-page="shop">МАГАЗИН</button>
         <button class="nav-btn" data-page="models">МОДЕЛИ</button>
         <button class="nav-btn admin-only" data-page="orders" style="display: none;">ЗАКАЗЫ</button>
+        <button class="nav-btn" data-page="reviews">ОТЗЫВЫ</button>
       </div>
     </div>
     <div class="header-right">
@@ -805,6 +1091,17 @@
         <button id="refreshOrdersBtn" class="cart-btn-checkout" style="padding: 0.3rem 1rem;">🔄 Обновить</button>
       </div>
       <div id="ordersList" class="orders-list"></div>
+    </div>
+  </div>
+
+  <div id="reviewsPage" class="page">
+    <div class="reviews-container">
+      <div class="reviews-title">ОТЗЫВЫ</div>
+      <div class="reviews-stats">
+        <div class="rating-big">⭐️ 4.9</div>
+        <div class="rating-text">на основе 128 отзывов</div>
+      </div>
+      <div class="reviews-grid" id="reviewsGrid"></div>
     </div>
   </div>
 
@@ -920,68 +1217,179 @@
 </div>
 
 <script>
-  // ========== СПЛЕШ-СКРИН С АНИМАЦИЕЙ ==========
-  const splashTitle = document.getElementById("splashTitle");
-  const splashOverlay = document.getElementById("splash");
+  // ========== ЗАСТАВКА - БЕЛАЯ ВЕРСИЯ С VHS ЭФФЕКТОМ ==========
+  const splashEl = document.getElementById('splash');
+  const textEl = document.getElementById('splashText');
+  const ghostEl = document.getElementById('splashGhost');
+  const dataEl = document.getElementById('splashData');
+  const bar = document.getElementById('splashBar');
+  const percentEl = document.getElementById('splashPercent');
 
-  const phases = [
-    { text: "MIRROR PROJECT", mirror: false },
-    { text: "MIRROR PROJECT", mirror: true },
-    { text: "ЗЕРКАЛЬНЫЙ ПРОЕКТ", mirror: false },
-    { text: "MIRROR PROJECT", mirror: false }
+  const EN = 'MIRROR PROJECT';
+  const RU = 'ЗЕРКАЛЬНЫЙ ПРОЕКТ';
+  const noise = '█▓▒░<>/\\[]{}';
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  function randomText(base) {
+    let out = '';
+    for (let i = 0; i < base.length; i++) {
+      if (Math.random() < 0.4) {
+        out += noise[Math.floor(Math.random() * noise.length)];
+      } else {
+        out += base[i];
+      }
+    }
+    return out;
+  }
+
+  async function insaneGlitch(base, duration = 1500) {
+    const end = Date.now() + duration;
+    while (Date.now() < end) {
+      textEl.textContent = randomText(base);
+
+      if (Math.random() < 0.3) textEl.classList.toggle('splash-mirror');
+      if (Math.random() < 0.2) textEl.classList.toggle('splash-rotate');
+
+      await sleep(40);
+    }
+  }
+
+  async function dataFeed() {
+    const lines = [
+      '> ACCESS LEVEL: RESTRICTED',
+      '> DATA STATUS: ENCRYPTED',
+      '> SIGNAL: UNSTABLE',
+      '> DECRYPTION START',
+    ];
+
+    for (let l of lines) {
+      const d = document.createElement('div');
+      d.textContent = l;
+      dataEl.appendChild(d);
+      await sleep(120);
+    }
+
+    for (let i = 0; i < 15; i++) {
+      const d = document.createElement('div');
+      d.textContent = '> ' + randomText('DATA_' + Math.floor(Math.random() * 9999));
+      dataEl.appendChild(d);
+      await sleep(60);
+    }
+  }
+
+  async function loading() {
+    let p = 0;
+    while (p < 100) {
+      p += Math.random() * 6;
+      if (p > 100) p = 100;
+      bar.style.width = p + '%';
+      if (percentEl) percentEl.textContent = Math.floor(p) + '%';
+
+      if (Math.random() < 0.3) textEl.classList.toggle('splash-mirror');
+
+      await sleep(80);
+    }
+  }
+  
+  function clearSplashEffects() {
+    textEl.classList.remove('splash-shake', 'splash-mirror', 'splash-rotate', 'splash-flicker', 'splash-final', 'splash-glow');
+    document.body.classList.remove('splash-framedrop');
+    textEl.removeAttribute('data-text');
+    textEl.style.removeProperty('animation');
+    if (dataEl) dataEl.innerHTML = '';
+    if (bar) bar.style.width = '0%';
+    if (percentEl) percentEl.textContent = '0%';
+  }
+
+  async function runSplash() {
+    await sleep(500);
+    textEl.classList.add('splash-shake');
+
+    await insaneGlitch(EN, 2000);
+    await dataFeed();
+    await loading();
+
+    await insaneGlitch(EN, 800);
+
+    ghostEl.style.opacity = 0;
+    textEl.classList.remove('splash-shake');
+    textEl.classList.remove('splash-mirror');
+    textEl.classList.remove('splash-rotate');
+
+    textEl.textContent = RU;
+    textEl.setAttribute('data-text', RU);
+    textEl.classList.add('splash-final');
+    textEl.classList.add('splash-glow');
+
+    await sleep(2600);
+    
+    clearSplashEffects();
+
+    splashEl.classList.add('splash-hidden');
+    setTimeout(() => {
+      splashEl.style.display = 'none';
+      clearSplashEffects();
+    }, 1800);
+  }
+
+  runSplash();
+  
+  // ========== ОТЗЫВЫ ==========
+  const reviews = [
+    { name: "Даша", age: 19, rating: 5, product: "OVERSIZED BLACK", text: "БЛИН, ЭТО ХУДИ ПРОСТО КОСМОС! 😭🤍 Оверсайз как надо, сидит идеально, качество вау. В инстаграме все заспамили вопросами где брала. Мой новый фетиш — Mirror Project. СРОЧНО ВСЕМ БРАТЬ!", likes: 47, date: "15.03.2025" },
+    { name: "Никита", age: 21, rating: 5, product: "MINIMAL LOGO", text: "Футболка MINIMAL LOGO — это база. Белая, плотная, не просвечивает. Взял две сразу, потому что знаю что заношу. Цена 🔥 за такое качество. Бренд реально вывозит. Жду новые дропы!", likes: 32, date: "12.03.2025" },
+    { name: "Алиса", age: 18, rating: 5, product: "CRYPTO HOODIE", text: "CRYPTO HOODIE — это просто имба. Дизайн 🔥, материал мягкий как облачко. В этом худи можно и на пары, и на тусовку. Все спрашивают где такое взяла. Mirror Project, я твоя навек!", likes: 56, date: "10.03.2025" },
+    { name: "Макс", age: 22, rating: 5, product: "CROSSBODY MIRROR", text: "CROSSBODY MIRROR — лучшая сумка для города. Влезает всё: пауэрбанк, ключи, сигареты, зарядка. Выглядит дорого, а стоит норм. Ношу каждый день, друзья уже тоже заказали. Красавчики!", likes: 28, date: "08.03.2025" },
+    { name: "Кристина", age: 20, rating: 5, product: "UTILITY BAG V2", text: "UTILITY BAG V2 — это просто бомба! Карманов дофига, можно на пояс или через плечо. Выглядит как из дорогого бренда. Качество на высоте, молнии не клинят. Теперь это моя повседневка. Mirror Project — ты лучший!", likes: 41, date: "05.03.2025" },
+    { name: "Егор", age: 23, rating: 5, product: "FUTURE TECH HOODIE", text: "FUTURE TECH HOODIE — это какая-то магия. Технологичная ткань, сидит как влитой. В таком и на улице не холодно, и в помещении не жарко. Дизайн футуристичный, все оборачиваются. Спасибо Mirror Project!", likes: 35, date: "01.03.2025" },
+    { name: "Соня", age: 17, rating: 5, product: "OVERSIZED WHITE", text: "OVERSIZED WHITE — это любовь с первого взгляда. Белый худи это база, но здесь он идеальный. Не просвечивает, не вытягивается, сидит как надо. Сочетаю с юбкой и кедами — все комплименты мои!", likes: 52, date: "28.02.2025" },
+    { name: "Денис", age: 24, rating: 4, product: "SKELETON TEE", text: "SKELETON TEE — оооо, это мой вайб! Принт качественный, не облезает после стирки. Футболка сидит свободно, материал дышит. Взял ещё и в подарок брату. Mirror Project — это мое открытие года!", likes: 23, date: "25.02.2025" },
+    { name: "Лена", age: 19, rating: 5, product: "MIRROR EDITION", text: "Ребята, вы просто космос! Заказала худи MIRROR EDITION и сумку. Пришло всё быстро, упаковано красиво. Качество 🔥, хочется носить не снимая. Теперь только Mirror Project! ❤️", likes: 44, date: "20.02.2025" },
+    { name: "Влад", age: 20, rating: 5, product: "ASH GREY", text: "ASH GREY — идеальный цвет! Серый худи это база, но здесь он 🔥. Сидит отлично, ткань плотная, капюшон глубокий. В таком и на учёбу, и на встречи. Взял ещё и другу такой же. Mirror Project — вы красавчики!", likes: 31, date: "18.02.2025" },
+    { name: "Аня", age: 18, rating: 5, product: "NEON SHADOW TEE", text: "Безумно нравится этот бренд! Качество на уровне, дизайн минималистичный но стильный. Футболки сидят идеально, не деформируются после стирки. Уже собрала всю коллекцию почти. Жду новинок! 🫶", likes: 38, date: "15.02.2025" }
   ];
 
-  let step = 0;
-  let splashInterval;
-
-  function glitchTransition(newText, mirror) {
-    let iterations = 0;
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-
-    const intervalId = setInterval(() => {
-      splashTitle.textContent = newText
-        .split("")
-        .map((char, index) => {
-          if (index < iterations) return newText[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        })
-        .join("");
-
-      iterations += 1 / 2;
-
-      if (iterations >= newText.length) {
-        clearInterval(intervalId);
-        splashTitle.textContent = newText;
-        splashTitle.setAttribute("data-text", newText);
-
-        if (mirror) {
-          splashTitle.classList.add("mirror");
-        } else {
-          splashTitle.classList.remove("mirror");
-        }
-      }
-    }, 40);
-  }
-
-  function nextPhase() {
-    step = (step + 1) % phases.length;
-    const phase = phases[step];
-    glitchTransition(phase.text, phase.mirror);
-  }
-
-  splashInterval = setInterval(nextPhase, 2000);
-
-  setTimeout(() => {
-    clearInterval(splashInterval);
-    glitchTransition("ЗЕРКАЛЬНЫЙ ПРОЕКТ", false);
+  function renderReviews() {
+    const container = document.getElementById("reviewsGrid");
+    if (!container) return;
     
-    setTimeout(() => {
-      splashOverlay.classList.add("splash-hidden");
-      setTimeout(() => {
-        splashOverlay.style.display = "none";
-      }, 800);
-    }, 1000);
-  }, 6000);
+    let html = "";
+    for (let r of reviews) {
+      const stars = "⭐️".repeat(r.rating) + "☆".repeat(5 - r.rating);
+      html += `
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-author">
+              <span class="review-name">${r.name}</span>
+              <span class="review-age">${r.age} лет</span>
+            </div>
+            <div class="review-rating">${stars}</div>
+          </div>
+          <div class="review-product">${r.product}</div>
+          <div class="review-text">${r.text}</div>
+          <div class="review-footer">
+            <div class="review-like" data-idx="${reviews.indexOf(r)}">
+              <i class="far fa-heart"></i> <span class="like-count">${r.likes}</span>
+            </div>
+            <div class="review-date">${r.date}</div>
+          </div>
+        </div>
+      `;
+    }
+    container.innerHTML = html;
+    
+    document.querySelectorAll(".review-like").forEach(like => {
+      like.addEventListener("click", function(e) {
+        e.stopPropagation();
+        const idx = parseInt(this.dataset.idx);
+        reviews[idx].likes++;
+        this.querySelector(".like-count").innerText = reviews[idx].likes;
+        this.innerHTML = `<i class="fas fa-heart" style="color: #c0392b;"></i> <span class="like-count">${reviews[idx].likes}</span>`;
+        showNotification("❤️ Спасибо за лайк!", "success");
+      });
+    });
+  }
   
   // ========== JSONBIN НАСТРОЙКИ ==========
   const BIN_ID = "69c6f12baa77b81da9288b2a";
@@ -1067,7 +1475,7 @@
   });
   
   document.addEventListener("mouseover", (e) => {
-    if (e.target.closest("a, button, .product-card, .tab-btn, .cart-icon-btn, .support-btn, .edit-categories-btn, .add-category-btn, .logout-btn, .modal-btn, .add-to-cart-btn, .size-btn, .delete-order-btn")) {
+    if (e.target.closest("a, button, .product-card, .tab-btn, .cart-icon-btn, .support-btn, .edit-categories-btn, .add-category-btn, .logout-btn, .modal-btn, .add-to-cart-btn, .size-btn, .delete-order-btn, .review-card, .review-like")) {
       cursor.classList.add("hover");
     } else {
       cursor.classList.remove("hover");
@@ -1502,7 +1910,6 @@
     localStorage.setItem("mirror_orders", JSON.stringify(orders));
     renderOrders();
     
-    // ========== ОТПРАВКА В TELEGRAM ==========
     const orderMessage = `🛍️ <b>НОВЫЙ ЗАКАЗ #${newOrder.id}</b>
 
 👤 <b>Клиент:</b> ${newOrder.name}
@@ -1517,7 +1924,6 @@ ${newOrder.items.map(i => `• ${i.name} (${i.size}) x${i.quantity} — ${format
 🕐 <b>Время:</b> ${newOrder.date}`;
     
     await sendTelegramMessage(orderMessage);
-    // ====================================
     
     let cloudSaved = false;
     try {
@@ -1617,6 +2023,7 @@ ${newOrder.items.map(i => `• ${i.name} (${i.size}) x${i.quantity} — ${format
     if(this.dataset.page === "shop") { renderTabs(); renderProducts(); } 
     if(this.dataset.page === "models") renderModels(); 
     if(this.dataset.page === "orders") renderOrders(); 
+    if(this.dataset.page === "reviews") renderReviews(); 
   };
   document.getElementById("logoLink").onclick = () => { 
     for(let i=0;i<navBtns.length;i++) navBtns[i].classList.remove("active"); 
@@ -1648,6 +2055,7 @@ ${newOrder.items.map(i => `• ${i.name} (${i.size}) x${i.quantity} — ${format
   renderTabs();
   renderProducts(); 
   renderModels(); 
+  renderReviews();
   updateCartUI();
 </script>
 </body>
